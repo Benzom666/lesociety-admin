@@ -1,10 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-
+import Routes from "./router/index"
 function App() {
   return (
     <div className="App">
-     <h1>Admin</h1>
+     <Routes />
     </div>
   );
 }
