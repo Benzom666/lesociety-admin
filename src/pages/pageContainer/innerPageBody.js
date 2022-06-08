@@ -1,0 +1,224 @@
+
+import React, { useState, useEffect } from 'react';
+// import withAuth from "../../core/withAuth";
+import {Stack, Card, Dropdown, Col, Row, ProgressBar } from "react-bootstrap";
+// import UpArrowIcon from '../../assets/img/upArrow.svg'
+import { TbDots } from "react-icons/tb";
+import Chart from 'chart.js/auto';
+
+// import './innerPageUi.scss';
+
+const PageContainer = props => {
+
+  // const labels = [
+  //   'January',
+  //   'February',
+  //   'March',
+  //   'April',
+  //   'May',
+  //   'June',
+  // ];
+
+  // const data = {
+  //   labels: labels,
+  //   datasets: [{
+  //     label: 'My First dataset',
+  //     backgroundColor: 'rgb(255, 99, 132)',
+  //     borderColor: 'rgb(255, 99, 132)',
+  //     data: [0, 10, 5, 2, 20, 30, 45],
+  //   }]
+  // };
+
+  // const config = {
+  //   type: 'line',
+  //   data: data,
+  //   options: {}
+  // };
+
+  // const myChart = new Chart(
+  //   document.getElementById('myChart'),
+  //   config
+  // );
+
+  return (
+    <div className="inner-page">
+      <Stack direction="horizontal" gap={3}>
+        <div className="bg-light border"> Statistics </div>
+        <div className="bg-light border"> Second item</div>
+        <div className="bg-light border ms-auto"> Third item</div>
+      </Stack>
+
+        <div className='dashboardPageUI'>
+          <Row>
+          <Col md="4" sm="12">
+            <Card className='gridCard'>
+              <Card.Header>
+                <Card.Title>Total Users</Card.Title>
+                <Dropdown align="end" >
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    <TbDots/>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu variant="dark">
+                    <Dropdown.Item href="#/action-1" active>
+                      Action
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Card.Header>       
+              <Card.Body>   
+                <Card.Subtitle >271K people</Card.Subtitle>
+                <Card.Text>
+                  + 4,2% <img src="/images/upArrow.svg" />
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md="4" sm="12">
+            <Card className='gridCard'>
+              <Card.Header>
+                <Card.Title>New Users</Card.Title>
+                <Dropdown align="end" >
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    <TbDots/>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu variant="dark">
+                    <Dropdown.Item href="#/action-1" active>
+                      Action
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Card.Header>       
+              <Card.Body>   
+                <Card.Subtitle >6 299 people</Card.Subtitle>
+                <Card.Text>
+                - 5,1% <img src="/images/downArrow.svg" />
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md="4" sm="12">
+            <Card className='gridCard'>
+              <Card.Header>
+                <Card.Title>Deactivated Users</Card.Title>
+                <Dropdown align="end" >
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    <TbDots/>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu variant="dark">
+                    <Dropdown.Item href="#/action-1" active>
+                      Action
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Card.Header>       
+              <Card.Body>   
+                <Card.Subtitle >2 088 people</Card.Subtitle>
+                <Card.Text>
+                + 1.5% <img src="/images/upArrow.svg" />
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md="8" sm="12">
+            <Card className='gridCard'>
+              <Card.Header>
+                <Card.Title> Registration Completed  </Card.Title>
+                <Dropdown align="end" className='graphFilter'>
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    20/07/2021 – 26/07/2021
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu variant="dark">
+                    <Dropdown.Item href="#/action-1" active>
+                      Action
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Card.Header>       
+              <Card.Body>   
+                <canvas id="myChart"></canvas>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md="4" sm="12">
+            <Card className='gridCard'>
+              <Card.Header>
+                <Card.Title> Geo  </Card.Title>
+                <Card.Link> Country </Card.Link>
+                <Card.Link> City </Card.Link>
+                
+                <Dropdown align="end" >
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    <TbDots/>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu variant="dark">
+                    <Dropdown.Item href="#/action-2">Female Date Location</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Male Geolocation</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+
+              </Card.Header>       
+              <Card.Body >   
+                <Row className='w-100'>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Toronto <span>94%</span> </h6> 
+                    <ProgressBar now={60} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Alberta <span>10%</span> </h6> 
+                    <ProgressBar now={10} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Manitoba <span>0,20%</span> </h6> 
+                    <ProgressBar now={2} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Halifax <span>0,20%</span> </h6> 
+                    <ProgressBar now={2} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Ontario <span> 0,13% </span> </h6> 
+                    <ProgressBar now={2} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Regina <span>0,73%</span> </h6> 
+                    <ProgressBar now={7} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Yukon <span>0,20% </span> </h6> 
+                    <ProgressBar now={2} />
+                  </Col>
+                  <Col md="6" className='mb-4 progressBarBox'>
+                    <h6> Other <span> 1,37% </span> </h6> 
+                    <ProgressBar now={13} />
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        </div>
+    </div>
+  )
+}
+export default PageContainer;

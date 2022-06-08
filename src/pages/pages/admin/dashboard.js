@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import withAuth from "../../core/withAuth";
+import withAuth from "../../core/withAuth";
 import SideBar from "../sideBar/sidebar.js";
 import PageContainer from "../pageContainer/innerPageBody.js";
 
@@ -12,4 +12,4 @@ const dashboard = props => {
     </div>
   )
 }
-export default dashboard;
+export default withAuth(dashboard);
