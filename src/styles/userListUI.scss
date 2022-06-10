@@ -1,6 +1,7 @@
 .userListUI{
 	.nav-tabs{
 		margin-bottom: 30px;
+    border-bottom:1px solid #3C4752 ;
 		.nav-item{
 			cursor: pointer;
 			.nav-link{ 
@@ -52,6 +53,48 @@
 		border: 1px solid #4D4D4D;
 		border-radius: 13px;
 		overflow: hidden;
+		.input-group{
+      margin-top: 10px;
+      height: 60px;
+      padding: 0 15px;
+			.form-control{
+				background: #222326;
+        color: #fff;
+        border-color: transparent;
+        font-family: 'Gilroy-Medium';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        /* identical to box height */
+        letter-spacing: 0.4px;
+        color: #FFF;
+        &::placeholder{
+          color: rgba(255, 255, 255, 0.35);
+        }
+        &:focus, &:focus-visible{
+          outline: none;
+          box-shadow: none;
+          border: none;
+        }
+			}
+      .dropdown-toggle {
+        background: transparent;
+        border-color:transparent ;
+        font-family: 'Gilroy-Medium';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+        color: rgba(255, 255, 255, 0.65);
+        &:focus, &:focus-visible{
+          outline: none;
+          box-shadow: none;
+          border: none;
+        }
+      }
+		}
 		.table{
 			border: none;
 			background: transparent;
@@ -60,16 +103,51 @@
 				border: none;
 				border-bottom: 1px solid #4D4D4D;
 				tr{
-					font-family: 'Gilroy-Regular', sans-serif;
-					font-style: normal;
-					font-weight: 700;
-					font-size: 13.33px;
-					line-height: 16px;
-					letter-spacing: 0.4px;
-					color: rgba(255, 255, 255, 0.5);
-					th{
+          th{
+            font-family: 'Gilroy-Bold', sans-serif;
+            font-style: normal;
+            font-size: 13.33px;
+            line-height: 16px;
+            letter-spacing: 0.4px;
+            color: rgba(255, 255, 255, 0.5);
 						border: none;
 						padding: 1rem 0.5rem;
+            text-align: left;
+            &:first-child{
+              width: 80px;
+              text-align: center;
+            }
+            &:nth-child(2){
+              width: 300px;
+            }
+            &:nth-last-child(2){
+              width: 100px;
+            }
+            &:last-child{
+              width: 100px;
+              text-align: center;
+            }
+            .order-4, .caret-4-desc,.caret-4-asc{
+              display: inline-flex;
+              width: 20px;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              vertical-align: super;
+              &::before{
+                content: '';
+                background: url(../../public/images/Polygon1.svg) no-repeat center;
+                height: 5px;
+                width: 10px;
+                margin: 0 0 2px;
+              }
+              &::after{
+                content: '';
+                background: url(../../public/images/Polygon2.svg) no-repeat center;
+                height: 5px;
+                width: 10px;
+              }
+            }
 					}
 				}
 			}
@@ -87,6 +165,38 @@
 						padding: 1rem 0.5rem;
 						border: none;
 						border-bottom: 1px solid rgba(60, 71, 82, 0.4);
+            text-align: left;
+            .userNameImage{
+              display: flex;
+              align-items: center;
+              img{
+                margin-right: 10px;
+              }
+            }
+            .greenTxt{
+              font-family: 'Gilroy-Regular';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 13.33px;
+              line-height: 16px;
+              /* identical to box height */
+              letter-spacing: 0.4px;
+              color: #47FF5A;
+            }
+            &:first-child{
+              width: 80px;
+              text-align: center;
+            }
+            &:nth-child(2){
+              width: 300px;
+            }
+            &:nth-last-child(2){
+              width: 100px;
+            }
+            &:last-child{
+              width: 100px;
+              text-align: center;
+            }            
 					}
 					&:hover{
 						background: #2E2F34;
