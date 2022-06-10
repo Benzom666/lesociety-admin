@@ -1,26 +1,26 @@
 /*---------------------------sidebarUi--------------------------*/
-.offcanvas{
-  &.offcanvas-start{
+.offcanvas {
+  &.offcanvas-start {
     width: 202px;
     background-color: #222326;
-    .offcanvas-header{
+    .offcanvas-header {
       padding: 60px 30px;
-      .offcanvas-title{
-        img{
+      .offcanvas-title {
+        img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
       }
-      .btn-close{
+      .btn-close {
         display: none;
       }
     }
-    .offcanvas-body{
+    .offcanvas-body {
       padding: 0;
-      .nav-link{
-        padding: 0 31px;        
-        font-family: 'Gilroy-Medium';
+      .nav-link {
+        padding: 0 31px;
+        font-family: "Gilroy-Medium";
         font-style: normal;
         font-weight: 500;
         font-size: 16px;
@@ -31,34 +31,33 @@
         &:hover,
         &.active,
         &:focus,
-        &:focus-visible{
-          font-family: 'Gilroy-Bold', sans-serif;
-          color: #F24462 !important;
-          svg{
-            path{
-              fill: #F24462;
+        &:focus-visible {
+          font-family: "Gilroy-Bold", sans-serif;
+          color: #f24462 !important;
+          svg {
+            path {
+              fill: #f24462;
             }
-            &.promoIcon{
-              path{
+            &.promoIcon {
+              path {
                 fill: transparent;
-                stroke: #F24462;
-              } 
+                stroke: #f24462;
+              }
             }
           }
         }
-        svg{
+        svg {
           margin-right: 15px;
-          path{
+          path {
             fill: #fff;
           }
-          &.promoIcon{
-            path{
+          &.promoIcon {
+            path {
               fill: transparent;
               stroke: #fff;
-            } 
+            }
           }
         }
-        
       }
     }
   }
