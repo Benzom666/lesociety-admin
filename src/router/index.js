@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Login from "../screens/login";
-import Dashboard from "../pages/dashboard/index.js"
-import Login from "../pages/auth/login.js"
-import ResetPassword from "../pages/auth/reset-password.js"
-import UserList from "../pages/pageContainer/user-list"
+import Dashboard from "../pages/dashboard/index.js";
+import Login from "../pages/auth/login.js";
+import ResetPassword from "../pages/auth/reset-password.js";
+import UserList from "../pages/pageContainer/user-list";
 
 function Router() {
   return (
