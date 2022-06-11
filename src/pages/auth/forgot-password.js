@@ -1,41 +1,84 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import ForgotPassword from 'modules/auth/forms/forgotpassword';
-import { connect } from "react-redux";
-import Header from 'core/header'
-import Footer from 'core/footer'
-import useWindowSize from "../../utils/useWindowSize";
-import { FaAngleLeft } from "react-icons/fa";
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "./action";
+import { emailValidator } from "../../utility/utils";
+import { useDispatch } from "react-redux";
+const ResetPassword = (props) => {
+  const dispatch = useDispatch();
+  const [emailId, setEmail] = useState("");
+  const [isUsernameValid, setUsernameValid] = useState("");
+  const [emailSend, sendEmailSend] = useState(false);
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/`;
+    navigate(path);
+  };
+  const validateFields = (event) => {
+    if (event.target.name === "email") {
+      setUsernameValid(emailValidator(emailId));
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!emailId) {
+      !emailId && setUsernameValid("Email is required");
+      return;
+    }
+    if (!isUsernameValid)
+      dispatch(forgotPassword({ email: emailId }, navigate, sendEmailSend));
+  };
 
-function ForgotPasswordPage({ dispatch }) {
-    const { width } = useWindowSize();
+  return (
+    <div className="LoginUI restPswdUI">
+      <Form className="authUI" onSubmit={handleSubmit}>
+        <h2>Password Recovery</h2>
+        <Form.Group className="mb-4" controlId="formBasicEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="user@gmail.com"
+            onBlur={validateFields}
+            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+          />
+          {isUsernameValid && <p>{isUsernameValid}</p>}
+          {emailSend && (
+            <Form.Text className="text-center mt-4 px-5">
+              Please check your email and follow the link to recover your
+              password.
+            </Form.Text>
+          )}
+          {emailSend && (
+            <div onClick={() => handleSubmit()}>Resend an email</div>
+          )}
+        </Form.Group>
 
-    return (
-        <>
-            <Header />
-            <div className="inner-part-page auth-section">
-                <div className="container">
-                    <div className="auth-section">
-                        <div className="d-block d-md-none login-text">
-                            <Link href="/auth/login">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                            </Link>
-                            <span>
-                                Login
-                                <img src="/images/line.png" alt="line" />
-                            </span>
+        {!emailSend && (
+          <Button
+            variant="primary"
+            type="submit"
+            className="loginBtn"
+            onClick={handleSubmit}
+            disabled={isUsernameValid}
+          >
+            Next
+          </Button>
+        )}
 
-                        </div>
-                        <h2 className="forgot-password-text">
-                            Password Recovery
-                        </h2>
-                        <ForgotPassword />
-                    </div>
-                </div>
-            </div>
-            <Footer />
-        </>
-    )
-}
+        {emailSend && (
+          <Button
+            variant="primary"
+            type="submit"
+            className="loginBtn"
+            onClick={routeChange}
+          >
+            BACK
+          </Button>
+        )}
+      </Form>
+    </div>
+  );
+};
 
-export default ForgotPasswordPage;
+export default ResetPassword;

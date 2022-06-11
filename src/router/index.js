@@ -3,7 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/dashboard/index.js";
 import Login from "../pages/auth/login.js";
 import ResetPassword from "../pages/auth/reset-password.js";
+import ForgotPassword from "../pages/auth/forgot-password";
 import RequireAuth from "./RequireAuth";
+import User from "../pages/pages/admin/user-list"
 function Router() {
   return (
     <BrowserRouter>
@@ -17,7 +19,17 @@ function Router() {
             </RequireAuth>
           }
         />
+         <Route
+          path={"/user"}
+          element={
+            <RequireAuth>
+              <User />
+            </RequireAuth>
+          }
+        />
         <Route path={"/reset-Password"} element={<ResetPassword />} />
+        <Route path={"/forgot-password"} element={<ForgotPassword />} />
+        
         <Route path="*" element={<>Not found</>} />
       </Routes>
     </BrowserRouter>

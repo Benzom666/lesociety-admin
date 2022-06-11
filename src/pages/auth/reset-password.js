@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { forgotPassword } from "./action";
-import { emailValidator } from "../../utility/utils";
+import { resetPassword } from "./action";
+import { passwordValidator } from "../../utility/utils";
 import { useDispatch } from "react-redux";
 const ResetPassword = (props) => {
   const dispatch = useDispatch();
-  const [emailId, setEmail] = useState("");
-  const [isUsernameValid, setUsernameValid] = useState("");
+
+  const [isPasswordValid, setPasswordValid] = useState("");
+  const [password, setPassword] = useState("");
 
   let navigate = useNavigate();
   const routeChange = () => {
@@ -15,17 +16,24 @@ const ResetPassword = (props) => {
     navigate(path);
   };
   const validateFields = (event) => {
-    if (event.target.name === "email") {
-      setUsernameValid(emailValidator(emailId));
+    if (event.target.name === "password") {
+      setPasswordValid(passwordValidator(password));
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!emailId) {
-      !emailId && setUsernameValid("Email is required");
+    if (!password) {
+      !password && setPasswordValid("Password is required");
       return;
     }
-    dispatch(forgotPassword({ email: emailId }, navigate));
+    if (!isPasswordValid)
+      dispatch(
+        resetPassword(
+          { password },
+          navigate,
+          "94f562a16e6f38f77cd77c236d7874c1b3f7c43f"
+        )
+      );
   };
 
   return (
@@ -33,27 +41,28 @@ const ResetPassword = (props) => {
       <Form className="authUI" onSubmit={handleSubmit}>
         <h2>Password Recovery</h2>
         <Form.Group className="mb-4" controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>New password</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="user@gmail.com"
+            type="password"
+            placeholder="password"
             onBlur={validateFields}
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
           />
-          {isUsernameValid && <p>{isUsernameValid}</p>}
-          <Form.Text className="text-center mt-4 px-5">
+          {isPasswordValid && <p>{isPasswordValid}</p>}
+          {/* <Form.Text className="text-center mt-4 px-5">
             Please check your email and follow the link to recover your
             password.
-          </Form.Text>
+          </Form.Text> */}
         </Form.Group>
         <Button
           variant="primary"
-          type="submit"
+          // type="bu"
           className="loginBtn"
-          onClick={routeChange}
+          onClick={handleSubmit}
+          disabled={isPasswordValid}
         >
-          BACK
+          Next
         </Button>
       </Form>
     </div>

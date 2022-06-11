@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import withAuth from "../../core/withAuth";
+// import withAuth from "../../core/withAuth";
 import { Table } from 'react-bootstrap';
 
 
@@ -48,4 +48,4 @@ const sideBar = props => {
 	)
 }
 
-export default withAuth(sideBar);
+export default sideBar;

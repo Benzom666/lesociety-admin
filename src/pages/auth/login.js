@@ -14,7 +14,7 @@ const LoginPage = (props) => {
   const [isPasswordValid, setPasswordValid] = useState("");
   const [isUsernameValid, setUsernameValid] = useState("");
   const routeChange = () => {
-    let path = `/reset-Password`;
+    let path = `/forgot-password`;
     navigate(path);
   };
 
