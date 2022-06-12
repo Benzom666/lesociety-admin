@@ -10,13 +10,11 @@ export const onSubmit = (values, navigate) => {
       Utils.endPoints.login,
       dataToSend,
       (respData) => {
-        debugger;
         localStorage.setItem("accessToken", respData?.data?.data?.token);
         navigate("/dashboard");
       },
       (error) => {
         let { data } = error;
-        debugger;
         Utils.showAlert(2, data?.message);
         // setSubmitting(true);
       }
@@ -40,7 +38,6 @@ export const forgotPassword = (values, navigate, sendEmailSend) => {
       },
       (error) => {
         let { data } = error;
-        debugger;
         Utils.showAlert(2, data?.message);
         // setSubmitting(true);
       }

@@ -28,7 +28,7 @@ const LoginPage = (props) => {
     }
   };
   const handleSubmit = (e) => {
-    debugger
+    
     e.preventDefault();
     if (!password || !emailId) {
       !emailId && setUsernameValid("Email is requir");

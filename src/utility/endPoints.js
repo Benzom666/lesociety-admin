@@ -1,6 +1,7 @@
 const endPoint = {
-  login: "login",
-  forgotPassword: "forget-password",
-  resetPassword:"reset-password"
+  login: "user/login",
+  forgotPassword: "user/forget-password",
+  resetPassword: "user/reset-password",
+  user: "user",
 };
 export default endPoint;

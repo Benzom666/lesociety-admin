@@ -84,10 +84,12 @@ const getApiCall = (
   endPoint,
   params = "",
   successCallback,
-  errorCallback
+  errorCallback,
+  data ={}
 ) => {
+  
   Utils.constants.axios
-    .get(Utils.constants.apiUrl + endPoint + params, {})
+    .get(Utils.constants.apiUrl + endPoint + params, data)
     .then((response) => {
       successCallback(response);
     })

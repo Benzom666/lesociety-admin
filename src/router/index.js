@@ -6,6 +6,8 @@ import ResetPassword from "../pages/auth/reset-password.js";
 import ForgotPassword from "../pages/auth/forgot-password";
 import RequireAuth from "./RequireAuth";
 import User from "../pages/pages/admin/user-list"
+import UserList from "../pages/pageContainer/user-list";
+
 function Router() {
   return (
     <BrowserRouter>
@@ -30,6 +32,10 @@ function Router() {
         <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path={"/forgot-password"} element={<ForgotPassword />} />
         
+        <Route path={"/login"} element={<Login/>} />
+        <Route path={"/dashboard"} element={<Dashboard/>} />
+        <Route path={"/userList"} element={<UserList/>} />
+        <Route path={"/reset-Password"} element={<ResetPassword/>} />
         <Route path="*" element={<>Not found</>} />
       </Routes>
     </BrowserRouter>
