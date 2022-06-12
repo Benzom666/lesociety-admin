@@ -5,12 +5,12 @@ import axios from "axios";
  */
 const $axios = axios.create({
   timeout: 100000,
-  baseURL: `https://staging-api.secrettime.com/api/v1/`,
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   // baseURL: `https://staging.liviaapp.com/api`,
   // baseURL: `https://usa.liviaapp.com/api`,
   // baseURL: "https://usa.liviaapp.com/api",
   headers: {
-    token:localStorage.getItem("accessToken")
+    Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
   },
 });
 

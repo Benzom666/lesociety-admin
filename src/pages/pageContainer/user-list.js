@@ -10,7 +10,7 @@ function UserList() {
   const dispatch = useDispatch();
   // const { width } = useWindowSize();
   useEffect(() => {
-    dispatch(getAllDate());
+    // dispatch(getAllDate());
     dispatch(getUserList());
   }, []);
   return (
