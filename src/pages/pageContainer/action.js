@@ -35,7 +35,7 @@ export const getUserList = () => {
         Utils.showAlert(2, data?.message);
         // setSubmitting(true);
       },
-      { email: "", location: "", status: 0, assetOnly: true }
+      // { email: "", location: "", status: 0, assetOnly: true }
     );
   };
 };
