@@ -5,15 +5,22 @@ import Login from "../pages/auth/login.js";
 import ResetPassword from "../pages/auth/reset-password.js";
 import ForgotPassword from "../pages/auth/forgot-password";
 import RequireAuth from "./RequireAuth";
-import User from "../pages/pages/admin/user-list"
+import User from "../pages/pages/admin/user-list";
 import UserList from "../pages/pageContainer/user-list";
 import PostList from "../pages/pageContainer/post.js";
-
+import PublicAuth from "./publicAuth";
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"} element={<Login />} />
+        <Route
+          path={"/"}
+          element={
+            <PublicAuth>
+              <Login />
+           </PublicAuth>
+          }
+        />
         <Route
           path={"/dashboard"}
           element={
@@ -22,7 +29,7 @@ function Router() {
             </RequireAuth>
           }
         />
-         <Route
+        <Route
           path={"/user"}
           element={
             <RequireAuth>
@@ -30,14 +37,32 @@ function Router() {
             </RequireAuth>
           }
         />
-        <Route path={"/reset-Password"} element={<ResetPassword />} />
-        <Route path={"/forgot-password"} element={<ForgotPassword />} />
-        
-        <Route path={"/"} element={<Login/>} />
-        <Route path={"/dashboard"} element={<Dashboard/>} />
-        <Route path={"/userList"} element={<UserList/>} />
-        <Route path={"/post"} element={<PostList/>} />
-        <Route path={"/reset-Password"} element={<ResetPassword/>} />
+        <Route
+          path={"/reset-Password"}
+          element={
+            <PublicAuth>
+              <ResetPassword />
+            </PublicAuth>
+          }
+        />
+        <Route
+          path={"/forgot-password"}
+          element={
+            <PublicAuth>
+              <ForgotPassword />
+            </PublicAuth>
+          }
+        />
+
+        <Route
+          path={"/userList"}
+          element={
+            <RequireAuth>
+              <UserList />
+            </RequireAuth>
+          }
+        />
+        <Route path={"/post"} element={<PostList />} />
         <Route path="*" element={<>Not found</>} />
       </Routes>
     </BrowserRouter>
