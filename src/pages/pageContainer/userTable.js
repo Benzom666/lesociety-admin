@@ -1,82 +1,167 @@
-import React, { useState, useEffect } from 'react';
-import { Form, InputGroup, DropdownButton, Dropdown  } from 'react-bootstrap';
-import BootstrapTable from 'react-bootstrap-table-next';
+import React, { useState, useEffect } from "react";
+import { Form, InputGroup, DropdownButton, Dropdown } from "react-bootstrap";
+import BootstrapTable from "react-bootstrap-table-next";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import Utils from "../../utility";
+import { getUserList, getPendingUser, getDeactivateUser } from "./action";
+import paginationFactory from "react-bootstrap-table2-paginator";
 
-const UserTableData = props => {
-  const products = [
-    {id: 1, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Ryan Johnston </div> , gender: 'Male', registerDate:'26.07.2021', emailId: 'Oran.Olson94@hotmail.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/>  },
-    {id: 2, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Anna Adams </div> , gender: 'Female', registerDate:'23.07.2021', emailId: 'Gerda27@yahoo.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 3, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Sharon McClure </div> , gender: 'Female', registerDate:'21.07.2021', emailId: 'Nicolette56@gmail.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 4, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Ryan Johnston </div> , gender: 'Male', registerDate:'26.07.2021', emailId: 'Oran.Olson94@hotmail.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 5, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Anna Adams </div> , gender: 'Female', registerDate:'23.07.2021', emailId: 'Gerda27@yahoo.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 6, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Sharon McClure </div> , gender: 'Female', registerDate:'21.07.2021', emailId: 'Nicolette56@gmail.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 7, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Ryan Johnston </div> , gender: 'Male', registerDate:'26.07.2021', emailId: 'Oran.Olson94@hotmail.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 8, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Anna Adams </div> , gender: 'Female', registerDate:'23.07.2021', emailId: 'Gerda27@yahoo.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
-    {id: 9, name: <div className='userNameImage'> <img src="https://i.ibb.co/JvCy0kr/RyanUser.png" alt="RyanUser" border="0"/>  Sharon McClure </div> , gender: 'Female', registerDate:'21.07.2021', emailId: 'Nicolette56@gmail.com', statusId: <span className='greenTxt'> Verified </span>, DropDown: <img src="https://i.ibb.co/jwq9z0R/moreIcon.png" alt="moreIcon" border="0"/> },
+const UserTableData = (props) => {
+  const dispatch = useDispatch();
+  const { userlist, pagination, tab, search, per_page } = useSelector(
+    (state) => state.userListReducer
+  );
+  useEffect(() => {
+    document.getElementById("search").focus();
+  }, []);
+  // console.log(tab, "tab");
+  const products = userlist?.map((item) => {
+    return {
+      id: item._id,
+      name: (
+        <div className="userNameImage">
+          <img src={item.images[0]} alt="RyanUser" border="0" />{" "}
+          {item.user_name}{" "}
+        </div>
+      ),
+      gender: item?.gender,
+      registerDate: moment(item?.created_at).format("DD.MM.YYYY"),
+      emailId: item?.email,
+      statusId: (
+        <span className="greenTxt">
+          {item.status == 0
+            ? "pending"
+            : item.status == 1
+            ? "Verified"
+            : item.status == 2
+            ? "Freeze"
+            : item.status == 3
+            ? "Block"
+            : "Delete"}{" "}
+        </span>
+      ),
+      DropDown: (
+        <img
+          src="https://i.ibb.co/jwq9z0R/moreIcon.png"
+          alt="moreIcon"
+          border="0"
+        />
+      ),
+    };
+  });
+
+  const columns = [
+    {
+      dataField: "name",
+      text: "User Name",
+      sort: true,
+    },
+    {
+      dataField: "gender",
+      text: "Gender",
+      sort: true,
+    },
+    {
+      dataField: "registerDate",
+      text: "Registered Date",
+      sort: true,
+    },
+    {
+      dataField: "emailId",
+      text: "Email",
+      sort: true,
+    },
+    {
+      dataField: "statusId",
+      text: "Status",
+      sort: true,
+    },
+    {
+      dataField: "DropDown",
+      text: "",
+    },
   ];
-  const columns = [{
-    dataField: 'name',
-    text: 'User Name',
-    sort: true
-  },{
-    dataField: 'gender',
-    text: 'Gender',
-    sort: true
-  },{
-    dataField: 'registerDate',
-    text: 'Registered Date',
-    sort: true
-  },{
-    dataField: 'emailId',
-    text: 'Email',
-    sort: true
-  },{
-    dataField: 'statusId',
-    text: 'Status',
-    sort: true
-  },{
-    dataField: 'DropDown',
-    text: '',
-  }];
-  
-  const defaultSorted = [{
-    dataField: 'name',
-    order: 'desc'
-  }];
 
-  const selectRow = {
-    mode: 'checkbox',
-    clickToSelect: true
+  const defaultSorted = [
+    {
+      dataField: "name",
+      order: "desc",
+    },
+  ];
+  const selectRow1 = (row,isSelect) => {
+    debugger;
   };
-
-	return (
-		<>      
+  const selectRow = {
+    mode: "checkbox",
+    clickToSelect: true,
+    onSelect: selectRow1,
+  };
+  console.log(search, "search");
+  return (
+    <>
       <InputGroup className="">
-        <Form.Control  placeholder='Search'/>
-
+        <Form.Control
+          placeholder="Search"
+          type="text"
+          id="search"
+          name="search"
+          value={search}
+          onChange={(e) => {
+            dispatch({
+              type: Utils.ActionName.USER_LIST,
+              payload: { search: e.target.value },
+            });
+            if (tab === 1) {
+              dispatch(getUserList());
+            } else if (tab === 2) {
+              dispatch(getDeactivateUser());
+            } else {
+              dispatch(getPendingUser());
+            }
+          }}
+        />
         <DropdownButton
           variant="outline-secondary"
-          title="Per Page"
+          title={`${per_page} Per Page`}
           id="input-group-dropdown-2"
           align="end"
+          onSelect={(e) => {
+            // e.preventDefault();
+
+            dispatch({
+              type: Utils.ActionName.USER_LIST,
+              payload: { per_page: e },
+            });
+            if (tab === 1) {
+              dispatch(getUserList());
+            } else if (tab === 2) {
+              dispatch(getDeactivateUser());
+            } else {
+              dispatch(getPendingUser());
+            }
+          }}
         >
-          <Dropdown.Item href="#">Action</Dropdown.Item>
-          <Dropdown.Item href="#">Another action</Dropdown.Item>
-          <Dropdown.Item href="#">Something else here</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item href="#">Separated link</Dropdown.Item>
+          <Dropdown.Item eventKey="5">5</Dropdown.Item>
+          <Dropdown.Item eventKey="10">10</Dropdown.Item>
+          <Dropdown.Item eventKey="20">20</Dropdown.Item>
+          <Dropdown.Item eventKey="25">25</Dropdown.Item>
+          <Dropdown.Item eventKey="50">50</Dropdown.Item>
+          {/* <Dropdown.Divider />
+          <Dropdown.Item href="#">Separated link</Dropdown.Item> */}
         </DropdownButton>
       </InputGroup>
       <BootstrapTable
         bootstrap4
         keyField="id"
-        data={ products }
-        columns={ columns }
-        defaultSorted={ defaultSorted } 
-        selectRow={ selectRow }
+        data={products}
+        columns={columns}
+        defaultSorted={defaultSorted}
+        selectRow={selectRow}
+        pagination={paginationFactory({ totalSize: pagination.total_users })}
       />
-		</>
-	)
-}
+    </>
+  );
+};
 
 export default UserTableData;

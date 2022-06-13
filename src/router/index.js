@@ -10,33 +10,34 @@ import UserList from "../pages/pageContainer/user-list";
 import PostList from "../pages/pageContainer/post.js";
 import PublicAuth from "./publicAuth";
 function Router() {
+  
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={"/"}
           element={
-            <PublicAuth>
+            // <PublicAuth>
               <Login />
-           </PublicAuth>
+          //  </PublicAuth>
           }
         />
         <Route
           path={"/dashboard"}
           element={
-            <RequireAuth>
+            // <RequireAuth>
               <Dashboard />
-            </RequireAuth>
+            // </RequireAuth>
           }
         />
-        <Route
+        {/* <Route
           path={"/user"}
           element={
             <RequireAuth>
               <User />
             </RequireAuth>
           }
-        />
+        /> */}
         <Route
           path={"/reset-Password"}
           element={

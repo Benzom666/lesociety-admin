@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "./action";
@@ -28,7 +28,7 @@ const ResetPassword = (props) => {
     if (!isUsernameValid)
       dispatch(forgotPassword({ email: emailId }, navigate, sendEmailSend));
   };
-
+  
   return (
     <div className="LoginUI restPswdUI">
       <Form className="authUI" onSubmit={handleSubmit}>

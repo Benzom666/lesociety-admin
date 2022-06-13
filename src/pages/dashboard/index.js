@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react';
 import SideBar from "../sideBar/sidebar.js";
 import PageContainer from "../pageContainer/innerPageBody.js";
 
-const dashboard = props => {
+const dashboard = () => {
 
   return (
     <div className="dashboardUi">
+       <input type="text" />
       <SideBar/>
       <PageContainer/>
     </div>
