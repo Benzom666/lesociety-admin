@@ -53,6 +53,7 @@
 		border: 1px solid #4D4D4D;
 		border-radius: 13px;
 		overflow: hidden;
+    position: relative;
 		.input-group{
       margin-top: 10px;
       height: 60px;
@@ -324,4 +325,126 @@
       }
     }
 	}
+}
+
+.requestPopup{
+  background: #222326;
+  border: 1px solid #4D4D4D;
+  border-radius: 10px;
+  display: flex;
+    flex-direction: row-reverse;
+    height: 46px;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+  .toast-header{
+    background: #222326;
+    padding: 0;
+    margin-left: 0;
+    height: 20px;
+    align-self: center;
+    .btn-close{
+      color: #fff;
+      margin: 0;
+      background: url(../assets/images/CloseSquare.svg) no-repeat center;
+      margin-right: 8px;
+    }
+  }
+  .form-check{
+    display: flex;
+    align-items: center;
+    margin: 0;
+    margin-left: 0;
+    margin-right: auto;
+    
+    label{
+      margin-left: 5px;
+    }
+  }
+  .btn{
+    font-size: 14px;
+    margin-left: 10px;
+    padding: 3px 15px;
+  }
+  .requestBtn{
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    background: transparent;
+  }
+  .verifyBtn{    
+    background: #F24462;
+    border-radius: 8px;
+    border-color: #F24462;
+    padding: 3px 25px;
+  }
+}
+
+// request Modal UI
+.requestModal{
+  .modal-dialog{
+    max-width: 335px;
+  }
+  .modal-content{
+    background: #1F2124;
+    border: 1px solid #3D3D3F;
+    border-radius: 15px;
+    .modal-header{
+      flex-direction: column;
+    justify-content: center;
+    padding-bottom: 0;
+    border: none;
+      .modal-title{
+        font-family: 'Helvetica-light';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 23px;
+        letter-spacing: 0.638033px;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+      p{
+        font-family: 'Helvetica';
+      }
+      .btn-close{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: url(../assets/images/CloseSquare.svg) no-repeat center;
+        background-size: 15px;
+      }
+    }
+    .list-group{
+      .list-group-item{
+        background: transparent;
+        color: #fff;
+        border: none;
+        .form-check{
+          display: flex;
+          align-items: center;
+          .form-check-input{
+            margin-top: 0;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .verifyBtn{    
+      background: #F24462;
+      border-radius: 8px;
+      border-color: #F24462;
+      padding: 13px 25px;
+      width: 100%;
+      font-family: 'Helvetica-light';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+  }
 }
