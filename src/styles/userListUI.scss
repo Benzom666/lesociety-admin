@@ -211,6 +211,7 @@
       display: flex;
       padding: 25px 0 0 25px ;
       flex-wrap: wrap;
+      transition: all 0.5s ease-in;
       .card{
         width: calc(25% - 25px);
         margin-right: 25px;
@@ -246,11 +247,16 @@
         }
         .cardActionBox{
           position: relative;
-          z-index: 2;
+          z-index: 3;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding:10px 20px;
           .checkboxUI{
-            text-align: left;
-            padding-left: 20px;
-            padding-top: 10px;
+            text-align: left;        
+            .form-check-input{
+              margin-top: 0;
+            }
           }
         }
         .card-img-overlay{
@@ -320,6 +326,43 @@
             & + .card-link{
               margin-left: 5px;
             }
+          }
+        }
+        .showDetail{
+          width: auto;
+          color: #fff;
+        }
+        .posterDetails{
+          background: #151515;
+          border-radius: 8px;
+          z-index: 2;
+          transform: translateY(21rem);
+          height: 100%;
+          position: absolute;
+          transition: all 0.5s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          h3{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 0.0666667px;
+            margin-bottom: 15px;
+          }
+          p{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0583333px;
+            color: #FFFFFF;
+          }
+          &.posterDetailShow{
+            transform: translateY(0);
           }
         }
       }

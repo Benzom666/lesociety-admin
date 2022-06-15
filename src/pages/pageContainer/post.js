@@ -1,24 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import SideBar from "../sideBar/sidebar.js";
 import { Nav, Tab, Badge ,Form, InputGroup, DropdownButton, Dropdown, Card  } from 'react-bootstrap';
 import LocationIcon from "../../assets/images/location.svg"
 import AdventureIcon from "../../assets/images/Adventure.svg"
 import GetReadyIcon from "../../assets/images/getReady.svg"
+import { MdOutlineRotate90DegreesCcw } from "react-icons/md";
 
 function PostList(props){
   // const { width } = useWindowSize();
     // const UserPostList = props.Card;
+
+    const [isActive, setIsActive] = useState("false");
+    const handleToggle = () => {
+      setIsActive(current => !current);  };
+       
     
     const numbers = [1, 2, 3, 4, 5];
     const UserPostList = numbers.map((number) =>
       
          <Card className="bg-dark text-white">
             <Card.Img src="https://i.ibb.co/84y2bZv/Bitmap-3.png" alt="Card image" />
-            <div className='cardActionBox'>
+            <div className='cardActionBox' >
               <Form.Check 
                 className='checkboxUI'
                 type="checkbox"
               />
+            <Card.Link className='showDetail'  onClick={handleToggle}  >
+              <MdOutlineRotate90DegreesCcw />
+            </Card.Link>
             </div>
             <Card.ImgOverlay>
               <Card.Title>Anna, <span> 21 </span></Card.Title>
@@ -33,6 +42,10 @@ function PostList(props){
               <Card.Link href="#"> <img src={GetReadyIcon}/> Get sporty</Card.Link>
               <Card.Link href="#"> <img src={AdventureIcon}/>  Adventure</Card.Link>
             </Card.ImgOverlay>
+            <Card.Body className={`posterDetails ${isActive ? 'posterDetailShow' : ''}`} >
+              <h3> Date Details </h3>
+              <p> Let’s do something fun, I’m not picky so be adventurous. Must be day time activity only. I am usually starting my shift at 5 so we have to be done by 3 pm latest. Ciao! </p>
+            </Card.Body>
           </Card>  
     );
 

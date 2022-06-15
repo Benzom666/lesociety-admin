@@ -10,7 +10,7 @@ const SideBar = (props) => {
   const handleShow = () => setShow(false);
 
   return (
-    <div ClassName="sideBarUI">
+    <div className="sideBarUI">
       <Offcanvas show={show} onHide={handleClose} backdrop={false}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
