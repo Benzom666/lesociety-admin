@@ -8,6 +8,7 @@ import RequireAuth from "./RequireAuth";
 import User from "../pages/pages/admin/user-list"
 import UserList from "../pages/pageContainer/user-list";
 import PostList from "../pages/pageContainer/post.js";
+import UserProfile from "../pages/pageContainer/userProfile"
 
 function Router() {
   return (
@@ -27,6 +28,14 @@ function Router() {
           element={
             <RequireAuth>
               <User />
+            </RequireAuth>
+          }
+        />
+         <Route
+          path={"/profile"}
+          element={
+            <RequireAuth>
+              <UserProfile />
             </RequireAuth>
           }
         />
