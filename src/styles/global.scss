@@ -18,6 +18,65 @@
     font-weight: normal;
     font-style: normal;
 }
+/*---Helvetica font Url----*/
+@font-face {
+    font-family: "Helvetica-Light";
+    src: url("../../public/fonts/Helvetica/helvetica-light.ttf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helvetica-Oblique";
+    src: url("../../public/fonts/Helvetica/Helvetica-Oblique.ttf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helvetica-compressed";
+    src: url("../../public/fonts/Helvetica/helvetica-compressed.otf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helvetica-rounded";
+    src: url("../../public/fonts/Helvetica/helvetica-rounded-bold.otf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helvetica-BoldOblique";
+    src: url("../../public/fonts/Helvetica/Helvetica-BoldOblique.ttf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helvetica-Bold";
+    src: url("../../public/fonts/Helvetica/Helvetica-Bold.ttf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Helvetica";
+    src: url("../../public/fonts/Helvetica/Helvetica.ttf")  format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+/*---End Helvetica font Url----*/
+
+/*---Gilroy font Url----*/
+@font-face {
+    font-family: "Gilroy-Light";
+    src: url("../../public/fonts/Gilroy/Gilroy-Light.otf")  format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Gilroy-ExtraBold";
+    src: url("../../public/fonts/Gilroy/Gilroy-ExtraBold.otf")  format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+/*---End Gilroy font Url----*/
 
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;600;700;800;900&display=swap');
 
