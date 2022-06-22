@@ -8,6 +8,7 @@ import RequireAuth from "./RequireAuth";
 import User from "../pages/pages/admin/user-list"
 import UserList from "../pages/pageContainer/user-list";
 import PostList from "../pages/pageContainer/post.js";
+import VerifyPhoto from "../pages/pageContainer/verifyPhoto.js";
 import UserProfile from "../pages/pageContainer/userProfile"
 
 function Router() {
@@ -31,11 +32,19 @@ function Router() {
             </RequireAuth>
           }
         />
-         <Route
+        <Route
           path={"/profile"}
           element={
             <RequireAuth>
               <UserProfile />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={"/verifyPhoto"}
+          element={
+            <RequireAuth>
+              <VerifyPhoto />
             </RequireAuth>
           }
         />

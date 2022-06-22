@@ -19,20 +19,20 @@ const PageContainer = props => {
                 <Card.Subtitle className="mb-2 ">Let’s keep it simple!</Card.Subtitle>               
               </Card>
               <div className='userProfilebtn'>
-                  <Button className="requestBtn">Request</Button>
-                  <Button className="verifyBtn">Verify</Button>
-                  <Dropdown>
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    <TbDots/>
-                    </Dropdown.Toggle>
+                <Button className="requestBtn">Request</Button>
+                <Button className="verifyBtn">Verify</Button>
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  <TbDots/>
+                  </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
             </div>
             <Row>
               <Col  md="9" sm="8" className='pl-0' >

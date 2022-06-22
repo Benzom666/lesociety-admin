@@ -5,7 +5,7 @@
   margin-left: auto;
   margin-right: 0;
   width: calc(100% - 204px);
-  padding: 0 60px;
+  padding: 0 60px 60px;
   height: 100vh;
   overflow: auto;
   .pageHeaderBox{
@@ -99,28 +99,28 @@
         display: flex;
         margin-bottom: 1rem;
         .btn{
-        height: 42px;
-        font-family: 'Helvetica';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-        letter-spacing: 0.0893246px;
-        text-transform: capitalize;
-        color: #FFF;
-        margin-right: 16px;
-        min-width: 100px;
+          height: 42px;
+          font-family: 'Helvetica';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.0893246px;
+          text-transform: capitalize;
+          color: #FFF;
+          margin-right: 16px;
+          min-width: 100px;
         }
         .requestBtn{
-        border: 1px solid #FFF;
-        border-radius: 8px;
-        background: transparent;
+          border: 1px solid #FFF;
+          border-radius: 8px;
+          background: transparent;
         }
         .verifyBtn{    
-        background: #F24462;
-        border-radius: 8px;
-        border-color: #F24462;
-        padding: 3px 25px;
+          background: #F24462;
+          border-radius: 8px;
+          border-color: #F24462;
+          padding: 3px 25px;
         }
         .dropdown{
           .dropdown-toggle{
@@ -132,7 +132,7 @@
           }
         }
       }
-    }
+    }    
     .profileCardBox{
       @include CardBg;
       .card-body{

@@ -365,6 +365,113 @@
             transform: translateY(0);
           }
         }
+        &.verifyPhotoCard{
+          padding-bottom: 33.3% !important;
+          padding-top: 25px;
+          min-height: 384px;
+          min-height: 440px;
+          &::before{
+            display: none;
+          }
+          .cardActionBox{
+            padding-top: 0;
+            position: absolute;
+          }
+          .userProfileDetail{
+            margin: 0 auto;
+          }
+          .card-title{
+            font-style: normal;
+            font-family: 'Gilroy-Medium';
+            font-weight: unset;
+            font-size: 13.33px;
+            line-height: 17px;
+            letter-spacing: 0.4px;
+            color: #FFF;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            padding: 10px 0 14px;
+          }
+          .card-link{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0893246px;
+            text-transform: capitalize;
+            color: #FFF;
+            min-width: 86px;
+            margin-left: 0;
+            display: inline-block;
+          }
+          .btn{
+            height: 26px;
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0893246px;
+            text-transform: capitalize;
+            color: #FFF;
+            margin:14px 6px 0 0;
+            min-width: 100px;
+            padding: 3px 15px;
+            line-height: normal;
+            min-width: 86px;
+          }
+          .requestBtn{
+            border: 1px solid #FFF;
+            border-radius: 8px;
+            background: transparent;
+          }
+          .verifyBtn{    
+            background: #F24462;
+            border-radius: 8px;
+            border-color: #F24462;
+            margin-right: 0;
+          }
+          .card-footer{
+            font-style: normal;
+            font-family: 'Gilroy-Medium';
+            font-weight: unset;
+            font-size: 13.33px;
+            line-height: 17px;
+            letter-spacing: 0.4px;
+            color: #FFF;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #3C4752;
+            margin: 20px auto 0;
+            width: calc(100% - 50px);
+          }
+          .card-body{
+            padding: 0;
+            width: 175px;
+            margin: 0 auto;
+            .card-title,
+            .card-text{
+              background: #151515;
+              border-radius: 8px;
+              font-size: 12px;
+              height: 50px;
+            }
+            .card-text{
+              height: 175px;
+              padding: 15px;
+              font-style: normal;
+              font-family: 'Gilroy-Medium';
+              font-weight: unset;
+              font-size: 12px;
+              line-height: 17px;
+              letter-spacing: 0.4px;
+              color: #FFF;
+              margin-bottom: 12px;
+            }
+          }
+        }
       }
     }
 	}

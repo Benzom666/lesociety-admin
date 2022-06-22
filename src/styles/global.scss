@@ -103,7 +103,22 @@ body {
 			-webkit-box-shadow: 0 0 0 30px #151515 inset !important;
 			-webkit-text-fill-color: #fff !important;
 			transition: background-color 5000s ease-in-out 0s;
-    }    
+    } 
+  ::-webkit-scrollbar {
+    width: 3px;
+    background: #343538;
+  }
+    
+    /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+    
+    /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #4d4d4d;
+    border-radius: 0;
+  }   
 }
 
 html,
