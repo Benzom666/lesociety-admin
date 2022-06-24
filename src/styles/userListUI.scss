@@ -1,4 +1,7 @@
 .userListUI{
+  .pageHeaderBox{
+    padding: 40px 0 30px;
+  }
 	.nav-tabs{
 		margin-bottom: 30px;
     border-bottom:1px solid #3C4752 ;
@@ -16,6 +19,9 @@
 				color: #7D7D7D;
 				border: none;
 				position: relative;
+        @media (max-width:1280px) {
+          font-size: 14px;
+        }
 				&:hover{
 					.badge{
 						opacity: 1;
@@ -47,6 +53,14 @@
 				}
 			}
 		}
+    .createNewBtn{
+      margin-left: auto;
+      background: #F24462;
+      border-color: #F24462;
+      align-self: baseline;
+      border-radius: 8px;
+      min-width: 160px;  
+    }
 	}
 	.tab-pane{
 		background: #222326;
@@ -58,6 +72,9 @@
       margin-top: 10px;
       height: 60px;
       padding: 0 15px;
+      @media (max-width:1280px) {
+        margin-top: 0px;
+      }
 			.form-control{
 				background: #222326;
         color: #fff;
@@ -93,6 +110,9 @@
           outline: none;
           box-shadow: none;
           border: none;
+        }
+        @media (max-width:1280px) {
+          font-size: 14px;
         }
       }
 		}
@@ -167,6 +187,10 @@
 						border: none;
 						border-bottom: 1px solid rgba(60, 71, 82, 0.4);
             text-align: left;
+            vertical-align: middle;
+            @media (max-width:1280px) {
+              font-size: 12px;
+            }
             .userNameImage{
               display: flex;
               align-items: center;
@@ -595,6 +619,76 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-top: 10px;
+    }
+  }
+  &.influencerModal{
+    .modal-dialog{
+      max-width: 482px;
+      @media (max-width:1440px) {
+        max-width: 428px;
+      }
+      .modal-content{
+        padding: 28.5px;
+        @media (max-width:1440px) {
+          padding: 18.5px;
+        }
+        .modal-header {
+          .modal-title{
+            font-family: 'Helvetica-Bold';
+            font-style: normal;
+            font-size: 32px;
+            line-height: 37px;
+            text-align: center;
+            letter-spacing: 0.125px;
+            color: #FFF;
+            mix-blend-mode: normal;
+            opacity: 0.9;
+            text-transform: capitalize;
+            margin-bottom: 25px;
+            @media (max-width:1440px) {
+              font-size: 28px;
+            }
+          }
+        }
+        .modal-body{
+          padding: 0;
+          .form-label{
+            font-family: 'Helvetica-Light';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 18px;
+            letter-spacing: 0.6px;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            @media (max-width:1440px) {
+              font-size: 14px;
+            }
+          }
+          .form-control{
+            background: #151515;
+            border-radius: 6px;
+            min-height: 50px;
+            border: none;
+            color: #fff;
+            font-family: 'Helvetica-Light';
+          }
+          .InfluencerSubmitBtn{
+            background: #F24462;
+            border-radius: 8px;
+            height: 50px;
+            width: 100%;
+            border-color: #F24462;
+            margin-top: 25px;
+            @media (max-width:1440px) {
+              margin-top: 15px;
+            }
+            &:focus{
+              box-shadow: none;
+            }
+          }
+        }
+      }
     }
   }
 }

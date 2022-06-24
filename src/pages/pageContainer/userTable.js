@@ -59,7 +59,7 @@ const UserTableData = props => {
 	return (
 		<>      
       <InputGroup className="">
-        <Form.Control  placeholder='Search'/>
+        <Form.Control type="text" placeholder='Search'/>
 
         <DropdownButton
           variant="outline-secondary"

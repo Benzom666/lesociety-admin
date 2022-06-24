@@ -5,6 +5,7 @@ import LocationIcon from "../../assets/images/location.svg"
 import AdventureIcon from "../../assets/images/Adventure.svg"
 import GetReadyIcon from "../../assets/images/getReady.svg"
 import { MdOutlineRotate90DegreesCcw } from "react-icons/md";
+import PageHeader from '../pageContainer/header'
 
 function PostList(props){
   // const { width } = useWindowSize();
@@ -52,7 +53,8 @@ function PostList(props){
   return (
     <div className="dashboardUi">
       <SideBar/>
-      <div className="inner-page userListUI pt-5">
+      <div className="inner-page userListUI">
+      <PageHeader/>
         <Tab.Container defaultActiveKey="link-1" >
           <Nav variant="tabs" >
             <Nav.Item>
@@ -83,7 +85,7 @@ function PostList(props){
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
               <InputGroup className="">
-                <Form.Control  placeholder='Search'/>
+                <Form.Control type="text" placeholder='Search'/>
 
                 <DropdownButton
                   variant="outline-secondary"

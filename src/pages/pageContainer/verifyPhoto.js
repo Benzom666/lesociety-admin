@@ -3,6 +3,7 @@ import SideBar from "../sideBar/sidebar.js";
 import { Nav, Tab, Badge ,Form, InputGroup, DropdownButton, Dropdown, Card, ProfileImages, Button } from 'react-bootstrap';
 import { TbDots } from "react-icons/tb";
 import VerifyProfileImages from './profileImage'
+import PageHeader from '../pageContainer/header'
 
 
 function PostList(props){
@@ -55,7 +56,8 @@ function PostList(props){
   return (
     <div className="dashboardUi">
       <SideBar/>
-      <div className="inner-page userListUI pt-5">
+      <div className="inner-page userListUI">
+      <PageHeader/>
         <Tab.Container defaultActiveKey="link-1" >
           <Nav variant="tabs" >
             <Nav.Item>
@@ -86,7 +88,7 @@ function PostList(props){
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
               <InputGroup className="">
-                <Form.Control  placeholder='Search'/>
+                <Form.Control type="text" placeholder='Search'/>
 
                 <DropdownButton
                   variant="outline-secondary"
