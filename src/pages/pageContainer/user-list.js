@@ -6,6 +6,7 @@ import { getUserList, getPendingUser, getDeactivateUser } from "./action";
 import { Nav, Tab, Badge } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Utils from "../../utility/index.js";
+import PageHeader from '../pageContainer/header'
 
 function UserList() {
   const dispatch = useDispatch();
@@ -22,7 +23,8 @@ function UserList() {
   return (
     <div className="dashboardUi">
       <SideBar />
-      <div className="inner-page userListUI pt-5">
+      <div className="inner-page userListUI">
+      <PageHeader/>
         <Tab.Container defaultActiveKey="link-1">
           <Nav variant="tabs">
             <Nav.Item

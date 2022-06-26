@@ -5,10 +5,13 @@ import Login from "../pages/auth/login.js";
 import ResetPassword from "../pages/auth/reset-password.js";
 import ForgotPassword from "../pages/auth/forgot-password";
 import RequireAuth from "./RequireAuth";
-import User from "../pages/pages/admin/user-list";
 import UserList from "../pages/pageContainer/user-list";
+import Allinfluencers from "../pages/pageContainer/influencers";
 import PostList from "../pages/pageContainer/post.js";
 import PublicAuth from "./publicAuth";
+import VerifyPhoto from "../pages/pageContainer/verifyPhoto.js";
+import UserProfile from "../pages/pageContainer/userProfile"
+
 function Router() {
   
   return (
@@ -30,14 +33,30 @@ function Router() {
             // </RequireAuth>
           }
         />
-        {/* <Route
-          path={"/user"}
+        <Route
+          path={"/profile"}
           element={
             <RequireAuth>
-              <User />
+              <UserProfile />
             </RequireAuth>
           }
-        /> */}
+        />
+        <Route
+          path={"/verifyPhoto"}
+          element={
+            <RequireAuth>
+              <VerifyPhoto />
+            </RequireAuth>
+          }
+        />
+         {/* <Route
+          path={"/userList"}
+          element={
+            <RequireAuth>
+              <UserList />
+            </RequireAuth>
+          }
+        />  */}
         <Route
           path={"/reset-Password"}
           element={
@@ -64,6 +83,15 @@ function Router() {
           }
         />
         <Route path={"/post"} element={<PostList />} />
+        <Route path={"/reset-Password"} element={<ResetPassword />} />
+        <Route path={"/forgot-password"} element={<ForgotPassword />} />
+        
+        <Route path={"/"} element={<Login/>} />
+        <Route path={"/dashboard"} element={<Dashboard/>} />
+        {/* <Route path={"/userList"} element={<UserList/>} />*/}
+        <Route path={"/all-influencers"} element={<Allinfluencers/>} /> 
+        <Route path={"/post"} element={<PostList/>} />
+        <Route path={"/reset-Password"} element={<ResetPassword/>} />
         <Route path="*" element={<>Not found</>} />
       </Routes>
     </BrowserRouter>

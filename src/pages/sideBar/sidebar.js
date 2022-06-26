@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Offcanvas, Button, Nav } from "react-bootstrap";
 import "./sidebarUI.scss";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const SideBar = (props) => {
   const [show, setShow] = useState(true);
@@ -47,10 +48,9 @@ const SideBar = (props) => {
               Users
             </Nav.Link>
             <Nav.Link
-              href="#action3"
               onClick={(e) => {
                 e.preventDefault();
-                navigateViaSideBar("/userList");
+                navigateViaSideBar("/verifyPhoto");
               }}
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -58,13 +58,23 @@ const SideBar = (props) => {
               </svg>
               Users' photos
             </Nav.Link>
-            <Nav.Link href="#action4">
+            <Nav.Link 
+            onClick={(e) => {
+              e.preventDefault();
+              navigateViaSideBar("/post");
+            }}
+            >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M18.3332 12.4916C18.3332 12.4976 18.3332 12.5037 18.3332 12.5097V15C18.3332 16.841 16.8408 18.3334 14.9998 18.3334H4.99984C3.15889 18.3334 1.6665 16.841 1.6665 15V5.00002C1.6665 3.15907 3.15889 1.66669 4.99984 1.66669H14.9998C16.8408 1.66669 18.3332 3.15907 18.3332 5.00002V12.4916ZM16.6665 10.8334V5.00002C16.6665 4.07955 15.9203 3.33335 14.9998 3.33335H4.99984C4.07936 3.33335 3.33317 4.07955 3.33317 5.00002V15C3.33317 15.3571 3.44546 15.6879 3.63665 15.9592L5.82917 12.6704C6.59506 11.5215 8.14723 11.2111 9.29605 11.977C9.33453 12.0026 9.3723 12.0294 9.4093 12.0571L10.687 13.0154L12.5066 10.7409C13.3502 9.68644 14.8786 9.49241 15.9588 10.3026L16.6665 10.8334ZM16.6665 12.9167L14.9588 11.6359C14.5987 11.3659 14.0893 11.4305 13.8081 11.782L11.4839 14.6873C11.2027 15.0387 10.6933 15.1034 10.3332 14.8334L8.4093 13.3905C8.39697 13.3812 8.38438 13.3723 8.37155 13.3637C7.98861 13.1084 7.47122 13.2119 7.21593 13.5949L5.16805 16.6667H14.9998C15.9203 16.6667 16.6665 15.9205 16.6665 15V12.9167ZM7.08317 10C5.47234 10 4.1665 8.69418 4.1665 7.08335C4.1665 5.47252 5.47234 4.16669 7.08317 4.16669C8.694 4.16669 9.99984 5.47252 9.99984 7.08335C9.99984 8.69418 8.694 10 7.08317 10ZM7.08317 8.33335C7.77353 8.33335 8.33317 7.77371 8.33317 7.08335C8.33317 6.393 7.77353 5.83335 7.08317 5.83335C6.39281 5.83335 5.83317 6.393 5.83317 7.08335C5.83317 7.77371 6.39281 8.33335 7.08317 8.33335Z" />
               </svg>
               Posts
             </Nav.Link>
-            <Nav.Link href="#action5">
+            <Nav.Link 
+            onClick={(e) => {
+              e.preventDefault();
+              navigateViaSideBar("/all-influencers");
+            }}
+            >
               <svg
                 width="20"
                 height="20"

@@ -1,8 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // import withAuth from "../../core/withAuth";
-import {Stack, Card, Dropdown, Col, Row, ProgressBar } from "react-bootstrap";
 // import UpArrowIcon from '../../assets/img/upArrow.svg'
+import { Card, Dropdown, Col, Row, ProgressBar } from "react-bootstrap";
+import PageHeader from '../pageContainer/header'
 import { TbDots } from "react-icons/tb";
 import Chart from 'chart.js/auto';
 
@@ -42,12 +43,7 @@ const PageContainer = props => {
 
   return (
     <div className="inner-page">
-      <Stack direction="horizontal" gap={3}>
-        <div className="bg-light border"> Statistics </div>
-        <div className="bg-light border"> Second item</div>
-        <div className="bg-light border ms-auto"> Third item</div>
-      </Stack>
-
+      <PageHeader/>
         <div className='dashboardPageUI'>
           <Row>
           <Col md="4" sm="12">

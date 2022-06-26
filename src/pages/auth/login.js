@@ -38,7 +38,6 @@ const LoginPage = (props) => {
   };
   return (
     <div className="LoginUI">
-      <input type="text" />
       <Form
         className="authUI"
         onSubmit={(e) => handleSubmit(e)}

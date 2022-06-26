@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 
 const PublicAuth = ({ children }) => {
   const token = localStorage.getItem("accessToken");
-  debugger
   if (token?.length>10) {
     return <Navigate to="/dashboard" />;
   }

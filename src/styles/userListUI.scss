@@ -1,4 +1,7 @@
 .userListUI{
+  .pageHeaderBox{
+    padding: 40px 0 30px;
+  }
 	.nav-tabs{
 		margin-bottom: 30px;
     border-bottom:1px solid #3C4752 ;
@@ -16,6 +19,9 @@
 				color: #7D7D7D;
 				border: none;
 				position: relative;
+        @media (max-width:1280px) {
+          font-size: 14px;
+        }
 				&:hover{
 					.badge{
 						opacity: 1;
@@ -47,16 +53,28 @@
 				}
 			}
 		}
+    .createNewBtn{
+      margin-left: auto;
+      background: #F24462;
+      border-color: #F24462;
+      align-self: baseline;
+      border-radius: 8px;
+      min-width: 160px;  
+    }
 	}
 	.tab-pane{
 		background: #222326;
 		border: 1px solid #4D4D4D;
 		border-radius: 13px;
 		overflow: hidden;
+    position: relative;
 		.input-group{
       margin-top: 10px;
       height: 60px;
       padding: 0 15px;
+      @media (max-width:1280px) {
+        margin-top: 0px;
+      }
 			.form-control{
 				background: #222326;
         color: #fff;
@@ -92,6 +110,9 @@
           outline: none;
           box-shadow: none;
           border: none;
+        }
+        @media (max-width:1280px) {
+          font-size: 14px;
         }
       }
 		}
@@ -166,6 +187,10 @@
 						border: none;
 						border-bottom: 1px solid rgba(60, 71, 82, 0.4);
             text-align: left;
+            vertical-align: middle;
+            @media (max-width:1280px) {
+              font-size: 12px;
+            }
             .userNameImage{
               display: flex;
               align-items: center;
@@ -211,6 +236,7 @@
       display: flex;
       padding: 25px 0 0 25px ;
       flex-wrap: wrap;
+      transition: all 0.5s ease-in;
       .card{
         width: calc(25% - 25px);
         margin-right: 25px;
@@ -246,11 +272,16 @@
         }
         .cardActionBox{
           position: relative;
-          z-index: 2;
+          z-index: 3;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding:10px 20px;
           .checkboxUI{
-            text-align: left;
-            padding-left: 20px;
-            padding-top: 10px;
+            text-align: left;        
+            .form-check-input{
+              margin-top: 0;
+            }
           }
         }
         .card-img-overlay{
@@ -322,7 +353,343 @@
             }
           }
         }
+        .showDetail{
+          width: auto;
+          color: #fff;
+        }
+        .posterDetails{
+          background: #151515;
+          border-radius: 8px;
+          z-index: 2;
+          transform: translateY(21rem);
+          height: 100%;
+          position: absolute;
+          transition: all 0.5s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          h3{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 0.0666667px;
+            margin-bottom: 15px;
+          }
+          p{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0583333px;
+            color: #FFFFFF;
+          }
+          &.posterDetailShow{
+            transform: translateY(0);
+          }
+        }
+        &.verifyPhotoCard{
+          padding-bottom: 33.3% !important;
+          padding-top: 25px;
+          min-height: 384px;
+          min-height: 440px;
+          &::before{
+            display: none;
+          }
+          .cardActionBox{
+            padding-top: 0;
+            position: absolute;
+          }
+          .userProfileDetail{
+            margin: 0 auto;
+          }
+          .card-title{
+            font-style: normal;
+            font-family: 'Gilroy-Medium';
+            font-weight: unset;
+            font-size: 13.33px;
+            line-height: 17px;
+            letter-spacing: 0.4px;
+            color: #FFF;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            padding: 10px 0 14px;
+          }
+          .card-link{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0893246px;
+            text-transform: capitalize;
+            color: #FFF;
+            min-width: 86px;
+            margin-left: 0;
+            display: inline-block;
+          }
+          .btn{
+            height: 26px;
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0893246px;
+            text-transform: capitalize;
+            color: #FFF;
+            margin:14px 6px 0 0;
+            min-width: 100px;
+            padding: 3px 15px;
+            line-height: normal;
+            min-width: 86px;
+          }
+          .requestBtn{
+            border: 1px solid #FFF;
+            border-radius: 8px;
+            background: transparent;
+          }
+          .verifyBtn{    
+            background: #F24462;
+            border-radius: 8px;
+            border-color: #F24462;
+            margin-right: 0;
+          }
+          .card-footer{
+            font-style: normal;
+            font-family: 'Gilroy-Medium';
+            font-weight: unset;
+            font-size: 13.33px;
+            line-height: 17px;
+            letter-spacing: 0.4px;
+            color: #FFF;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #3C4752;
+            margin: 20px auto 0;
+            width: calc(100% - 50px);
+          }
+          .card-body{
+            padding: 0;
+            width: 175px;
+            margin: 0 auto;
+            .card-title,
+            .card-text{
+              background: #151515;
+              border-radius: 8px;
+              font-size: 12px;
+              height: 50px;
+            }
+            .card-text{
+              height: 175px;
+              padding: 15px;
+              font-style: normal;
+              font-family: 'Gilroy-Medium';
+              font-weight: unset;
+              font-size: 12px;
+              line-height: 17px;
+              letter-spacing: 0.4px;
+              color: #FFF;
+              margin-bottom: 12px;
+            }
+          }
+        }
       }
     }
 	}
+}
+
+.requestPopup{
+  background: #222326;
+  border: 1px solid #4D4D4D;
+  border-radius: 10px;
+  display: flex;
+    flex-direction: row-reverse;
+    height: 46px;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+  .toast-header{
+    background: #222326;
+    padding: 0;
+    margin-left: 0;
+    height: 20px;
+    align-self: center;
+    .btn-close{
+      color: #fff;
+      margin: 0;
+      background: url(../assets/images/CloseSquare.svg) no-repeat center;
+      margin-right: 8px;
+    }
+  }
+  .form-check{
+    display: flex;
+    align-items: center;
+    margin: 0;
+    margin-left: 0;
+    margin-right: auto;
+    
+    label{
+      margin-left: 5px;
+    }
+  }
+  .btn{
+    font-size: 14px;
+    margin-left: 10px;
+    padding: 3px 15px;
+  }
+  .requestBtn{
+    border: 1px solid #FFF;
+    border-radius: 8px;
+    background: transparent;
+  }
+  .verifyBtn{    
+    background: #F24462;
+    border-radius: 8px;
+    border-color: #F24462;
+    padding: 3px 25px;
+  }
+}
+
+// request Modal UI
+.requestModal{
+  .modal-dialog{
+    max-width: 335px;
+  }
+  .modal-content{
+    background: #1F2124;
+    border: 1px solid #3D3D3F;
+    border-radius: 15px;
+    .modal-header{
+      flex-direction: column;
+    justify-content: center;
+    padding-bottom: 0;
+    border: none;
+      .modal-title{
+        font-family: 'Helvetica-light';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 23px;
+        letter-spacing: 0.638033px;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+      p{
+        font-family: 'Helvetica';
+      }
+      .btn-close{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: url(../assets/images/CloseSquare.svg) no-repeat center;
+        background-size: 15px;
+      }
+    }
+    .list-group{
+      .list-group-item{
+        background: transparent;
+        color: #fff;
+        border: none;
+        .form-check{
+          display: flex;
+          align-items: center;
+          .form-check-input{
+            margin-top: 0;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .verifyBtn{    
+      background: #F24462;
+      border-radius: 8px;
+      border-color: #F24462;
+      padding: 13px 25px;
+      width: 100%;
+      font-family: 'Helvetica-light';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+  }
+  &.influencerModal{
+    .modal-dialog{
+      max-width: 482px;
+      @media (max-width:1440px) {
+        max-width: 428px;
+      }
+      .modal-content{
+        padding: 28.5px;
+        @media (max-width:1440px) {
+          padding: 18.5px;
+        }
+        .modal-header {
+          .modal-title{
+            font-family: 'Helvetica-Bold';
+            font-style: normal;
+            font-size: 32px;
+            line-height: 37px;
+            text-align: center;
+            letter-spacing: 0.125px;
+            color: #FFF;
+            mix-blend-mode: normal;
+            opacity: 0.9;
+            text-transform: capitalize;
+            margin-bottom: 25px;
+            @media (max-width:1440px) {
+              font-size: 28px;
+            }
+          }
+        }
+        .modal-body{
+          padding: 0;
+          .form-label{
+            font-family: 'Helvetica-Light';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 18px;
+            letter-spacing: 0.6px;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            @media (max-width:1440px) {
+              font-size: 14px;
+            }
+          }
+          .form-control{
+            background: #151515;
+            border-radius: 6px;
+            min-height: 50px;
+            border: none;
+            color: #fff;
+            font-family: 'Helvetica-Light';
+          }
+          .InfluencerSubmitBtn{
+            background: #F24462;
+            border-radius: 8px;
+            height: 50px;
+            width: 100%;
+            border-color: #F24462;
+            margin-top: 25px;
+            @media (max-width:1440px) {
+              margin-top: 15px;
+            }
+            &:focus{
+              box-shadow: none;
+            }
+          }
+        }
+      }
+    }
+  }
 }

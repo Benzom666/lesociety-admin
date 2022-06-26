@@ -2,12 +2,235 @@
 /*------------------inner page--------------------------*/
 
 .inner-page{
-    margin-left: auto;
-    margin-right: 0;
-    width: calc(100% - 204px);
-    padding: 0 60px;
-	height: 100vh;
-    overflow: auto;
+  margin-left: auto;
+  margin-right: 0;
+  width: calc(100% - 204px);
+  padding: 0 60px 60px;
+  height: 100vh;
+  overflow: auto;
+  @media (max-width:1440px) {
+    padding: 0 30px 30px;
+  }
+  .pageHeaderBox{
+    padding: 40px 0;
+    .pageTitle{
+      font-family: 'Gilroy-Bold';
+      font-style: normal;
+      font-size: 30px;
+      line-height: 36px;
+      display: flex;
+      align-items: center;
+      color: #CACACA;
+    }
+    .profileDropDown{
+      display: flex;
+      align-items: center;
+      .dropdown-toggle{
+        font-family: 'Gilroy-Medium';
+        font-size: 20px;
+        line-height: 23px;
+        display: flex;
+        align-items: center;
+        padding: 0 15px 0 0;
+        background: transparent;
+        border: none;
+        display: flex;
+        flex-direction: row-reverse;
+        &::after{
+          margin-right: 10px
+        }
+        &:focus{
+          box-shadow: none;
+        }
+        @media (max-width:1280px) {
+          font-size: 16px;
+        }
+      }
+      img{
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
+        border: 1px solid #EBEBEB;
+        border-radius: 35px;
+      }
+    }
+  }
+  &.userProfile-page{
+    background: #000;
+    position: relative;
+    &::before{
+      content: '';
+      background: #2E2F34;
+      width: 100%;
+      height: 255px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    & > div{
+      z-index: 1;
+      position: relative;
+    }
+    .userProfileDetail{
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 30px;
+      .userProfileName{
+        background: transparent;
+        color: #fff;
+        border: none;
+        text-align: left;
+        padding-left: 22px;
+        .card-title{
+          font-family: 'Mulish';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 26px;
+          line-height: 33px;
+          letter-spacing: 0.638033px;
+          color: #FFF;
+          margin-bottom: 6px;
+        }
+        .card-subtitle{
+          font-family: 'Mulish';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 20px;        
+          letter-spacing: 0.638033px;        
+          color: #B2B2B3;
+        }
+      }
+      .userProfilebtn{
+        margin-left: auto;
+        margin-right: 0;
+        display: flex;
+        margin-bottom: 1rem;
+        .btn{
+          height: 42px;
+          font-family: 'Helvetica';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: 0.0893246px;
+          text-transform: capitalize;
+          color: #FFF;
+          margin-right: 16px;
+          min-width: 100px;
+        }
+        .requestBtn{
+          border: 1px solid #FFF;
+          border-radius: 8px;
+          background: transparent;
+        }
+        .verifyBtn{    
+          background: #F24462;
+          border-radius: 8px;
+          border-color: #F24462;
+          padding: 3px 25px;
+        }
+        .dropdown{
+          .dropdown-toggle{
+            @include dotDropdown;
+            min-width: auto;
+            svg{
+              transform: rotate(90deg);
+            }
+          }
+        }
+      }
+    }    
+    .profileCardBox{
+      @include CardBg;
+      .card-body{
+        padding: 0;
+        text-align: left;
+        .card-title{
+          font-family: 'Helvetica';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 25px;
+          line-height: 29px;
+          letter-spacing: 0.106339px;          
+          color: rgba(255, 255, 255, 0.39);
+          margin-bottom: 1rem;
+        }
+        .card-text{
+          font-family: 'Helvetica-Light';
+          font-size: 14px;
+          line-height: 17px;
+          letter-spacing: 0.5px;
+          color: #FFF;
+        }
+      }
+      .userPersonalDetail{
+        justify-content: space-between;
+        .list-group-item{
+          @include MinCardBg;
+          flex: 1;          
+          margin-right: 10px;
+          @media (max-width:1440px) {
+            flex: auto;
+          }
+          &:last-child{
+            margin: 0;
+          }
+          h6{
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14.0098px;
+            line-height: 16px;
+            text-align: center;
+            letter-spacing: 0.0583743px;
+            color: #FFF;
+            margin-bottom: 5px;
+          }
+          p{
+            font-family: "Helvetica-Bold";
+            font-style: normal;
+            font-size: 9.80689px;
+            line-height: 11px;
+            text-align: center;
+            letter-spacing: 0.040862px;
+            color: #4F4E54;
+          }
+        }
+      }
+      .userOfficalDetails{
+        display: flex;
+        justify-content: space-between;
+        .list-group-item{
+          background: transparent;
+          padding:25px 0;
+          border-color: rgba(60, 71, 82, 0.4);
+          
+          h6{
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Helvetica';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            letter-spacing: 0.0583743px;
+            color: #FFF;
+            span{
+              color: #B2B2B3;
+            }
+            a{
+              color: #F24462;
+            }
+          }
+          &:last-child{
+            border: none;
+          }
+        }
+      }
+    }
+  }
 }
 .card{
 	&.gridCard{
@@ -31,19 +254,7 @@
 				color: #CACACA;
 			}
 			.dropdown-toggle{
-				background: transparent;
-				border: none;
-				padding: 0;
-				font-size: 26px;
-				line-height: normal;
-				&::after{
-					display: none;
-				}
-				&:focus, &:focus-visible{
-					outline: none;
-					box-shadow: none;
-					border: none;
-				}
+        @include dotDropdown;
 			}
 			.graphFilter{
 				.dropdown-toggle{
@@ -140,4 +351,22 @@
 			}
 		}
 	}
+}
+.userProfileImage{
+  width: 175px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 10px;
+    &:first-child{ 
+      width: 100%;
+      height: 100%;
+      max-height: 175px;
+      margin-bottom: 12px;
+    }
+  }
 }
