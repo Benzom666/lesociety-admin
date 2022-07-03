@@ -10,10 +10,9 @@ import Allinfluencers from "../pages/pageContainer/influencers";
 import PostList from "../pages/pageContainer/post.js";
 import PublicAuth from "./publicAuth";
 import VerifyPhoto from "../pages/pageContainer/verifyPhoto.js";
-import UserProfile from "../pages/pageContainer/userProfile"
+import UserProfile from "../pages/pageContainer/userProfile";
 
 function Router() {
-  
   return (
     <BrowserRouter>
       <Routes>
@@ -21,20 +20,20 @@ function Router() {
           path={"/"}
           element={
             // <PublicAuth>
-              <Login />
-          //  </PublicAuth>
+            <Login />
+            //  </PublicAuth>
           }
         />
         <Route
           path={"/dashboard"}
           element={
             // <RequireAuth>
-              <Dashboard />
+            <Dashboard />
             // </RequireAuth>
           }
         />
         <Route
-          path={"/profile"}
+          path={"/profile/:username"}
           element={
             <RequireAuth>
               <UserProfile />
@@ -49,14 +48,6 @@ function Router() {
             </RequireAuth>
           }
         />
-         {/* <Route
-          path={"/userList"}
-          element={
-            <RequireAuth>
-              <UserList />
-            </RequireAuth>
-          }
-        />  */}
         <Route
           path={"/reset-Password"}
           element={
@@ -85,13 +76,11 @@ function Router() {
         <Route path={"/post"} element={<PostList />} />
         <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path={"/forgot-password"} element={<ForgotPassword />} />
-        
-        <Route path={"/"} element={<Login/>} />
-        <Route path={"/dashboard"} element={<Dashboard/>} />
-        {/* <Route path={"/userList"} element={<UserList/>} />*/}
-        <Route path={"/all-influencers"} element={<Allinfluencers/>} /> 
-        <Route path={"/post"} element={<PostList/>} />
-        <Route path={"/reset-Password"} element={<ResetPassword/>} />
+        <Route path={"/"} element={<Login />} />
+        <Route path={"/dashboard"} element={<Dashboard />} />
+        <Route path={"/all-influencers"} element={<Allinfluencers />} />
+        <Route path={"/post"} element={<PostList />} />
+        <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path="*" element={<>Not found</>} />
       </Routes>
     </BrowserRouter>

@@ -1,35 +1,65 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from "../sideBar/sidebar.js";
 import { Card, Dropdown, Button, Row, Col, ListGroup} from "react-bootstrap";
 import PageHeader from '../pageContainer/header'
 import ProfileImages from './profileImage'
+import { useDispatch, useSelector } from "react-redux";
 import { TbDots } from "react-icons/tb";
-
+import { useParams } from 'react-router-dom';
+import {  getUserProfile, getDefaultMsgList, postVerfiyUser, postUpdateUserStatus, postSendDefaulMsg } from './action.js';
+import { DefaultMsg } from "./DefaultMsg";
+import moment from 'moment';
+ 
 const PageContainer = props => {
-  return (
+  const dispatch = useDispatch();
+  const { username } = useParams();
+  const { userProfileData,defaultMsg } = useSelector(
+    (state) => state.userListReducer
+  );
+  const [show, setShow] = useState(false);
+  const [msg, setMsg] = useState();
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  useEffect(() => {
+    dispatch(
+      getUserProfile(username)
+    )
+    dispatch(getDefaultMsgList("taglineAndDesc"))
+  },[]) 
+  const msgSubmit = () => {
+    dispatch(
+      postSendDefaulMsg()
+    )
+  }
+  return (  
     <div className="inner-page userProfile-page">
       <PageHeader/>
-        <div className='dashboardUi'>
+        <div className='dashboardUi'> 
             <SideBar />
             <div className='userProfileDetail'>
-              <ProfileImages/>
+              <ProfileImages img={!!userProfileData && userProfileData?.images}/>
               <Card body className="userProfileName">
-                <Card.Title>Ryan Johnston</Card.Title>
-                <Card.Subtitle className="mb-2 ">Let’s keep it simple!</Card.Subtitle>               
+                <Card.Title>{userProfileData?.user_name}</Card.Title>
+                <Card.Subtitle className="mb-2 ">{userProfileData?.tagline}</Card.Subtitle>               
               </Card>
               <div className='userProfilebtn'>
-                <Button className="requestBtn">Request</Button>
-                <Button className="verifyBtn">Verify</Button>
+                <Button className="requestBtn" onClick={handleShow}>Request</Button>
+                <Button className="verifyBtn" 
+                onClick={() => dispatch(postUpdateUserStatus(2, userProfileData?.email))}
+                >Verify</Button>
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                   <TbDots/>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Item href="#/action-1" onClick={() => {
+                    dispatch(postUpdateUserStatus(2, userProfileData.email))}}>Verify</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2" onClick={handleShow}>Request a Change</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" onClick={() => {
+                      dispatch(postUpdateUserStatus(3, userProfileData.email))
+                    }}>Block</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
@@ -37,47 +67,46 @@ const PageContainer = props => {
             <Row>
               <Col  md="9" sm="8" className='pl-0' >
                 <Card body  className="profileCardBox">
-                  <Card.Title> More about Ryan</Card.Title>
+                  <Card.Title> More about {userProfileData?.user_name}</Card.Title>
                   <Card.Text>
-                    Business owner and part-time student looking for someone to enjoy my free time with. Love to travel and I’m always down to try something new.
-                    Travel lover, enjoy exploring new people and new things. I have visited more than 50 countires, would like to meet an interesting girl to travel together  
+                  {userProfileData?.description}
                   </Card.Text>   
                 </Card>
 
                 <div className="profileCardBox">
                   <ListGroup horizontal className='userPersonalDetail'>
                     <ListGroup.Item>
-                      <h6>Curvy</h6>
+                      <h6>{userProfileData?.body_type}</h6>
                       <p> Body Type </p>
                     </ListGroup.Item>
                     
                     <ListGroup.Item>
-                      <h6>University</h6>
+                      <h6>{userProfileData?.max_education}</h6>
                       <p> Education Completed </p>
                     </ListGroup.Item>
                     
                     <ListGroup.Item>
-                      <h6> 5’7 </h6>
+                      <h6> {userProfileData?.height} </h6>
                       <p> Height </p>
                     </ListGroup.Item>
                     
                     <ListGroup.Item>
-                      <h6> Mixed </h6>
+                      <h6> {userProfileData?.ethnicity} </h6>
                       <p> Ethnicity </p>
                     </ListGroup.Item>
 
                     <ListGroup.Item>
-                      <h6> Mixed </h6>
+                      <h6> {userProfileData?.ethnicity} </h6>
                       <p> Ethnicity </p>
                     </ListGroup.Item>
                     
                     <ListGroup.Item>
-                      <h6> Finance </h6>
+                      <h6> {userProfileData?.occupation} </h6>
                       <p> Occupation </p>
                     </ListGroup.Item>
 
                     <ListGroup.Item>
-                      <h6> No </h6>
+                      <h6> {userProfileData?.is_smoker} </h6>
                       <p> Smoker </p>
                     </ListGroup.Item>
 
@@ -89,26 +118,26 @@ const PageContainer = props => {
                   <ListGroup variant="flush" className='userOfficalDetails'>
                       <ListGroup.Item>
                         <h6>
-                          Birthday
-                          <span> 10/12/86 </span>
+                          Age
+                          <span> {userProfileData?.age} </span>
                         </h6>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <h6>
                         Joined
-                          <span> 22/07/21 </span>
+                          <span> { moment(userProfileData?.created_at).format("DD.MM.YYYY")} </span>
                         </h6>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <h6>
                         Location
-                          <span> Toronto </span>
+                          <span> {userProfileData?.location} </span>
                         </h6>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <h6>
                         Email
-                          <a> Trey86@gmail.com </a>
+                          <a> {userProfileData?.email} </a>
                         </h6>
                       </ListGroup.Item>
                     </ListGroup>
@@ -116,6 +145,7 @@ const PageContainer = props => {
               </Col>
             </Row>
         </div>
+        <DefaultMsg defaultMsg={defaultMsg} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
     </div>
   )
 }

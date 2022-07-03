@@ -12,11 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import Utils from "../../utility";
-import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus } from "./action";
+import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus, influencerUpdateStatus } from "./action";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { DefaultMsg } from "./DefaultMsg";
 
-const UserTableData = (props) => {
+const InfluencersList = (props) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
@@ -26,7 +26,7 @@ const UserTableData = (props) => {
 
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
-  const { userlist, pagination, tab, search, per_page, defaultMsg, rowSelected} = useSelector(
+  const { influencerList, pagination, tab, search, per_page, defaultMsg, rowSelected} = useSelector(
     (state) => state.userListReducer
   );
   useEffect(() => {
@@ -40,36 +40,16 @@ const UserTableData = (props) => {
       postSendDefaulMsg()
     )
   }
-  const products = userlist?.map((item) => {
+  const products = !!influencerList && influencerList?.map((item, index) => {
     return {
-      id: item?._id,
-      name: (
-        <div className="userNameImage">
-          <Link to={"/profile/" + item.user_name}
-           onClick={(e) => {
-            dispatch(getUserProfile(item.user_name));
-          }}
-          >
-          <img src={item.images[0]} alt="RyanUser" border="0" />{" "}
-          {item.user_name}{" "}
-          </Link>
-        </div>
-      ),
-      gender: item?.gender,
-      registerDate: moment(item?.created_at).format("DD.MM.YYYY"),
-      emailId: item?.email,
-      emailStatus: item?.email_verified == true ? <p className="greenTxt">Verified </p> : <p className="redTxt">Pending</p>,
-      statusId: (
-        <span className="greenTxt">
-          {item.status == 1
-            ? "pending"
-            : item.status == 2
-            ? "Verified"
-            : item.status == 3
-            ? "Block"
-            : ""}
-        </span>
-      ),
+      id: index,
+      name: item?.name,
+      source: item?.source,
+      email: item?.email,
+      promo: item?.promo + "%",
+      code: item?.code,
+      count: item?.count,
+      status: item?.status === 1 ? "Inactive" : "Active" ,
       DropDown: (
         
         <DropdownButton
@@ -98,13 +78,11 @@ const UserTableData = (props) => {
           }}
         >
           <Dropdown.Item eventKey="1" onClick={() => {
-             dispatch(postUpdateUserStatus(2, item.email))
-             dispatch(getUserList())
-          }}>Verify</Dropdown.Item>
-          <Dropdown.Item eventKey="req" onClick={handleShow}>Request a Change</Dropdown.Item>
-          <Dropdown.Item eventKey="3" onClick={() => {
-            dispatch(postUpdateUserStatus(3, item.email))
-          }}>Block</Dropdown.Item>
+             dispatch(influencerUpdateStatus(1, item?.email))
+          }}>Active</Dropdown.Item>
+          <Dropdown.Item eventKey="req" onClick={() => {
+             dispatch(influencerUpdateStatus(2, item?.email))
+          }}>Inactive</Dropdown.Item>
         </DropdownButton>
       ),
     };
@@ -117,30 +95,35 @@ const UserTableData = (props) => {
       sort: true,
     },
     {
-      dataField: "gender",
-      text: "Gender",
+      dataField: "source",
+      text: "Source",
       sort: true,
     },
     {
-      dataField: "registerDate",
-      text: "Registered Date",
-      sort: true,
-    },
-   {
-      dataField: "emailId",
+      dataField: "email",
       text: "Email",
       sort: true,
     },
+   {
+      dataField: "promo",
+      text: "Promo %",
+      sort: true,
+    },
     {
-      dataField: "emailStatus",
-      text: "Email Status",
+      dataField: "code",
+      text: "Code",
       sort: true,
     }, 
     {
-      dataField: "statusId",
-      text: "Status",
+      dataField: "count",
+      text: "Count",
       sort: true,
     },
+    {
+        dataField: "status",
+        text: "Status",
+        sort: true,
+      },
     {
       dataField: "DropDown",
       text: "",
@@ -267,7 +250,7 @@ const UserTableData = (props) => {
         selectRow={selectRow}
         // pagination={paginations}
       />
-      <Toast show={showA} onClose={toggleShowA} className="requestPopup">
+      {/* <Toast show={showA} onClose={toggleShowA} className="requestPopup">
         <Toast.Header></Toast.Header>
         <Toast.Body className="d-flex align-items-center w-100">
           <Form.Check type="checkbox" label="people" checked />
@@ -277,9 +260,9 @@ const UserTableData = (props) => {
           <Button className="verifyBtn" >verify</Button>
         </Toast.Body>
       </Toast>
-      <DefaultMsg defaultMsg={defaultMsg} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
+      <DefaultMsg defaultMsg={defaultMsg} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/> */}
     </>
   );
 };
 
-export default UserTableData;
+export default InfluencersList;
