@@ -24,9 +24,9 @@ export const DefaultMsg = (props) => {
           <Modal.Title> Request Task</Modal.Title>
           <p> Select an Option </p>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body> 
           <ListGroup>
-            {!!defaultMsg && defaultMsg[0]?.taglineAndDesc.map((value) => {
+            {!!defaultMsg && defaultMsg.map((value) => {
               return(
                 <ListGroup.Item>
               <Form.Check type="radio" id="radio1" value={msg} onChange={(e) => setMsg(e.currentTarget.value)} label={value} />

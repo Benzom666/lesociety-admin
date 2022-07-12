@@ -15,6 +15,11 @@ const endPoint = {
   userVerify: "user/verify-taglinedescription",
   updateUserStatus: "user/update-status",
   influencerUpdateStatus: "influencer/update-status",
-  influencerCreate: "influencer"
+  influencerCreate: "influencer",
+  influencerEmail: "influencer/exists",
+  getAllDate: "date",
+  getRegisterDashboard: "dashboard/registration",
+  getCountry: "country",
+  postCountry: "country"
 };
 export default endPoint;

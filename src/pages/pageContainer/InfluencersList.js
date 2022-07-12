@@ -31,15 +31,7 @@ const InfluencersList = (props) => {
   );
   useEffect(() => {
     document.getElementById("search").focus();
-    dispatch(
-      getDefaultMsgList("taglineAndDesc")
-    )
   }, []);
-  const msgSubmit = () => {
-    dispatch(
-      postSendDefaulMsg()
-    )
-  }
   const products = !!influencerList && influencerList?.map((item, index) => {
     return {
       id: index,
@@ -49,7 +41,7 @@ const InfluencersList = (props) => {
       promo: item?.promo + "%",
       code: item?.code,
       count: item?.count,
-      status: item?.status === 1 ? "Inactive" : "Active" ,
+      status: item?.status === 2 ? "Active" : "Inactive" ,
       DropDown: (
         
         <DropdownButton
@@ -78,10 +70,10 @@ const InfluencersList = (props) => {
           }}
         >
           <Dropdown.Item eventKey="1" onClick={() => {
-             dispatch(influencerUpdateStatus(1, item?.email))
+             dispatch(influencerUpdateStatus(2, item?.email, true))
           }}>Active</Dropdown.Item>
           <Dropdown.Item eventKey="req" onClick={() => {
-             dispatch(influencerUpdateStatus(2, item?.email))
+             dispatch(influencerUpdateStatus(3, item?.email, false))
           }}>Inactive</Dropdown.Item>
         </DropdownButton>
       ),

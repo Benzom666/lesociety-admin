@@ -79,7 +79,6 @@ function Router() {
         <Route path={"/"} element={<Login />} />
         <Route path={"/dashboard"} element={<Dashboard />} />
         <Route path={"/all-influencers"} element={<Allinfluencers />} />
-        <Route path={"/post"} element={<PostList />} />
         <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path="*" element={<>Not found</>} />
       </Routes>

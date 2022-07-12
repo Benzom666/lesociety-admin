@@ -1,46 +1,43 @@
 
-import React from 'react';
-// import withAuth from "../../core/withAuth";
-// import UpArrowIcon from '../../assets/img/upArrow.svg'
+import React, { useEffect } from 'react';
 import { Card, Dropdown, Col, Row, ProgressBar } from "react-bootstrap";
 import PageHeader from '../pageContainer/header'
 import { TbDots } from "react-icons/tb";
+import { Line } from "react-chartjs-2";
+import { useDispatch, useSelector } from "react-redux";
 import Chart from 'chart.js/auto';
-
-// import './innerPageUi.scss';
+import {CategoryScale} from 'chart.js'; 
+import { getCountry, getRegDashboard } from './action';
+Chart.register(CategoryScale);
 
 const PageContainer = props => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRegDashboard())
+    dispatch(getCountry())
+  }, [])
+  const data = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [
+      {
+        label: "Women",
+        data: [33, 53, 85, 41, 44, 65],
+        fill: true,
+        redraw :true,
+        // backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
+      },
+      {
+        label: "Men",
+        data: [33, 25, 35, 51, 54, 76],
+        fill: false,
+        redraw :true,
+        borderColor: "#742774"
+      }
+    ]
+  };
 
-  // const labels = [
-  //   'January',
-  //   'February',
-  //   'March',
-  //   'April',
-  //   'May',
-  //   'June',
-  // ];
-
-  // const data = {
-  //   labels: labels,
-  //   datasets: [{
-  //     label: 'My First dataset',
-  //     backgroundColor: 'rgb(255, 99, 132)',
-  //     borderColor: 'rgb(255, 99, 132)',
-  //     data: [0, 10, 5, 2, 20, 30, 45],
-  //   }]
-  // };
-
-  // const config = {
-  //   type: 'line',
-  //   data: data,
-  //   options: {}
-  // };
-
-  // const myChart = new Chart(
-  //   document.getElementById('myChart'),
-  //   config
-  // );
-
+  
   return (
     <div className="inner-page">
       <PageHeader/>
@@ -150,8 +147,10 @@ const PageContainer = props => {
                   </Dropdown.Menu>
                 </Dropdown>
               </Card.Header>       
-              <Card.Body>   
-                <canvas id="myChart"></canvas>
+              <Card.Body>
+                {/* chart */}
+                <Line data={data} />
+                {/* chart end */}
               </Card.Body>
             </Card>
           </Col>

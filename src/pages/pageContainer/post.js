@@ -1,65 +1,122 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from "react";
 import SideBar from "../sideBar/sidebar.js";
-import { Nav, Tab, Badge ,Form, InputGroup, DropdownButton, Dropdown, Card  } from 'react-bootstrap';
-import LocationIcon from "../../assets/images/location.svg"
-import AdventureIcon from "../../assets/images/Adventure.svg"
-import GetReadyIcon from "../../assets/images/getReady.svg"
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Nav,
+  Tab,
+  Badge,
+  Form,
+  InputGroup,
+  DropdownButton,
+  Dropdown,
+  Card,
+  Toast,
+  Button
+} from "react-bootstrap";
+import LocationIcon from "../../assets/images/location.svg";
+import GetReadyIcon from "../../assets/images/getReady.svg";
 import { MdOutlineRotate90DegreesCcw } from "react-icons/md";
-import PageHeader from '../pageContainer/header'
+import PageHeader from "../pageContainer/header";
+import {
+  getDefaultMsgList,
+  postSendDefaulMsg,
+  getAllDates,
+} from "./action.js";
+import { DefaultMsg } from "./DefaultMsg";
 
-function PostList(props){
-  // const { width } = useWindowSize();
-    // const UserPostList = props.Card;
-
-    const [isActive, setIsActive] = useState("false");
-    const handleToggle = () => {
-      setIsActive(current => !current);  };
-       
-    
-    const numbers = [1, 2, 3, 4, 5];
-    const UserPostList = numbers.map((number) =>
-      
-         <Card className="bg-dark text-white">
-            <Card.Img src="https://i.ibb.co/84y2bZv/Bitmap-3.png" alt="Card image" />
-            <div className='cardActionBox' >
-              <Form.Check 
-                className='checkboxUI'
-                type="checkbox"
-              />
-            <Card.Link className='showDetail'  onClick={handleToggle}  >
-              <MdOutlineRotate90DegreesCcw />
-            </Card.Link>
-            </div>
-            <Card.ImgOverlay>
-              <Card.Title>Anna, <span> 21 </span></Card.Title>
-              <div className='mb-3 mt-3 d-flex justify-content-between align-items-end'>
-                <Card.Subtitle >
-                  <img src={LocationIcon} />
-                  Toronto, ON</Card.Subtitle>
-                <Card.Text>
-                    $80 / <span> 2hr </span>
-                </Card.Text>
-              </div> 
-              <Card.Link href="#"> <img src={GetReadyIcon}/> Get sporty</Card.Link>
-              <Card.Link href="#"> <img src={AdventureIcon}/>  Adventure</Card.Link>
-            </Card.ImgOverlay>
-            <Card.Body className={`posterDetails ${isActive ? 'posterDetailShow' : ''}`} >
-              <h3> Date Details </h3>
-              <p> Let’s do something fun, I’m not picky so be adventurous. Must be day time activity only. I am usually starting my shift at 5 so we have to be done by 3 pm latest. Ciao! </p>
-            </Card.Body>
-          </Card>  
-    );
+function PostList(props) {
+  const dispatch = useDispatch();
+  const { datesList, defaultMsg } = useSelector(
+    (state) => state.userListReducer
+  );
+  const [show, setShow] = useState(false);
+  const [msg, setMsg] = useState();
+  const [emailSelected, setEmailSelected] = useState([])
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [selectedUser, setSelectedUser ] = useState(false);
+  const [showA, setShowA] = useState(true);
+  const toggleShowA = () => setShowA(!showA);
+  const [isActive, setIsActive] = useState(false);
+  const [saveId, setSaveId] = useState()
+  // const handleToggle = () => {
+  //   setIsActive(!isActive);
+  // };
+  useEffect(() => {
+    dispatch(getDefaultMsgList("postMessage"));
+    dispatch(getAllDates());
+  }, []);
+  const msgSubmit = () => {
+    dispatch(postSendDefaulMsg());
+  };
+  const UserPostList = datesList.map((value) => (
+    <Card className="bg-dark text-white">
+      {value?.user_data.map((userDetail) => (
+        <Card.Img src={userDetail?.images[0]} alt="Card image" />
+      ))}
+      <div className="cardActionBox">
+        <Form.Check className="checkboxUI" type="checkbox" 
+         value = {selectedUser}
+         onChange={(e) => {
+          setSelectedUser(e.target.checked)
+          value?.user_data.map((userDetail) => 
+          {if(e.target.checked === true){
+           setEmailSelected(userDetail?.email)
+          }}
+          )
+         }
+          } checked={selectedUser}  />
+        <Card.Link className="showDetail" onClick={(e) => {
+          setIsActive(!isActive)
+          setSaveId(value?._id)
+        }}>
+          <MdOutlineRotate90DegreesCcw />
+        </Card.Link>
+      </div>
+      <Card.ImgOverlay>
+        <Card.Title>
+          {value?.user_name},{" "}
+          <span> {value?.user_data.map((userDetail) => userDetail?.age)} </span>
+        </Card.Title>
+        <div className="mb-3 mt-3 d-flex justify-content-between align-items-end">
+          <Card.Subtitle>
+            <img src={LocationIcon} />
+            {value?.location}, {value?.province}
+          </Card.Subtitle>
+          <Card.Text>
+            ${value?.price} / <span> {value?.date_length} </span>
+          </Card.Text>
+        </div>
+        <Card.Link href="#">
+          {" "}
+          <img src={GetReadyIcon} />{" "}
+          {value?.middle_class_dates ||
+            value?.standard_class_date ||
+            value?.executive_class_dates}
+        </Card.Link>
+      </Card.ImgOverlay>
+      {
+      saveId === value?._id &&
+      <Card.Body
+        className={`posterDetails ${isActive ? "posterDetailShow" : ""}`}
+      >
+        <h3> {value?.middle_class_dates} </h3>
+        <p>{value?.date_details}</p>
+      </Card.Body>
+      }
+    </Card>
+  ));
 
   return (
     <div className="dashboardUi">
-      <SideBar/>
+      <SideBar />
       <div className="inner-page userListUI">
-      <PageHeader/>
-        <Tab.Container defaultActiveKey="link-1" >
-          <Nav variant="tabs" >
+        <PageHeader />
+        <Tab.Container defaultActiveKey="link-1">
+          <Nav variant="tabs">
             <Nav.Item>
               <Nav.Link eventKey="link-1">
-                Total Users 
+                Total Users
                 <Badge pill bg="secondary">
                   3,876
                 </Badge>
@@ -67,7 +124,7 @@ function PostList(props){
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="link-2">
-              New 
+                New
                 <Badge pill bg="secondary">
                   3,876
                 </Badge>
@@ -75,7 +132,7 @@ function PostList(props){
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="link-3">
-              Deactivated 
+                Deactivated
                 <Badge pill bg="secondary">
                   3,876
                 </Badge>
@@ -85,7 +142,7 @@ function PostList(props){
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
               <InputGroup className="">
-                <Form.Control type="text" placeholder='Search'/>
+                <Form.Control type="text" placeholder="Search" />
 
                 <DropdownButton
                   variant="outline-secondary"
@@ -100,22 +157,35 @@ function PostList(props){
                   <Dropdown.Item href="#">Separated link</Dropdown.Item>
                 </DropdownButton>
               </InputGroup>
-              <div className='userPostListBox'>               
-                {UserPostList}
-              </div>
-
+              <div className="userPostListBox">{UserPostList}</div>
             </Tab.Pane>
-            <Tab.Pane eventKey="link-2">
-                {/* <UserTableContent/> */}
-            </Tab.Pane>
-            <Tab.Pane eventKey="link-3">
-                {/* <UserTableContent/> */}
-            </Tab.Pane>
+            <Tab.Pane eventKey="link-2">{/* <UserTableContent/> */}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{/* <UserTableContent/> */}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
+        {selectedUser &&
+        <Toast show={showA} onClose={toggleShowA} className="requestPopup">
+          <Toast.Header></Toast.Header>
+          <Toast.Body className="d-flex align-items-center w-100">
+            <Form.Check type="checkbox" label="people" />
+            <Button className="requestBtn" onClick={handleShow}>
+              Request
+            </Button>
+            <Button className="verifyBtn">verify</Button>
+          </Toast.Body>
+        </Toast>
+        }
       </div>
+      <DefaultMsg
+        defaultMsg={defaultMsg[0]?.postMessage}
+        show={show}
+        msg={msg}
+        setMsg={setMsg}
+        msgSubmit={msgSubmit}
+        handleClose={handleClose}
+      />
     </div>
-  )
+  );
 }
 
 export default PostList;

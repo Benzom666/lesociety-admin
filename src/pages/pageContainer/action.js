@@ -106,15 +106,37 @@ export const getAllRequest = (username) => {
 };
 
 // get influencer
-export const getInfluencer = (status) => {
+export const getInfluencer = (status, active) => {
   return (dispatch, getState) => {
+    const { per_page, current_page = 1, search } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getInfluencer, `` ,
+      Utils.endPoints.getInfluencer,`?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${current_page}&active=${active ? active : ''}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER,
           payload: {
             influencerList: respData?.data?.data?.influencer,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// get influencer email exists
+export const getInfluencerEmailExists = (email) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.influencerEmail,`?email=${email}`,
+      (respData) => {
+        console.log("respData email=>", respData)
+        dispatch({
+          type: Utils.ActionName.GET_INFLUENCER,
+          payload: {
+            // influencerList: respData?.data?.data?.influencer,
           },
         });
       },
@@ -187,10 +209,10 @@ export const influencerCreate = (email, name, source, code, promo) => {
   };
 };
 // influencer update status
-export const influencerUpdateStatus = (status, email) => {
+export const influencerUpdateStatus = (status, email, active) => {
   return (dispatch) => {
     const dataToSend = {
-      status, email
+      status, email, active
     };
     Utils.api.putApiCall(
       Utils.endPoints.influencerUpdateStatus,
@@ -331,6 +353,87 @@ export const getPendingUser = () => {
         // setSubmitting(true);
       },
       { email: "", location: "", status: 0, assetOnly: true, per_page }
+    );
+  };
+};
+// get influencer
+export const getAllDates = (status, active) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getAllDate,``,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_ALL_DATES,
+          payload: {
+            datesList: respData?.data?.data?.dates,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// get register dashboard
+export const getRegDashboard = (status, active) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=2022-07-01`,
+      (respData) => {
+        console.log("respData==>LL", respData)
+        dispatch({
+          type: Utils.ActionName.GET_ALL_DATES,
+          payload: {
+            // datesList: respData?.data?.data?.dates,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// get country
+export const getCountry = (status, active) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getCountry,``,
+      (respData) => {
+        console.log("respData==>LLsss", respData)
+        dispatch({
+          type: Utils.ActionName.GET_ALL_DATES,
+          payload: {
+            // datesList: respData?.data?.data?.dates,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// create country
+export const createCountry = () => {
+  return (dispatch) => {
+    const dataToSend = {
+      // email, name, source, code, promo
+    };
+    Utils.api.postApiCall(
+      Utils.endPoints.postCountry,
+      dataToSend,
+      (respData) => {
+        Utils.showAlert(1, "Influence created successfully!");
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
     );
   };
 };

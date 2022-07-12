@@ -1,0 +1,2 @@
+GET https://staging-api.secrettime.com/api/v1/date?location=Delhi&per_page=5&user_name=user1 HTTP/1.1
+

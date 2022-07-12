@@ -153,6 +153,7 @@ const UserTableData = (props) => {
       order: "desc",
     },
   ];
+  
   const selectRow1 = (row, isSelect) => {
     var emails = rowSelected;
 
@@ -277,7 +278,7 @@ const UserTableData = (props) => {
           <Button className="verifyBtn" >verify</Button>
         </Toast.Body>
       </Toast>
-      <DefaultMsg defaultMsg={defaultMsg} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
+      <DefaultMsg defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
     </>
   );
 };

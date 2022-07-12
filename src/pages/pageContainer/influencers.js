@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../sideBar/sidebar.js";
-import { getInfluencer, getInfluencerStats, influencerCreate} from "./action";
+import { getInfluencer, getInfluencerEmailExists, getInfluencerStats, influencerCreate} from "./action";
 import {
   Nav,
   Tab,
@@ -67,7 +67,7 @@ function UserList() {
                 type: Utils.ActionName.USER_LIST,
                 payload: { tab: 1, search: "", per_page: 10, userlist: [] },
               });
-              dispatch(getInfluencer(1));
+              dispatch(getInfluencer(2, true));
             }}>
               <Nav.Link eventKey="link-2">
                 Active
@@ -82,7 +82,7 @@ function UserList() {
                 type: Utils.ActionName.USER_LIST,
                 payload: { tab: 1, search: "", per_page: 10, userlist: [] },
               });
-              dispatch(getInfluencer(2));
+              dispatch(getInfluencer(3, false));
             }}>
               <Nav.Link eventKey="link-3">
                 Inactive
@@ -127,7 +127,16 @@ function UserList() {
             {/* <Form> */}
               <Form.Group className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" />
+                <Form.Control type="email" value={email} 
+                onChange={
+                  (e) => {
+                  setEmail(e.target.value)
+                  dispatch(
+                    getInfluencerEmailExists(email)
+                  )
+                  }
+                }
+                 placeholder="Enter Email" />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formGridAddress1">

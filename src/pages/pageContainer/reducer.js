@@ -7,6 +7,7 @@ const initialState = {
   influencerStats: [],
   defaultMsg: [],
   influencerList: [],
+  datesList: [],
   pagination: {},
   per_page: 10,
   search: "",
@@ -40,6 +41,11 @@ export const userListReducer = (state = initialState, action) => {
           ...action.payload,
       };
       case `${Utils.ActionName.GET_INFLUENCER}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_ALL_DATES}`:
         return {
           ...state,
           ...action.payload,
