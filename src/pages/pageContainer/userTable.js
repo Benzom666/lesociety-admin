@@ -50,8 +50,8 @@ const UserTableData = (props) => {
             dispatch(getUserProfile(item.user_name));
           }}
           >
-          <img src={item.images[0]} alt="RyanUser" border="0" />{" "}
-          {item.user_name}{" "}
+            <img src={item.images[0]} alt="RyanUser" border="0" />{" "}          
+            <p> {item.user_name}{" "} </p>
           </Link>
         </div>
       ),
