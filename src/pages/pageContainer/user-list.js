@@ -7,6 +7,7 @@ import {
   getDeactivateUser,
   getUserStatusCounter,
   getInfluencer,
+  getDefaultMsgList
 } from "./action";
 import { Nav, Tab, Badge } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +22,9 @@ function UserList() {
   useEffect(() => {
     dispatch(getUserStatusCounter());
     dispatch(getUserList());
+    dispatch(
+      getDefaultMsgList("taglineAndDesc")
+    )
   }, []);
   return (
     <div className="dashboardUi">

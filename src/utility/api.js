@@ -30,13 +30,13 @@ export const checkUserValidation = (data) => {
  * @param successCallback function for handle success response
  * @param errorCallback  function for handle error response
  */
-const postApiCall = (
+const postApiCall = async (
   endPoint,
   params,
   successCallback,
   errorCallback
 ) => {
-  Utils.constants.axios
+await  Utils.constants.axios
     .post(endPoint, params)
     .then((response) => {
       successCallback(response);
@@ -80,7 +80,7 @@ const postApiCall = (
  * @param successCallback function for handle success response
  * @param errorCallback function for handle error response
  */
-const getApiCall = (
+const getApiCall = async (
   endPoint,
   params = "",
   successCallback,
@@ -88,7 +88,7 @@ const getApiCall = (
   data ={}
 ) => {
   
-  Utils.constants.axios
+ await Utils.constants.axios
     .get(Utils.constants.apiUrl + endPoint + params, data)
     .then((response) => {
       successCallback(response);
@@ -234,13 +234,13 @@ const patchApiCall = (
  * @param successCallback function for handle success response
  * @param errorCallback  function for handle error response
  */
-const putApiCall = (
+const putApiCall = async (
   endPoint,
   params,
   successCallback,
   errorCallback
 ) => {
-  Utils.constants.axios
+ await Utils.constants.axios
     .put(endPoint, params)
     .then((response) => {
       successCallback(response);

@@ -31,9 +31,6 @@ const UserTableData = (props) => {
   );
   useEffect(() => {
     document.getElementById("search").focus();
-    dispatch(
-      getDefaultMsgList("taglineAndDesc")
-    )
   }, []);
   const msgSubmit = () => {
     dispatch(
@@ -81,21 +78,19 @@ const UserTableData = (props) => {
           />}
           id="input-group-dropdown-2"
           align="end"
-          onSelect={(e) => {
-            // e.preventDefault();
-
-            dispatch({
-              type: Utils.ActionName.USER_LIST,
-              payload: { per_page: e },
-            });
-            if (tab === 1) {
-              dispatch(getUserList());
-            } else if (tab === 2) {
-              dispatch(getDeactivateUser());
-            } else {
-              dispatch(getPendingUser());
-            }
-          }}
+          // onSelect={(e) => {
+          //   dispatch({
+          //     type: Utils.ActionName.USER_LIST,
+          //     payload: { per_page: e },
+          //   });
+          //   if (tab === 1) {
+          //     dispatch(getUserList());
+          //   } else if (tab === 2) {
+          //     dispatch(getDeactivateUser());
+          //   } else {
+          //     dispatch(getPendingUser());
+          //   }
+          // }}
         >
           <Dropdown.Item eventKey="1" onClick={() => {
              dispatch(postUpdateUserStatus(2, item.email))
@@ -104,6 +99,7 @@ const UserTableData = (props) => {
           <Dropdown.Item eventKey="req" onClick={handleShow}>Request a Change</Dropdown.Item>
           <Dropdown.Item eventKey="3" onClick={() => {
             dispatch(postUpdateUserStatus(3, item.email))
+            dispatch(getUserList())
           }}>Block</Dropdown.Item>
         </DropdownButton>
       ),

@@ -35,6 +35,7 @@ function PostList(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedUser, setSelectedUser ] = useState(false);
+  const [selectedID, setSelectedID ] = useState(false);
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
   const [isActive, setIsActive] = useState(false);
@@ -58,9 +59,11 @@ function PostList(props) {
         <Form.Check className="checkboxUI" type="checkbox" 
          value = {selectedUser}
          onChange={(e) => {
-          setSelectedUser(e.target.checked)
+          console.log("/post/post/post/post", e.target.value)
+          setSelectedUser(e.target.value)
           value?.user_data.map((userDetail) => 
-          {if(e.target.checked === true){
+          {if(e.target.value === true){
+            console.log("/post/post/post/post==>", emailSelected)
            setEmailSelected(userDetail?.email)
           }}
           )
