@@ -4064,3 +4064,54 @@ body .verification_card_header {
     border: green !important;
     background-color: green !important;
 }
+.gridCard {
+.react-datetime-picker{
+    .react-datetime-picker__wrapper{
+      border: none;
+      .react-datetime-picker__inputGroup{
+        .react-datetime-picker{
+          color: $lightGrey;
+        }
+        .react-datetime-picker__inputGroup__input{
+          color: $lightGrey;
+        }          
+      }
+      .react-datetime-picker__button{ 
+        svg{
+          stroke: $lightGrey;
+        }
+      }
+      .react-calendar__tile--active{
+        background: #222326;
+      }
+    }
+  }
+  .react-calendar{
+    background: #2E2F34;
+    border: 1px solid #4D4D4D;
+    border-radius: 10px;
+  }
+  .react-calendar__tile{
+    color: #969799;
+  }
+  .react-calendar__month-view__weekdays{
+    color: #CACACA;
+  }
+  .react-calendar{
+    .react-calendar__navigation{
+        button{
+            color: #CACACA;
+        }
+    }
+  }
+  .react-calendar__month-view__days__day--weekend{
+    color: $primary-color;
+  }
+  .react-calendar__tile--active{
+    background: $primary-color;
+    color: white;
+  }
+  .react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus{
+    background: #1f2124;
+  }
+}

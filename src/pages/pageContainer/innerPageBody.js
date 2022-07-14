@@ -1,15 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 // import withAuth from "../../core/withAuth";
 // import UpArrowIcon from '../../assets/img/upArrow.svg'
 import { Card, Dropdown, Col, Row, ProgressBar } from "react-bootstrap";
 import PageHeader from '../pageContainer/header'
 import { TbDots } from "react-icons/tb";
 import Chart from 'chart.js/auto';
+import DateTimePicker from 'react-datetime-picker';
 
 // import './innerPageUi.scss';
 
-const PageContainer = props => {
+function  PageContainer(props){
+
+  const [value, onChange] = useState(new Date());
 
   // const labels = [
   //   'January',
@@ -133,28 +136,20 @@ const PageContainer = props => {
           <Col md="8" sm="12">
             <Card className='gridCard'>
               <Card.Header>
-                <Card.Title> Registration Completed  </Card.Title>
-                <Dropdown align="end" className='graphFilter'>
-                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
-                    20/07/2021 – 26/07/2021
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-1" active>
-                      Action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <Card.Title> Registration Completed  </Card.Title>                
+             
+                  <DateTimePicker 
+                    onChange={onChange} 
+                    value={value} 
+                    calendarClassName="graphFilter" 
+                  />
               </Card.Header>       
               <Card.Body>   
                 <canvas id="myChart"></canvas>
               </Card.Body>
             </Card>
           </Col>
+
           <Col md="4" sm="12">
             <Card className='gridCard'>
               <Card.Header>

@@ -20,7 +20,7 @@
       line-height: 36px;
       display: flex;
       align-items: center;
-      color: #CACACA;
+      color: $lightGrey;
     }
     .profileDropDown{
       display: flex;
@@ -255,7 +255,7 @@
 				display: flex;
 				align-items: center;				
 				letter-spacing: 1px;
-				color: #CACACA;
+				color: $lightGrey;
 			}
 			.dropdown-toggle{
         @include dotDropdown;
@@ -272,7 +272,7 @@
 						border-right: none;
 						border-bottom: none;
 						border-left: none;
-						border-color: #CACACA;
+						border-color: $lightGrey;
 						border-bottom-style: solid;
 						border-bottom-width: 1px;
 						border-right-style: solid;
@@ -294,7 +294,7 @@
 				line-height: 14px;
 				display: flex;
 				align-items: center;
-				color: #CACACA;
+				color: $lightGrey;
 				margin-bottom: 0;
 				margin: 0 20px 0 10px;
 				cursor: pointer;
@@ -318,7 +318,7 @@
 				line-height: 24px;
 				display: flex;
 				align-items: center;
-				color: #CACACA;
+				color: $lightGrey;
 			}
 			.card-text{				
 				color: #979797;
@@ -336,7 +336,7 @@
 					display: flex;
 					align-items: center;					
 					justify-content: space-between;
-					color: #CACACA;
+					color: $lightGrey;
 					margin-bottom: 8px;
 					span{
 						font-family: "Gilroy-Medium";
@@ -353,7 +353,7 @@
 					}
 				}
 			}
-		}
+		}    
 	}
 }
 .userProfileImage{
