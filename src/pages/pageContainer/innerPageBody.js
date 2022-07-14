@@ -7,7 +7,7 @@ import { Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import Chart from 'chart.js/auto';
 import {CategoryScale} from 'chart.js'; 
-import { getCountry, getRegDashboard } from './action';
+import { getCountry, getGeoStats, getRegDashboard } from './action';
 Chart.register(CategoryScale);
 
 const PageContainer = props => {
@@ -15,6 +15,7 @@ const PageContainer = props => {
   useEffect(() => {
     dispatch(getRegDashboard())
     dispatch(getCountry())
+    dispatch(getGeoStats())
   }, [])
   const data = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -128,6 +129,32 @@ const PageContainer = props => {
             </Card>
           </Col>
           <Col md="8" sm="12">
+            <Card className='gridCard'>
+              <Card.Header>
+                <Card.Title> Registration Completed  </Card.Title>
+                <Dropdown align="end" className='graphFilter'>
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
+                    20/07/2021 – 26/07/2021
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu variant="dark">
+                    <Dropdown.Item href="#/action-1" active>
+                      Action
+                    </Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Card.Header>       
+              <Card.Body>
+                {/* chart */}
+                <Line data={data} />
+                {/* chart end */}
+              </Card.Body>
+            </Card>
+            {/* end section */}
             <Card className='gridCard'>
               <Card.Header>
                 <Card.Title> Registration Completed  </Card.Title>

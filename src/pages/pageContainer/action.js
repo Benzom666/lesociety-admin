@@ -127,43 +127,51 @@ export const getInfluencer = (status, active) => {
   };
 };
 // get influencer email exists
-export const getInfluencerEmailExists = (email) => {
+export const getInfluencerEmailExists = (email) => { 
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.influencerEmail,`?email=${email}`,
       (respData) => {
-        console.log("respData email=>", respData)
+        console.log("...state...state", respData?.data)
         dispatch({
-          type: Utils.ActionName.GET_INFLUENCER,
-          payload: {
-            // influencerList: respData?.data?.data?.influencer,
-          },
+          type: Utils.ActionName.GET_EXIST_MAIL,
+          // payload: {
+          //   existEmail: respData?.data?.data?.email,
+          // },
         });
       },
       (error) => {
-        let { data } = error;
-        Utils.showAlert(2, data?.message);
+        // let { data } = error;
+        dispatch({
+          type: Utils.ActionName.GET_EXIST_MAIL,
+          payload: {
+            existEmail: error?.data?.data?.email,
+          },
+        });
       }
     );
   };
 };
 // get Influencer exists
-export const getInfluencerExists = (username) => {
+export const getInfluencerExistCode = (code) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getInfluencerExist, `` ,
+      Utils.endPoints.influencerExistCode,`?code=${code}` ,
       (respData) => {
-        console.log("getInfluencerExist", respData)
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER_EXIST,
           payload: {
-            // usersAdminStatus: respData?.data?.data,
-          },
+            existCodeMsg: respData?.data?.message
+          }
         });
       },
       (error) => {
-        let { data } = error;
-        Utils.showAlert(2, data?.message);
+        dispatch({
+          type: Utils.ActionName.GET_INFLUENCER_EXIST,
+          payload: {
+            existCode: error?.data?.data?.code,
+          },
+        });
       }
     );
   };
@@ -176,6 +184,27 @@ export const getInfluencerStats = (username) => {
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER_STATS,
+          payload: {
+            influencerStats: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// get Influencers Stats
+export const getGeoStats = (gender) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getGeo,`?gender=female` ,
+      (respData) => {
+        console.log("respDatarespDatarespData", respData)
+        dispatch({
+          type: Utils.ActionName.GET_GEO_STATS,
           payload: {
             influencerStats: respData?.data?.data,
           },

@@ -8,11 +8,14 @@ const initialState = {
   defaultMsg: [],
   influencerList: [],
   datesList: [],
+  existEmail: "",
+  existCodeMsg: "",
+  existCode: "",
   pagination: {},
   per_page: 10,
   search: "",
   tab: 1,
-};
+}; 
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {
     case `${Utils.ActionName.USER_LIST}`:
@@ -46,6 +49,16 @@ export const userListReducer = (state = initialState, action) => {
           ...action.payload,
       };
       case `${Utils.ActionName.GET_ALL_DATES}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_EXIST_MAIL}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_INFLUENCER_EXIST}`:
         return {
           ...state,
           ...action.payload,

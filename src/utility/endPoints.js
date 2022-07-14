@@ -7,7 +7,6 @@ const endPoint = {
   userStatusCounter: "user/users-stats",
   getRequest: "request",
   getInfluencer: "influencer",
-  getInfluencerExist: "influencer/exists",
   getInfluencersStats: "influencer/stats",
   postSetRequest: "request/send-request",
   getDefaultMsgList: "defaultMessage",
@@ -17,9 +16,11 @@ const endPoint = {
   influencerUpdateStatus: "influencer/update-status",
   influencerCreate: "influencer",
   influencerEmail: "influencer/exists",
+  influencerExistCode:"influencer/code-exists",
   getAllDate: "date",
   getRegisterDashboard: "dashboard/registration",
   getCountry: "country",
-  postCountry: "country"
+  postCountry: "country",
+  getGeo: "dashboard/geo-stats"
 };
 export default endPoint;

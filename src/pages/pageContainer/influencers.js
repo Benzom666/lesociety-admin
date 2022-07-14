@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../sideBar/sidebar.js";
-import { getInfluencer, getInfluencerEmailExists, getInfluencerStats, influencerCreate} from "./action";
+import { getInfluencer, getInfluencerEmailExists, getInfluencerExistCode, getInfluencerStats, influencerCreate} from "./action";
 import {
   Nav,
   Tab,
@@ -18,9 +18,10 @@ import Utils from "../../utility/index.js";
 
 function UserList() {
   const dispatch = useDispatch();
-  const { influencerStats} = useSelector(
+  const { influencerStats, existEmail, existCodeMsg, existCode} = useSelector(
     (state) => state.userListReducer
   );
+  console.log("existEmailexistEmail", existEmail)
   useEffect(() => {
     dispatch(getInfluencer());
     dispatch(getInfluencerStats())
@@ -138,7 +139,7 @@ function UserList() {
                 }
                  placeholder="Enter Email" />
               </Form.Group>
-
+                {!!existEmail && <p>{existEmail}</p>}
               <Form.Group className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Name</Form.Label>
                 <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Name" />
@@ -152,9 +153,14 @@ function UserList() {
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Code</Form.Label>
-                  <Form.Control type="text" value={code} onChange={(e) => setCode(e.target.value)} placeholder="Enter Code" />
+                  <Form.Control type="text" value={code} 
+                  onChange={(e) => {
+                    setCode(e.target.value)
+                    dispatch(
+                    getInfluencerExistCode(code))
+                    }} placeholder="Enter Code" />
                 </Form.Group>
-
+                  {existCodeMsg || existCode}
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Promo %</Form.Label>
                   <Form.Control type="text" value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="Enter Promo %" />
