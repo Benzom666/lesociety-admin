@@ -207,7 +207,8 @@ const UserTableData = (props) => {
     },
   });
   return (
-    <>
+    <>       
+
       <InputGroup className="">
         <Form.Control
           placeholder="Search"

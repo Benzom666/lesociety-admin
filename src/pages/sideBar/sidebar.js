@@ -15,13 +15,10 @@ const SideBar = (props) => {
   };
   return (
     <div className="sideBarUI">
-      <Offcanvas show={show} onHide={handleClose} backdrop={false}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>
+        <div className="sideBarUI_header" >
             <img src="/images/sideBarLogo.svg" width="159" alt="Logo" />
-          </Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
+        </div>
+        <div className="sideBarUI_body">
           <Nav className="justify-content-start flex-grow-1">
             <Nav.Link
               href="#"
@@ -97,8 +94,7 @@ const SideBar = (props) => {
               Promo codes
             </Nav.Link>
           </Nav>
-        </Offcanvas.Body>
-      </Offcanvas>
+        </div>
     </div>
   );
 };
