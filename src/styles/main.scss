@@ -2,6 +2,10 @@ $GradientColor-first: rgba(#2e313a, .8);
 $GradientColor-second: rgba(#191919, .8);
 @import url('http://fonts.cdnfonts.com/css/gilroy-bold');
 
+.dashboardUi{
+    display: flex;
+}
+
 .inner-part-page {
     min-height: calc(100vh - 175px);
 
@@ -4074,6 +4078,13 @@ body .verification_card_header {
         }
         .react-datetime-picker__inputGroup__input{
           color: $lightGrey;
+          &:focus-visible,
+          &:focus,
+          &:hover{
+            outline: none;
+            border: none;
+            background: transparent;
+          }
         }          
       }
       .react-datetime-picker__button{ 

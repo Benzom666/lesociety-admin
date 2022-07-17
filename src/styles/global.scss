@@ -464,3 +464,9 @@ body {
 .form-check-input:focus{
     box-shadow: 0 0 0 0.25rem rgba(242,68,98,0.38);
 }
+
+.input-group>.form-control, .input-group>.form-select{
+    flex: auto;
+    width: auto;
+    min-width: auto;
+}

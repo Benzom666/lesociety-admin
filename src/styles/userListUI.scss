@@ -84,16 +84,19 @@
         font-weight: 500;
         font-size: 18px;
         line-height: 22px;
+        appearance: auto;
         /* identical to box height */
         letter-spacing: 0.4px;
         color: #FFF;
+        background: url('data:image/svg+xml;utf8,<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.6919 11.9826L16.3314 15.6221C16.6406 15.9312 16.6406 16.4325 16.3314 16.7417C16.0222 17.0508 15.521 17.0508 15.2118 16.7417L11.5723 13.1022C10.3534 14.0772 8.8073 14.6603 7.125 14.6603C3.18997 14.6603 0 11.4703 0 7.53528C0 3.60025 3.18997 0.410278 7.125 0.410278C11.06 0.410278 14.25 3.60025 14.25 7.53528C14.25 9.21758 13.667 10.7637 12.6919 11.9826ZM7.125 13.0769C10.1856 13.0769 12.6667 10.5959 12.6667 7.53528C12.6667 4.4747 10.1856 1.99361 7.125 1.99361C4.06442 1.99361 1.58333 4.4747 1.58333 7.53528C1.58333 10.5959 4.06442 13.0769 7.125 13.0769Z" fill="white" fill-opacity="0.35"/></svg>') no-repeat left;
+        padding-left: 30px;
         &::placeholder{
           color: rgba(255, 255, 255, 0.35);
         }
         &:focus, &:focus-visible{
           outline: none;
           box-shadow: none;
-          border: none;
+          border-color: transparent;
         }
 			}
       .dropdown-toggle {
