@@ -147,7 +147,13 @@ function UserList() {
 
               <Form.Group className="mb-3" controlId="formGridAddress2">
                 <Form.Label>Source</Form.Label>
-                <Form.Control type="text" value={source} onChange={(e) => setSource(e.target.value)} placeholder="Enter Source" />
+                <select class="form-control" value={source} onChange={(e) => setSource(e.target.value)} >
+                  <option>Enter Source</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="tiktok">Tik tok</option>
+                </select>
+                {/* <Form.Control type="text" value={source} onChange={(e) => setSource(e.target.value)} placeholder="Enter Source" /> */}
               </Form.Group>
 
               <Row className="mb-3">

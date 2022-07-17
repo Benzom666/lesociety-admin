@@ -27,9 +27,10 @@ export const DefaultMsg = (props) => {
         <Modal.Body> 
           <ListGroup>
             {!!defaultMsg && defaultMsg.map((value) => {
+              console.log("value model==>", value)
               return(
                 <ListGroup.Item>
-              <Form.Check type="radio" id="radio1" value={msg} onChange={(e) => setMsg(e.currentTarget.value)} label={value} />
+              <Form.Check type="radio" id="radio1" name="requestmsg" value={msg} onChange={(e) => setMsg(e.currentTarget.value)} label={value} />
             </ListGroup.Item>
               )
             })}

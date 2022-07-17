@@ -33,10 +33,11 @@ const InfluencersList = (props) => {
     document.getElementById("search").focus();
   }, []);
   const products = !!influencerList && influencerList?.map((item, index) => {
+    console.log("item?.sourceitem?.source", item?.source)
     return {
       id: index,
       name: item?.name,
-      source: item?.source,
+      source: <div className="social-source-icon"> {item?.source == "facebook" && <img src="https://www.nicepng.com/png/detail/936-9365795_facebook-icone-facebook-twitter-icon-circle.png"/> || item?.source == "instagram" && <img src="https://image.similarpng.com/very-thumbnail/2020/05/Popular-Logo-Instagram-icon-PNG.png"/> || item?.source == "tiktok" && <img src="https://cdn-icons-png.flaticon.com/512/5968/5968809.png"/>}</div>,
       email: item?.email,
       promo: item?.promo + "%",
       code: item?.code,

@@ -29,12 +29,13 @@ const UserTableData = (props) => {
   const { userlist, pagination, tab, search, per_page, defaultMsg, rowSelected} = useSelector(
     (state) => state.userListReducer
   );
+  console.log("defaultMsgdefaultMsg", defaultMsg)
   useEffect(() => {
     document.getElementById("search").focus();
   }, []);
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg()
+      postSendDefaulMsg(msg)
     )
   }
   const products = userlist?.map((item) => {
@@ -78,25 +79,14 @@ const UserTableData = (props) => {
           />}
           id="input-group-dropdown-2"
           align="end"
-          // onSelect={(e) => {
-          //   dispatch({
-          //     type: Utils.ActionName.USER_LIST,
-          //     payload: { per_page: e },
-          //   });
-          //   if (tab === 1) {
-          //     dispatch(getUserList());
-          //   } else if (tab === 2) {
-          //     dispatch(getDeactivateUser());
-          //   } else {
-          //     dispatch(getPendingUser());
-          //   }
-          // }}
         >
           <Dropdown.Item eventKey="1" onClick={() => {
              dispatch(postUpdateUserStatus(2, item.email))
              dispatch(getUserList())
           }}>Verify</Dropdown.Item>
-          <Dropdown.Item eventKey="req" onClick={handleShow}>Request a Change</Dropdown.Item>
+          <Dropdown.Item eventKey="req" 
+          onClick={handleShow}>
+            Request a Change</Dropdown.Item>
           <Dropdown.Item eventKey="3" onClick={() => {
             dispatch(postUpdateUserStatus(3, item.email))
             dispatch(getUserList())
@@ -223,9 +213,9 @@ const UserTableData = (props) => {
             if (tab === 1) {
               dispatch(getUserList());
             } else if (tab === 2) {
-              dispatch(getDeactivateUser());
+              dispatch(getUserList(2));
             } else {
-              dispatch(getPendingUser());
+              dispatch(getUserList(2));
             }
           }}
         />
