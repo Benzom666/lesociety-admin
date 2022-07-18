@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 
 export const DefaultMsg = (props) => {
-    const {defaultMsg, msg, setMsg, show, handleClose, msgSubmit} = props
+    const {defaultMsg, setid, setMsg, show, handleClose, msgSubmit} = props
   return (
     <Modal
         show={show}
@@ -26,11 +26,15 @@ export const DefaultMsg = (props) => {
         </Modal.Header>
         <Modal.Body> 
           <ListGroup>
-            {!!defaultMsg && defaultMsg.map((value) => {
+            {!!defaultMsg && defaultMsg.map((value, index) => {
               console.log("value model==>", value)
               return(
                 <ListGroup.Item>
-              <Form.Check type="radio" id="radio1" name="requestmsg" value={msg} onChange={(e) => setMsg(e.currentTarget.value)} label={value} />
+              <Form.Check type="radio" id={index} name="requestmsg" value={value} 
+              onChange={(e) => {
+                setMsg(e.target.value)
+                setid(index)
+              }} label={value} />
             </ListGroup.Item>
               )
             })}

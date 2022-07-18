@@ -5,29 +5,41 @@ import DateTimePicker from 'react-datetime-picker';
 import PageHeader from '../pageContainer/header'
 import { TbDots } from "react-icons/tb";
 import { Line } from "react-chartjs-2";
-import { useDispatch, useSelector } from "react-redux";
 import Chart from 'chart.js/auto';
+import { useDispatch, useSelector } from "react-redux";
 import {CategoryScale} from 'chart.js'; 
-import { getCountry, getGeoStats, getRegDashboard } from './action';
+import { getCountry, getGeoStats, getRegDashboard, getRegDashboardMale, getUnRegDashboard, getUnRegDashboardMale } from './action';
+import moment from 'moment';
 Chart.register(CategoryScale);
 
-
-
 const PageContainer = props => {
-  const [value, onChange] = useState(new Date());
-
+  const { registerCompFemaleList, registerCompMaleList, registerUnCompFemaleList, registerUnCompMaleList } = useSelector(
+    (state) => state.userListReducer
+  );
   const dispatch = useDispatch();
+  const [regComp, setRegComp] = useState(moment().subtract(30, 'days'));
+  const [inRegComp, setInRegComp] = useState(new Date());
   useEffect(() => {
-    dispatch(getRegDashboard())
+    dispatch(getRegDashboard(regComp))
+    dispatch(getRegDashboardMale(regComp))
+    dispatch(getUnRegDashboard(regComp))
+    dispatch(getUnRegDashboardMale(regComp))
     dispatch(getCountry())
     dispatch(getGeoStats())
   }, [])
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: 
+      !!registerCompFemaleList && registerCompFemaleList.map((value) => 
+      [moment(value?.created_at).format('DD/MM')]
+      )
+    ,
     datasets: [
       {
         label: "Women",
-        data: [33, 53, 85, 41, 44, 65],
+        data: 
+        [!!registerCompFemaleList && registerCompFemaleList.map((value) => 
+        value?.count.toString()
+        )],
         fill: true,
         redraw :true,
         // backgroundColor: "rgba(75,192,192,0.2)",
@@ -35,7 +47,38 @@ const PageContainer = props => {
       },
       {
         label: "Men",
-        data: [33, 25, 35, 51, 54, 76],
+        data: !!registerCompMaleList && registerCompMaleList.map((value) => 
+        [value?.count]
+        ),
+        fill: false,
+        redraw :true,
+        borderColor: "#742774"
+      }
+    ]
+  };
+  console.log("data==>", data)
+  const unCompdata = {
+    labels: 
+      !!registerUnCompFemaleList && registerUnCompFemaleList.map((value) => 
+      [moment(value?.created_at).format('DD/MM')]
+      )
+    ,
+    datasets: [
+      {
+        label: "Women",
+        data: !!registerUnCompFemaleList && registerUnCompFemaleList.map((value) => 
+        [value?.count]
+        ),
+        fill: true,
+        redraw :true,
+        // backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
+      },
+      {
+        label: "Men",
+        data: !!registerUnCompMaleList && registerUnCompMaleList.map((value) => 
+        [value?.count]
+        ),
         fill: false,
         redraw :true,
         borderColor: "#742774"
@@ -43,7 +86,6 @@ const PageContainer = props => {
     ]
   };
 
-  
   return (
     <div className="inner-page">
       <PageHeader/>
@@ -136,35 +178,31 @@ const PageContainer = props => {
           <Col md="8" sm="12">
             <Card className='gridCard'>
               <Card.Header>
-                <Card.Title> Registration Completed  </Card.Title>                
-                      
+                <Card.Title> Registration Completed  </Card.Title>    
                   <DateTimePicker 
-                    onChange={onChange} 
-                    value={value} 
+                    onChange={(e) => setRegComp(e)} 
+                    value={regComp} 
                     calendarClassName="graphFilter" 
+                    disableClock="false"
                   />
-                  {/* <DateTimePicker/>  */}
               </Card.Header>       
               <Card.Body>
-                {/* chart */}
                 <Line data={data} />
-                {/* chart end */}
               </Card.Body>
             </Card>
             {/* end section */}
             <Card className='gridCard'>
               <Card.Header>
-                <Card.Title> Registration Completed  </Card.Title>
+                <Card.Title> Registration Uncompleted  </Card.Title>
                 <DateTimePicker 
-                    onChange={onChange} 
-                    value={value} 
+                    onChange={(e) => setInRegComp(e)} 
+                    value={inRegComp} 
                     calendarClassName="graphFilter" 
+                    disableClock="false"
                   />
               </Card.Header>       
               <Card.Body>
-                {/* chart */}
-                <Line data={data} />
-                {/* chart end */}
+                <Line data={unCompdata} />
               </Card.Body>
             </Card>
           </Col>

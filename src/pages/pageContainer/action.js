@@ -1,3 +1,4 @@
+import moment from "moment";
 import Utils from "../../utility";
 
 export const getUserList = (status) => {
@@ -200,7 +201,7 @@ export const getInfluencerStats = (username) => {
 export const getGeoStats = (gender) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getGeo,`?gender=female` ,
+      Utils.endPoints.getGeo,`` ,
       (respData) => {
         console.log("respDatarespDatarespData", respData)
         dispatch({
@@ -277,17 +278,17 @@ export const postSetRequest = () => {
   };
 };
 // post send default msg 
-export const postSendDefaulMsg = () => {
+export const postSendDefaulMsg = (messageType, message_id, user_email_list) => {
   return (dispatch) => {
     // const { password } = values;
     const dataToSend = {
-      // password,
+      messageType, message_id, user_email_list
     };
     Utils.api.postApiCall(
       Utils.endPoints.sendDefaultMsg,
       dataToSend,
       (respData) => {
-        console.log("respData==>", respData)
+        Utils.showAlert(1, "Request mail sent to users");
       },
       (error) => {
         let { data } = error;
@@ -388,8 +389,9 @@ export const getPendingUser = () => {
 // get influencer
 export const getAllDates = (status, active) => {
   return (dispatch, getState) => {
+    const { per_page, current_page, search } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getAllDate,``,
+      Utils.endPoints.getAllDate,`?email=${search}&status=${status ? status : ""}&per_page=${per_page}&current_page=${current_page}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
@@ -406,16 +408,80 @@ export const getAllDates = (status, active) => {
   };
 };
 // get register dashboard
-export const getRegDashboard = (status, active) => {
+export const getRegDashboard = (startDate) => {
+  let start_date = moment(startDate).format('YYYY-MM-DD')
+  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=2022-07-01`,
+      Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=${start_date}&end_date=${end_date}`,
       (respData) => {
-        console.log("respData==>LL", respData)
         dispatch({
-          type: Utils.ActionName.GET_ALL_DATES,
+          type: Utils.ActionName.GET_REGCOMPFEMALE,
           payload: {
-            // datesList: respData?.data?.data?.dates,
+            registerCompFemaleList: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+export const getRegDashboardMale = (startDate) => {
+  let start_date = moment(startDate).format('YYYY-MM-DD')
+  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getRegisterDashboard,`?gender=male&status=2&start_date=${start_date}&end_date=${end_date}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_REGCOMPMALE,
+          payload: {
+            registerCompMaleList: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+export const getUnRegDashboard = (startDate) => {
+  let start_date = moment(startDate).format('YYYY-MM-DD')
+  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getRegisterDashboard,`?gender=female&status=1&start_date=${start_date}&end_date=${end_date}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_REGUNCOMPFEMALE,
+          payload: {
+            registerUnCompFemaleList: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+export const getUnRegDashboardMale = (startDate) => {
+  let start_date = moment(startDate).format('YYYY-MM-DD')
+  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.getRegisterDashboard,`?gender=male&status=1&start_date=${start_date}&end_date=${end_date}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_REGUNCOMPMALE,
+          payload: {
+            registerUnCompMaleList: respData?.data?.data,
           },
         });
       },

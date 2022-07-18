@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import SideBar from "../sideBar/sidebar.js";
 import { useDispatch, useSelector } from "react-redux";
 import Utils from "../../utility/index.js";
 import {
@@ -12,7 +11,6 @@ import {
   Button,
 } from "react-bootstrap";
 import VerifyProfileImages from "./profileImage";
-import PageHeader from "../pageContainer/header";
 import { getDefaultMsgList, getUserList, getUserStatusCounter, postSendDefaulMsg, postSetRequest, postVerfiyUser } from "./action.js";
 import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import { DefaultMsg } from "./DefaultMsg";
@@ -22,35 +20,26 @@ function PostList(props) {
   const { usersAdminStatus, userlist, defaultMsg } = useSelector(
     (state) => state.userListReducer
   );
+  const [id, setId] = useState();
+  const [userEmail, setUserEmail] = useState();
   const [isActive, setIsActive] = useState(false);
   const [show, setShow] = useState();
-  const [defaultCard, setDefaultCard] = useState(true);
   const [msg, setMsg] = useState();
   const [cardId, setCardId] = useState();
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handlePic= () => {
-    setIsActive(false);
-  };
-  const handleInfo = () => {
-    setIsActive(true);
-  }
-  const onRequest = () => {
-    dispatch(
-      postSetRequest()
-    )
-  }
-  const msgSubmit = () => {
-    dispatch(
-      postSendDefaulMsg()
-    )
-  }
+
   useEffect(() => {
     dispatch(getUserStatusCounter());
     dispatch(getUserList());
     dispatch(getDefaultMsgList("taglineAndDesc"))
   }, []);
 
+  const msgSubmit = () => {
+    dispatch(
+      postSendDefaulMsg("taglineAndDesc", id, userEmail)
+    )
+  }
+  
   const UserPostList = userlist.map((post) => (
     <Card className={"bg-dark text-white verifyPhotoCard"} key={post.id}>
       <div className="cardActionBox">
@@ -83,7 +72,10 @@ function PostList(props) {
             {console.log("is active", isActive)}
         </div>
         <div>
-          <Button className="requestBtn" onClick={handleShow}>Request</Button>
+          <Button className="requestBtn" onClick={()=>{
+            setShow(true)
+            setUserEmail(post?.email)}
+            }>Request</Button>
           {
             post?.status == 2 ? 
             <Button
@@ -185,7 +177,7 @@ function PostList(props) {
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-      <DefaultMsg defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
+      <DefaultMsg setid={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
     </>
   );
 }

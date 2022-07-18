@@ -3,10 +3,7 @@ import SideBar from "../sideBar/sidebar.js";
 import UserTableContent from "./userTable.js";
 import {
   getUserList,
-  getPendingUser,
-  getDeactivateUser,
   getUserStatusCounter,
-  getInfluencer,
   getDefaultMsgList
 } from "./action";
 import { Nav, Tab, Badge } from "react-bootstrap";

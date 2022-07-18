@@ -49,8 +49,8 @@ function UserList() {
             <Nav.Item
             onClick={() => {
               dispatch({
-                type: Utils.ActionName.USER_LIST,
-                payload: { tab: 1, search: "", per_page: 10, userlist: [] },
+                type: Utils.ActionName.GET_INFLUENCER,
+                payload: { tab: 1, search: "", per_page: 10, influencerList: [] },
               });
               dispatch(getInfluencer());
             }}
@@ -65,8 +65,8 @@ function UserList() {
             <Nav.Item
             onClick={() => {
               dispatch({
-                type: Utils.ActionName.USER_LIST,
-                payload: { tab: 1, search: "", per_page: 10, userlist: [] },
+                type: Utils.ActionName.GET_INFLUENCER,
+                payload: { tab: 1, search: "", per_page: 10, influencerList: [] },
               });
               dispatch(getInfluencer(2, true));
             }}>
@@ -79,11 +79,12 @@ function UserList() {
             </Nav.Item>
             <Nav.Item
             onClick={() => {
+              dispatch(getInfluencer(1, false));
               dispatch({
-                type: Utils.ActionName.USER_LIST,
-                payload: { tab: 1, search: "", per_page: 10, userlist: [] },
+                type: Utils.ActionName.GET_INFLUENCER,
+                payload: { tab: 1, search: "", per_page: 10, influencerList: [] },
               });
-              dispatch(getInfluencer(3, false));
+              
             }}>
               <Nav.Link eventKey="link-3">
                 Inactive

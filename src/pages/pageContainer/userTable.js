@@ -20,6 +20,8 @@ const UserTableData = (props) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
+  const [id, setId] = useState();
+  const [userEmail, setUserEmail] = useState();
   const [paginationRerender, setPaginationRerender] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,14 +30,13 @@ const UserTableData = (props) => {
   const toggleShowA = () => setShowA(!showA);
   const { userlist, pagination, tab, search, per_page, defaultMsg, rowSelected} = useSelector(
     (state) => state.userListReducer
-  );
-  console.log("defaultMsgdefaultMsg", defaultMsg)
+  ); 
   useEffect(() => {
     document.getElementById("search").focus();
   }, []);
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg(msg)
+      postSendDefaulMsg("taglineAndDesc", id, userEmail)
     )
   }
   const products = userlist?.map((item) => {
@@ -85,7 +86,10 @@ const UserTableData = (props) => {
              dispatch(getUserList())
           }}>Verify</Dropdown.Item>
           <Dropdown.Item eventKey="req" 
-          onClick={handleShow}>
+          onClick={()=>{
+            setShow(true)
+            setUserEmail(item?.email)}
+            }>
             Request a Change</Dropdown.Item>
           <Dropdown.Item eventKey="3" onClick={() => {
             dispatch(postUpdateUserStatus(3, item.email))
@@ -189,9 +193,9 @@ const UserTableData = (props) => {
         if (tab === 1) {
           dispatch(getUserList());
         } else if (tab === 2) {
-          dispatch(getDeactivateUser());
+          dispatch(getUserList(2));
         } else {
-          dispatch(getPendingUser());
+          dispatch(getUserList(1));
         }
       }
     },
@@ -216,7 +220,7 @@ const UserTableData = (props) => {
             } else if (tab === 2) {
               dispatch(getUserList(2));
             } else {
-              dispatch(getUserList(2));
+              dispatch(getUserList(1));
             }
           }}
         />
@@ -265,7 +269,7 @@ const UserTableData = (props) => {
           <Button className="verifyBtn" >verify</Button>
         </Toast.Body>
       </Toast>
-      <DefaultMsg defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
+      <DefaultMsg setid={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
     </>
   );
 };

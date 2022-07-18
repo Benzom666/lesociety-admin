@@ -11,35 +11,32 @@ import {
   Dropdown,
   Card,
   Toast,
-  Button
+  Button,
 } from "react-bootstrap";
 import LocationIcon from "../../assets/images/location.svg";
 import GetReadyIcon from "../../assets/images/getReady.svg";
 import { MdOutlineRotate90DegreesCcw } from "react-icons/md";
 import PageHeader from "../pageContainer/header";
-import {
-  getDefaultMsgList,
-  postSendDefaulMsg,
-  getAllDates,
-} from "./action.js";
+import { getDefaultMsgList, postSendDefaulMsg, getAllDates } from "./action.js";
 import { DefaultMsg } from "./DefaultMsg";
+import Utils from "../../utility/index.js";
 
 function PostList(props) {
   const dispatch = useDispatch();
-  const { datesList, defaultMsg } = useSelector(
+  const { tab, search, per_page, datesList, defaultMsg } = useSelector(
     (state) => state.userListReducer
   );
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
-  const [emailSelected, setEmailSelected] = useState([])
+  const [emailSelected, setEmailSelected] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedUser, setSelectedUser ] = useState(false);
-  const [selectedID, setSelectedID ] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(false);
+  const [selectedID, setSelectedID] = useState(false);
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
   const [isActive, setIsActive] = useState(false);
-  const [saveId, setSaveId] = useState()
+  const [saveId, setSaveId] = useState();
   // const handleToggle = () => {
   //   setIsActive(!isActive);
   // };
@@ -56,23 +53,29 @@ function PostList(props) {
         <Card.Img src={userDetail?.images[0]} alt="Card image" />
       ))}
       <div className="cardActionBox">
-        <Form.Check className="checkboxUI" type="checkbox" 
-         value = {selectedUser}
-         onChange={(e) => {
-          console.log("/post/post/post/post", e.target.value)
-          setSelectedUser(e.target.value)
-          value?.user_data.map((userDetail) => 
-          {if(e.target.value === true){
-            console.log("/post/post/post/post==>", emailSelected)
-           setEmailSelected(userDetail?.email)
+        <Form.Check
+          className="checkboxUI"
+          type="checkbox"
+          value={selectedUser}
+          onChange={(e) => {
+            console.log("/post/post/post/post", e.target.value);
+            setSelectedUser(e.target.value);
+            value?.user_data.map((userDetail) => {
+              if (e.target.value === true) {
+                console.log("/post/post/post/post==>", emailSelected);
+                setEmailSelected(userDetail?.email);
+              }
+            });
           }}
-          )
-         }
-          } checked={selectedUser}  />
-        <Card.Link className="showDetail" onClick={(e) => {
-          setIsActive(!isActive)
-          setSaveId(value?._id)
-        }}>
+          checked={selectedUser}
+        />
+        <Card.Link
+          className="showDetail"
+          onClick={(e) => {
+            setIsActive(!isActive);
+            setSaveId(value?._id);
+          }}
+        >
           <MdOutlineRotate90DegreesCcw />
         </Card.Link>
       </div>
@@ -98,15 +101,14 @@ function PostList(props) {
             value?.executive_class_dates}
         </Card.Link>
       </Card.ImgOverlay>
-      {
-      saveId === value?._id &&
-      <Card.Body
-        className={`posterDetails ${isActive ? "posterDetailShow" : ""}`}
-      >
-        <h3> {value?.middle_class_dates} </h3>
-        <p>{value?.date_details}</p>
-      </Card.Body>
-      }
+      {saveId === value?._id && (
+        <Card.Body
+          className={`posterDetails ${isActive ? "posterDetailShow" : ""}`}
+        >
+          <h3> {value?.middle_class_dates} </h3>
+          <p>{value?.date_details}</p>
+        </Card.Body>
+      )}
     </Card>
   ));
 
@@ -145,19 +147,49 @@ function PostList(props) {
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
               <InputGroup className="">
-                <Form.Control type="text" placeholder="Search" />
-
+                <Form.Control
+                  placeholder="Search"
+                  type="text"
+                  id="search"
+                  name="search"
+                  value={search}
+                  onChange={(e) => {
+                    dispatch({
+                      type: Utils.ActionName.USER_LIST,
+                      payload: { search: e.target.value },
+                    });
+                    if (tab === 1) {
+                      dispatch(getAllDates());
+                    } else if (tab === 2) {
+                      dispatch(getAllDates());
+                    } else {
+                      dispatch(getAllDates());
+                    }
+                  }}
+                />
                 <DropdownButton
                   variant="outline-secondary"
-                  title="Per Page"
+                  title={`${per_page} Per Page`}
                   id="input-group-dropdown-2"
                   align="end"
+                  onSelect={(e) => {
+                    dispatch({
+                      type: Utils.ActionName.USER_LIST,
+                      payload: { per_page: e },
+                    });
+                    if (tab === 1) {
+                      dispatch(getAllDates());
+                    } else if (tab === 2) {
+                      dispatch(getAllDates());
+                    } else {
+                      dispatch(getAllDates(1));
+                    }
+                  }}
                 >
-                  <Dropdown.Item href="#">Action</Dropdown.Item>
-                  <Dropdown.Item href="#">Another action</Dropdown.Item>
-                  <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Item href="#">Separated link</Dropdown.Item>
+                  <Dropdown.Item eventKey="10">10</Dropdown.Item>
+                  <Dropdown.Item eventKey="20">20</Dropdown.Item>
+                  <Dropdown.Item eventKey="25">25</Dropdown.Item>
+                  <Dropdown.Item eventKey="50">50</Dropdown.Item>
                 </DropdownButton>
               </InputGroup>
               <div className="userPostListBox">{UserPostList}</div>
@@ -166,18 +198,18 @@ function PostList(props) {
             <Tab.Pane eventKey="link-3">{/* <UserTableContent/> */}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-        {selectedUser &&
-        <Toast show={showA} onClose={toggleShowA} className="requestPopup">
-          <Toast.Header></Toast.Header>
-          <Toast.Body className="d-flex align-items-center w-100">
-            <Form.Check type="checkbox" label="people" />
-            <Button className="requestBtn" onClick={handleShow}>
-              Request
-            </Button>
-            <Button className="verifyBtn">verify</Button>
-          </Toast.Body>
-        </Toast>
-        }
+        {selectedUser && (
+          <Toast show={showA} onClose={toggleShowA} className="requestPopup">
+            <Toast.Header></Toast.Header>
+            <Toast.Body className="d-flex align-items-center w-100">
+              <Form.Check type="checkbox" label="people" />
+              <Button className="requestBtn" onClick={handleShow}>
+                Request
+              </Button>
+              <Button className="verifyBtn">verify</Button>
+            </Toast.Body>
+          </Toast>
+        )}
       </div>
       <DefaultMsg
         defaultMsg={defaultMsg[0]?.postMessage}

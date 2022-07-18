@@ -8,12 +8,17 @@ const initialState = {
   defaultMsg: [],
   influencerList: [],
   datesList: [],
+  registerCompFemaleList: [],
+  registerCompMaleList: [],
+  registerUnCompFemaleList:[],
+  registerUnCompMaleList: [],
   existEmail: "",
   existCodeMsg: "",
   existCode: "",
   pagination: {},
   per_page: 10,
   search: "",
+  current_page: "1",
   tab: 1,
 }; 
 export const userListReducer = (state = initialState, action) => {
@@ -59,6 +64,26 @@ export const userListReducer = (state = initialState, action) => {
           ...action.payload,
       };
       case `${Utils.ActionName.GET_INFLUENCER_EXIST}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_REGCOMPFEMALE}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_REGCOMPMALE}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_REGUNCOMPFEMALE}`:
+        return {
+          ...state,
+          ...action.payload,
+      };
+      case `${Utils.ActionName.GET_REGUNCOMPMALE}`:
         return {
           ...state,
           ...action.payload,

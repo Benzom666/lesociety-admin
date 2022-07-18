@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import Utils from "../../utility";
-import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus, influencerUpdateStatus } from "./action";
+import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus, influencerUpdateStatus, getInfluencer } from "./action";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { DefaultMsg } from "./DefaultMsg";
 
@@ -33,7 +33,6 @@ const InfluencersList = (props) => {
     document.getElementById("search").focus();
   }, []);
   const products = !!influencerList && influencerList?.map((item, index) => {
-    console.log("item?.sourceitem?.source", item?.source)
     return {
       id: index,
       name: item?.name,
@@ -54,27 +53,27 @@ const InfluencersList = (props) => {
           />}
           id="input-group-dropdown-2"
           align="end"
-          onSelect={(e) => {
-            // e.preventDefault();
-
-            dispatch({
-              type: Utils.ActionName.USER_LIST,
-              payload: { per_page: e },
-            });
-            if (tab === 1) {
-              dispatch(getUserList());
-            } else if (tab === 2) {
-              dispatch(getDeactivateUser());
-            } else {
-              dispatch(getPendingUser());
-            }
-          }}
+          // onSelect={(e) => {
+          //   dispatch({
+          //     type: Utils.ActionName.GET_INFLUENCER,
+          //     payload: { per_page: e },
+          //   });
+          //   if (tab === 1) {
+          //     dispatch(getUserList());
+          //   } else if (tab === 2) {
+          //     dispatch(getDeactivateUser());
+          //   } else {
+          //     dispatch(getPendingUser());
+          //   }
+          // }}
         >
           <Dropdown.Item eventKey="1" onClick={() => {
              dispatch(influencerUpdateStatus(2, item?.email, true))
+             dispatch(getInfluencer())
           }}>Active</Dropdown.Item>
           <Dropdown.Item eventKey="req" onClick={() => {
              dispatch(influencerUpdateStatus(3, item?.email, false))
+             dispatch(getInfluencer())
           }}>Inactive</Dropdown.Item>
         </DropdownButton>
       ),
@@ -140,7 +139,7 @@ const InfluencersList = (props) => {
 
     
     dispatch({
-      type: Utils.ActionName.USER_LIST,
+      type: Utils.ActionName.GET_INFLUENCER,
       payload: { rowSelected: emails },
     });
   };
@@ -148,7 +147,7 @@ const InfluencersList = (props) => {
     const allEmail = isSelect.map((item)=>item.emailId)
 
     dispatch({
-      type: Utils.ActionName.USER_LIST,
+      type: Utils.ActionName.GET_INFLUENCER,
       payload: { rowSelected: allEmail },
     });
   };
@@ -172,15 +171,15 @@ const InfluencersList = (props) => {
       if (paginationRerender) {
         setPaginationRerender(false);
         dispatch({
-          type: Utils.ActionName.USER_LIST,
+          type: Utils.ActionName.GET_INFLUENCER,
           payload: { current_page: page },
         });
         if (tab === 1) {
-          dispatch(getUserList());
+          dispatch(getInfluencer());
         } else if (tab === 2) {
-          dispatch(getDeactivateUser());
+          dispatch(getInfluencer(2));
         } else {
-          dispatch(getPendingUser());
+          dispatch(getInfluencer(3));
         }
       }
     },
@@ -196,15 +195,15 @@ const InfluencersList = (props) => {
           value={search}
           onChange={(e) => {
             dispatch({
-              type: Utils.ActionName.USER_LIST,
+              type: Utils.ActionName.GET_INFLUENCER,
               payload: { search: e.target.value },
             });
             if (tab === 1) {
-              dispatch(getUserList());
+              dispatch(getInfluencer());
             } else if (tab === 2) {
-              dispatch(getDeactivateUser());
+              dispatch(getInfluencer(2));
             } else {
-              dispatch(getPendingUser());
+              dispatch(getInfluencer(3));
             }
           }}
         />
@@ -215,15 +214,15 @@ const InfluencersList = (props) => {
           align="end"
           onSelect={(e) => {
             dispatch({
-              type: Utils.ActionName.USER_LIST,
+              type: Utils.ActionName.GET_INFLUENCER,
               payload: { per_page: e },
             });
             if (tab === 1) {
-              dispatch(getUserList());
+              dispatch(getInfluencer());
             } else if (tab === 2) {
-              dispatch(getDeactivateUser());
+              dispatch(getInfluencer(2));
             } else {
-              dispatch(getPendingUser());
+              dispatch(getInfluencer(3));
             }
           }}
         >
