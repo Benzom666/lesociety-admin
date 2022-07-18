@@ -52,7 +52,7 @@ function PostList(props) {
   }, []);
 
   const UserPostList = userlist.map((post) => (
-    <Card className={"bg-dark text-white verifyPhotoCard"} key={post.id}>
+    <Card className={"text-white verifyPhotoCard"} key={post.id}>
       <div className="cardActionBox">
         <Form.Check className="checkboxUI" type="checkbox" />
       </div>

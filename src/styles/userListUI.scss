@@ -110,6 +110,10 @@
         line-height: 19px;
         text-align: right;
         color: rgba(255, 255, 255, 0.65);
+        background-image: url('data:image/svg+xml;utf8,<svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.49497 0.505025C1.22161 0.231658 0.778392 0.231658 0.505025 0.505025C0.231658 0.778392 0.231658 1.22161 0.505025 1.49497L1.49497 0.505025ZM6 6L5.50503 6.49497C5.77839 6.76834 6.22161 6.76834 6.49497 6.49497L6 6ZM11.495 1.49497C11.7683 1.22161 11.7683 0.778392 11.495 0.505025C11.2216 0.231658 10.7784 0.231658 10.505 0.505025L11.495 1.49497ZM0.505025 1.49497L5.50503 6.49497L6.49497 5.50503L1.49497 0.505025L0.505025 1.49497ZM6.49497 6.49497L11.495 1.49497L10.505 0.505025L5.50503 5.50503L6.49497 6.49497Z" fill="white" fill-opacity="0.65"/></svg>');
+        padding-right: 20px;
+        background-repeat: no-repeat;
+        background-position: right center;
         &:focus, &:focus-visible{
           outline: none;
           box-shadow: none;
@@ -257,7 +261,7 @@
               font-size: 16px;
               line-height: 19px;
               text-align: right;
-              color: rgba(255, 255, 255, 0.65);
+              color: rgba(255, 255, 255, 0.65);              
               @include dotDropdown;
               &:focus, &:focus-visible{
                 outline: none;
@@ -467,6 +471,8 @@
           padding-top: 25px;
           min-height: 384px;
           min-height: 440px;
+          background: transparent;
+          border: 1px solid #3C4752;
           &::before{
             display: none;
           }
@@ -841,6 +847,6 @@
   border-color: #F24462;
 } 
 .social-source-icon img{
-  width: 50px;
-  height: 50px;
+  width: 18px;
+  height: 18px;
 }
