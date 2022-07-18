@@ -578,6 +578,35 @@
       }
     }
 	}
+  .influencersContent {
+    .tab-pane {
+      .table {
+        thead {
+          tr {
+            th{
+              &:nth-child(3),
+              &:nth-child(5){
+                text-align: center;
+                width: 100px;
+              }
+              &:nth-child(4){
+                width: 300px;
+              }
+            }
+          }
+        }
+        tr {
+          td{
+            &:nth-child(3),
+            &:nth-child(5){
+              text-align: center;
+              width: 100px;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .requestPopup{

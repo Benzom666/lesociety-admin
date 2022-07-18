@@ -100,7 +100,7 @@ function UserList() {
               Create new
             </Button>
           </Nav>
-          <Tab.Content>
+          <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
               <InfluencersList />
             </Tab.Pane>
