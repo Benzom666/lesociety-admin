@@ -40,7 +40,7 @@ const InfluencersList = (props) => {
       id: index,
       name: item?.name,
       source: <div className="social-source-icon"> 
-      {item?.source == "facebook" && <img src={FaceBookIcon}/> || item?.source == "instagram" && <img src={InstagramIcon}/> || item?.source == "tiktok" && <img src={FaceBookIcon}/>}</div>,
+      {item?.source == "facebook" && <img src={FaceBookIcon}/> || item?.source == "instagram" && <img src={InstagramIcon}/> || item?.source == "tiktok" && <img src={TicTocIcon}/>}</div>,
       email: item?.email,
       promo: item?.promo + "%",
       code: item?.code,
