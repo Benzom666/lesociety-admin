@@ -19,6 +19,7 @@ const PageContainer = props => {
   );
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
+  const [id, setId] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
@@ -29,7 +30,7 @@ const PageContainer = props => {
   },[]) 
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg()
+      postSendDefaulMsg("taglineAndDesc", id, userProfileData?.email)
     )
   }
   return (  
@@ -145,7 +146,7 @@ const PageContainer = props => {
               </Col>
             </Row>
         </div>
-        <DefaultMsg defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
+        <DefaultMsg setid={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>
     </div>
   )
 }
