@@ -15,6 +15,9 @@ import Utils from "../../utility";
 import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus, influencerUpdateStatus, getInfluencer } from "./action";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { DefaultMsg } from "./DefaultMsg";
+import FaceBookIcon from "../../assets/images/facebook.svg"
+import TicTocIcon from "../../assets/images/ticTok.svg"
+import InstagramIcon from "../../assets/images/instagram.svg"
 
 const InfluencersList = (props) => {
   const dispatch = useDispatch();
@@ -36,7 +39,8 @@ const InfluencersList = (props) => {
     return {
       id: index,
       name: item?.name,
-      source: <div className="social-source-icon"> {item?.source == "facebook" && <img src="https://www.nicepng.com/png/detail/936-9365795_facebook-icone-facebook-twitter-icon-circle.png"/> || item?.source == "instagram" && <img src="https://image.similarpng.com/very-thumbnail/2020/05/Popular-Logo-Instagram-icon-PNG.png"/> || item?.source == "tiktok" && <img src="https://cdn-icons-png.flaticon.com/512/5968/5968809.png"/>}</div>,
+      source: <div className="social-source-icon"> 
+      {item?.source == "facebook" && <img src={FaceBookIcon}/> || item?.source == "instagram" && <img src={InstagramIcon}/> || item?.source == "tiktok" && <img src={FaceBookIcon}/>}</div>,
       email: item?.email,
       promo: item?.promo + "%",
       code: item?.code,

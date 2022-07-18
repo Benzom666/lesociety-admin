@@ -120,7 +120,7 @@ export default function DataTablePagination(props) {
             {currentItems.map((post) => {
               return(
                 <Card
-                className={"bg-dark text-white verifyPhotoCard"}
+                className={"text-white verifyPhotoCard"}
                 key={post.id}
               >
                 <div className="cardActionBox">
@@ -196,7 +196,7 @@ export default function DataTablePagination(props) {
           <Tab.Pane eventKey="link-2">
           {  currentItems.map((post) => (
             <Card
-              className={"bg-dark text-white verifyPhotoCard"}
+              className={"text-white verifyPhotoCard"}
               key={post.id}
             >
               <div className="cardActionBox">
@@ -271,7 +271,7 @@ export default function DataTablePagination(props) {
           <Tab.Pane eventKey="link-3">
             {currentItems.map((post) => (
               <Card
-                className={"bg-dark text-white verifyPhotoCard"}
+                className={"text-white verifyPhotoCard"}
                 key={post.id}
               >
                 <div className="cardActionBox">
