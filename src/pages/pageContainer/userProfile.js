@@ -33,10 +33,10 @@ const PageContainer = props => {
     )
   }
   return (  
-    <div className="inner-page userProfile-page">
+    <div className='dashboardUi'> 
+      <SideBar />
+        <div className="inner-page userProfile-page">
       <PageHeader/>
-        <div className='dashboardUi'> 
-            <SideBar />
             <div className='userProfileDetail'>
               <ProfileImages img={!!userProfileData && userProfileData?.images}/>
               <Card body className="userProfileName">
