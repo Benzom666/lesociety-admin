@@ -69,8 +69,8 @@ const UserTableData = (props) => {
             : ""}
         </span>
       ),
-      DropDown: (
-        
+       DropDown: (
+        item?.email_verified == true ?
         <DropdownButton
           variant="outline-secondary"
           title={<img
@@ -95,7 +95,7 @@ const UserTableData = (props) => {
             dispatch(postUpdateUserStatus(3, item.email))
             dispatch(getUserList())
           }}>Block</Dropdown.Item>
-        </DropdownButton>
+        </DropdownButton> : ""
       ),
     };
   });
@@ -152,8 +152,6 @@ const UserTableData = (props) => {
     }else{
       emails=  emails.filter((item)=>item!==row.emailId)
     }
-
-    
     dispatch({
       type: Utils.ActionName.USER_LIST,
       payload: { rowSelected: emails },
@@ -247,6 +245,7 @@ const UserTableData = (props) => {
           <Dropdown.Item eventKey="20">20</Dropdown.Item>
           <Dropdown.Item eventKey="25">25</Dropdown.Item>
           <Dropdown.Item eventKey="50">50</Dropdown.Item>
+          <Dropdown.Item eventKey="100">100</Dropdown.Item>
         </DropdownButton>
       </InputGroup>
       

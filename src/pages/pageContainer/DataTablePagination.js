@@ -40,23 +40,30 @@ function PostList(props) {
     )
   }
   
-  const UserPostList = userlist.map((post) => (
+  const UserPostList = userlist.map((post) => {
+    return(
     <Card className={"text-white verifyPhotoCard"} key={post.id}>
       <div className="cardActionBox">
         <Form.Check className="checkboxUI" type="checkbox" />
       </div>
       {console.log("cardIdcardIdcardId", cardId)}
       <div className="userProfileDetail">
-        { cardId === undefined || cardId != post?._id ? <VerifyProfileImages img={post?.images} /> : ""}
+        { cardId === undefined || cardId != post?._id ? <VerifyProfileImages 
+        img={post?.images} 
+        un_verified_images={post?.un_verified_images}
+        image_verified={post?.image_verified}/> : ""}
         {
-          isActive === false || cardId === post?._id && <VerifyProfileImages img={post?.images} />
+          isActive === false || cardId === post?._id && <VerifyProfileImages 
+          img={post?.images} 
+          un_verified_images={post?.un_verified_images}
+          image_verified={post?.image_verified}/>
         }
         {
           isActive === true || cardId === post?._id && <Card.Body>
           <Card.Text>
-            {post?.description}
+            {post?.tag_desc_verified === true && post?.un_verified_description.length > 0 ? post?.un_verified_description : post?.description}
           </Card.Text>
-          <Card.Title>{post?.tagline}</Card.Title>
+          <Card.Title>{post?.tag_desc_verified === true && post?.un_verified_tagline.length > 0 ? post?.un_verified_tagline : post?.tagline}</Card.Title>
         </Card.Body>
         }
         <Card.Title> {post?.user_name} </Card.Title>
@@ -79,7 +86,7 @@ function PostList(props) {
           {
             post?.status == 2 ? 
             <Button
-            className={"verifyBtn verified-user-card"} disabled>verify</Button>
+            className={"verifyBtn verified-user-card"} disabled>verifyed</Button>
             :
             <Button
               className={"verifyBtn"} onClick = {() =>
@@ -94,8 +101,8 @@ function PostList(props) {
       <Card.Footer>
         Email <span>{post?.email}</span>
       </Card.Footer>
-    </Card>
-  ));
+    </Card>)
+});
 
   return (
     <>

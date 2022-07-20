@@ -46,9 +46,13 @@ const PageContainer = props => {
               </Card>
               <div className='userProfilebtn'>
                 <Button className="requestBtn" onClick={handleShow}>Request</Button>
-                <Button className="verifyBtn" 
+                {
+                  userProfileData?.status === 2 ? 
+                  <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verifyed</button> :
+                  <Button className="verifyBtn" 
                 onClick={() => dispatch(postUpdateUserStatus(2, userProfileData?.email))}
                 >Verify</Button>
+                }
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
                   <TbDots/>

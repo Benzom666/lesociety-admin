@@ -59,6 +59,7 @@ function VerifyPhotoCards(props) {
           <Dropdown.Item eventKey="20">20</Dropdown.Item>
           <Dropdown.Item eventKey="25">25</Dropdown.Item>
           <Dropdown.Item eventKey="50">50</Dropdown.Item>
+          <Dropdown.Item eventKey="100">100</Dropdown.Item>
         </DropdownButton>
       </InputGroup>
       <div className="userPostListBox">{UserPostList}</div>
