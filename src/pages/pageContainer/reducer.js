@@ -8,6 +8,7 @@ const initialState = {
   defaultMsg: [],
   influencerList: [],
   datesList: [],
+  datesCont:[],
   registerCompFemaleList: [],
   registerCompMaleList: [],
   registerUnCompFemaleList:[],

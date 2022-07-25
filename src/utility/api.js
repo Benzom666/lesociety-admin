@@ -134,14 +134,14 @@ const getApiCall = async (
  * @param successCallback function for handle success response
  * @param errorCallback function for handle error response
  */
-const deleteApiCall = (
+const deleteApiCall = async (
   endPoint,
-  params = "",
+  params,
   successCallback,
   errorCallback
 ) => {
-  Utils.constants.axios
-    .delete(Utils.constants.apiUrl + endPoint + params, {})
+await Utils.constants.axios
+    .delete(endPoint, params)
     .then((response) => {
       successCallback(response);
     })

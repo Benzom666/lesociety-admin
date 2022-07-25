@@ -12,20 +12,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import Utils from "../../utility";
-import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus, influencerUpdateStatus, getInfluencer } from "./action";
+import { getUserList, getPendingUser, getDeactivateUser, getUserProfile, getDefaultMsgList, postSendDefaulMsg, postVerfiyUser, postUpdateUserStatus, influencerUpdateStatus, getInfluencer, deleteInfluencer } from "./action";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { DefaultMsg } from "./DefaultMsg";
 import FaceBookIcon from "../../assets/images/facebook.svg"
 import TicTocIcon from "../../assets/images/ticTok.svg"
 import InstagramIcon from "../../assets/images/instagram.svg"
 
+
 const InfluencersList = (props) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
   const [paginationRerender, setPaginationRerender] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  
 
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
@@ -57,19 +57,6 @@ const InfluencersList = (props) => {
           />}
           id="input-group-dropdown-2"
           align="end"
-          // onSelect={(e) => {
-          //   dispatch({
-          //     type: Utils.ActionName.GET_INFLUENCER,
-          //     payload: { per_page: e },
-          //   });
-          //   if (tab === 1) {
-          //     dispatch(getUserList());
-          //   } else if (tab === 2) {
-          //     dispatch(getDeactivateUser());
-          //   } else {
-          //     dispatch(getPendingUser());
-          //   }
-          // }}
         >
           <Dropdown.Item eventKey="1" onClick={() => {
              dispatch(influencerUpdateStatus(2, item?.email, true))
@@ -79,6 +66,11 @@ const InfluencersList = (props) => {
              dispatch(influencerUpdateStatus(3, item?.email, false))
              dispatch(getInfluencer())
           }}>Inactive</Dropdown.Item>
+          <Dropdown.Item eventKey="req">Edit</Dropdown.Item>
+          <Dropdown.Item eventKey="req" onClick={() => {
+             dispatch(deleteInfluencer(item?.email))
+             dispatch(getInfluencer())
+          }}>Delete</Dropdown.Item>
         </DropdownButton>
       ),
     };

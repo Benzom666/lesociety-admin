@@ -393,10 +393,12 @@ export const getAllDates = (status, active) => {
     Utils.api.getApiCall(
       Utils.endPoints.getAllDate,`?email=${search}&status=${status ? status : ""}&per_page=${per_page}&current_page=${current_page}`,
       (respData) => {
+        console.log("respDatarespData", respData)
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: {
             datesList: respData?.data?.data?.dates,
+            datesCont: respData?.data?.data?.pagination,
           },
         });
       },
@@ -524,6 +526,27 @@ export const createCountry = () => {
       dataToSend,
       (respData) => {
         Utils.showAlert(1, "Influence created successfully!");
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// get country
+export const deleteInfluencer = (email) => {
+  console.log("email", email)
+  return (dispatch) => {
+    const dataToSend = {
+      email
+    };
+    console.log("dataToSend", dataToSend)
+    Utils.api.deleteApiCall(
+      Utils.endPoints.deleteInf,
+      dataToSend,
+      (respData) => {
+        Utils.showAlert(1, "Influence Delete successfully!");
       },
       (error) => {
         let { data } = error;

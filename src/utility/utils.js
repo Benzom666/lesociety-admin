@@ -9,8 +9,8 @@ export const passwordValidator = (password) => {
 
 	var response = "";
 	if (!pattern.test(password)) {
-		response =
-			"Please enter minimum eight characters, at least one capital letter, one small letter, one number, one special character.";
+		// response =
+		// 	"Please enter minimum eight characters, at least one capital letter, one small letter, one number, one special character.";
 	}
 	return response;
 };

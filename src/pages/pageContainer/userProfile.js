@@ -32,6 +32,7 @@ const PageContainer = props => {
     dispatch(
       postSendDefaulMsg("taglineAndDesc", id, userProfileData?.email)
     )
+    setShow(false)
   }
   return (  
     <div className='dashboardUi'> 

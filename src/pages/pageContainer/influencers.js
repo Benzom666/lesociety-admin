@@ -38,6 +38,7 @@ function UserList() {
   const handleShow = () => setShow(true);
   const createInflu = () => {
     dispatch(influencerCreate(email, name, source, code, promo))
+    setShow(false)
   }
   return (
     <div className="dashboardUi">

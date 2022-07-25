@@ -21,6 +21,7 @@ const endPoint = {
   getRegisterDashboard: "dashboard/registration",
   getCountry: "country",
   postCountry: "country",
-  getGeo: "dashboard/geo-stats"
+  getGeo: "dashboard/geo-stats",
+  deleteInf: "influencer"
 };
 export default endPoint;

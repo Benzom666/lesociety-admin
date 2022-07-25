@@ -38,6 +38,7 @@ const UserTableData = (props) => {
     dispatch(
       postSendDefaulMsg("taglineAndDesc", id, userEmail)
     )
+    setShow(false)
   }
   const products = userlist?.map((item) => {
     return {
@@ -60,13 +61,9 @@ const UserTableData = (props) => {
       emailStatus: item?.email_verified == true ? <p className="greenTxt">Verified </p> : <p className="redTxt">Pending</p>,
       statusId: (
         <span className="greenTxt">
-          {item.status == 1
-            ? "pending"
-            : item.status == 2
-            ? "Verified"
-            : item.status == 3
-            ? "Block"
-            : ""}
+          {item?.email_verified == true && item.status == 1 && <p className="text-warning">Pending</p>}
+          {item?.email_verified == true && item.status == 2 && <p className="greenTxt">Verified</p>}
+          {item?.email_verified == true && item.status == 3 && <p className="redTxt">Block</p>}
         </span>
       ),
        DropDown: (
@@ -265,7 +262,7 @@ const UserTableData = (props) => {
           <Button className="requestBtn" onClick={handleShow}>
             Request
           </Button>
-          <Button className="verifyBtn" >verify</Button>
+          <Button className="verifyBtn" >Verify</Button>
         </Toast.Body>
       </Toast>
       <DefaultMsg setid={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show= {show} msg={msg} setMsg={setMsg} msgSubmit ={msgSubmit} handleClose={handleClose}/>

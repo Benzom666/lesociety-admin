@@ -38,6 +38,7 @@ function PostList(props) {
     dispatch(
       postSendDefaulMsg("taglineAndDesc", id, userEmail)
     )
+    setShow(false)
   }
   
   const UserPostList = userlist.map((post) => {
@@ -136,12 +137,12 @@ function PostList(props) {
               >
                 New Users
                 <Badge pill bg="secondary">
-                  {usersAdminStatus?.new_photos}
+                  {usersAdminStatus?.new_users}
                 </Badge>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="link-2"
+              <Nav.Link eventKey="link-3"
               onClick={() => {
                 dispatch({
                   type: Utils.ActionName.USER_LIST,
@@ -157,7 +158,7 @@ function PostList(props) {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="link-3"
+              <Nav.Link eventKey="link-4"
               onClick={() => {
                 dispatch({
                   type: Utils.ActionName.USER_LIST,
@@ -180,6 +181,9 @@ function PostList(props) {
               <VerifyPhotoCards UserPostList={UserPostList} />
             </Tab.Pane>
             <Tab.Pane eventKey="link-3">
+              <VerifyPhotoCards UserPostList={UserPostList} />
+            </Tab.Pane>
+            <Tab.Pane eventKey="link-4">
               <VerifyPhotoCards UserPostList={UserPostList} />
             </Tab.Pane>
           </Tab.Content>

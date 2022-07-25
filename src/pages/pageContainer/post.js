@@ -23,51 +23,46 @@ import Utils from "../../utility/index.js";
 
 function PostList(props) {
   const dispatch = useDispatch();
-  const { tab, search, per_page, datesList, defaultMsg } = useSelector(
+  const { tab, search, per_page, datesList, defaultMsg, datesCont } = useSelector(
     (state) => state.userListReducer
   );
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
-  const [emailSelected, setEmailSelected] = useState([]);
+  const [emailSelected, setEmailSelected] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedUser, setSelectedUser] = useState(false);
-  const [selectedID, setSelectedID] = useState(false);
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
   const [isActive, setIsActive] = useState(false);
   const [saveId, setSaveId] = useState();
-  // const handleToggle = () => {
-  //   setIsActive(!isActive);
-  // };
+  const [id, setId] = useState();
+
   useEffect(() => {
     dispatch(getDefaultMsgList("postMessage"));
     dispatch(getAllDates());
   }, []);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg());
+    dispatch(postSendDefaulMsg("postMessage", id, emailSelected));
+    setShow(false)
   };
-  const UserPostList = datesList.map((value) => (
-    <Card className="bg-dark text-white">
-      {value?.user_data.map((userDetail) => (
-        <Card.Img src={userDetail?.images[0]} alt="Card image" />
+ 
+  const UserPostList = datesList.map((value) => {
+    const checkedUser = () =>{
+      setSelectedUser(!selectedUser)
+      selectedUser == true && setEmailSelected(value?.user_data[0]?.email)
+    }
+    return(
+      <Card className="bg-dark text-white">
+      {value?.user_data.map((userDetail, index) => (
+        <Card.Img key={index} src={userDetail?.images[0]} alt="Card image" />
       ))}
       <div className="cardActionBox">
         <Form.Check
           className="checkboxUI"
           type="checkbox"
           value={selectedUser}
-          onChange={(e) => {
-            console.log("/post/post/post/post", e.target.value);
-            setSelectedUser(e.target.value);
-            value?.user_data.map((userDetail) => {
-              if (e.target.value === true) {
-                console.log("/post/post/post/post==>", emailSelected);
-                setEmailSelected(userDetail?.email);
-              }
-            });
-          }}
-          checked={selectedUser}
+          onClick={checkedUser}
         />
         <Card.Link
           className="showDetail"
@@ -110,7 +105,9 @@ function PostList(props) {
         </Card.Body>
       )}
     </Card>
-  ));
+    )
+  });
+  console.log("datesCont==>", datesCont?.total_dates)
 
   return (
     <div className="dashboardUi">
@@ -120,26 +117,49 @@ function PostList(props) {
         <Tab.Container defaultActiveKey="link-1">
           <Nav variant="tabs">
             <Nav.Item>
-              <Nav.Link eventKey="link-1">
+              <Nav.Link eventKey="link-1"
+              onClick={() => {
+                dispatch({
+                  type: Utils.ActionName.USER_LIST,
+                  payload: { tab: 1, search: "", per_page: 10, userlist: [] },
+                });
+                dispatch(getAllDates());
+              }}
+              >
                 Total Users
                 <Badge pill bg="secondary">
-                  3,876
+                  {datesCont?.total_dates}
                 </Badge>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="link-2">
+              <Nav.Link eventKey="link-2"
+              onClick={() => {
+                dispatch({
+                  type: Utils.ActionName.USER_LIST,
+                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
+                });
+                dispatch(getAllDates(5));
+              }}
+              >
                 New
                 <Badge pill bg="secondary">
-                  3,876
+                {datesCont?.total_new}
                 </Badge>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="link-3">
+              <Nav.Link eventKey="link-3"
+              onClick={() => {
+                dispatch({
+                  type: Utils.ActionName.USER_LIST,
+                  payload: { tab: 3, search: "", per_page: 10, userlist: [] },
+                });
+                dispatch(getAllDates(3));
+              }}>
                 Deactivated
                 <Badge pill bg="secondary">
-                  3,876
+                {datesCont?.total_deactivated}
                 </Badge>
               </Nav.Link>
             </Nav.Item>
@@ -195,8 +215,8 @@ function PostList(props) {
               </InputGroup>
               <div className="userPostListBox">{UserPostList}</div>
             </Tab.Pane>
-            <Tab.Pane eventKey="link-2">{/* <UserTableContent/> */}</Tab.Pane>
-            <Tab.Pane eventKey="link-3">{/* <UserTableContent/> */}</Tab.Pane>
+            <Tab.Pane eventKey="link-2">{UserPostList}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{UserPostList}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
         {selectedUser && (
@@ -217,6 +237,7 @@ function PostList(props) {
         )}
       </div>
       <DefaultMsg
+        setid={setId}
         defaultMsg={defaultMsg[0]?.postMessage}
         show={show}
         msg={msg}
