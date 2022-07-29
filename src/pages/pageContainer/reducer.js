@@ -5,6 +5,7 @@ const initialState = {
   userProfileData: [],
   usersAdminStatus: [],
   influencerStats: [],
+  geoStats: [],
   defaultMsg: [],
   influencerList: [],
   datesList: [],
@@ -13,6 +14,10 @@ const initialState = {
   registerCompMaleList: [],
   registerUnCompFemaleList:[],
   registerUnCompMaleList: [],
+  datesStats: [],
+  dashboardStats: [],
+  dashboardStatsNew:[],
+  dashboardStatsDeactive:[],
   existEmail: "",
   existCodeMsg: "",
   existCode: "",
@@ -54,6 +59,31 @@ export const userListReducer = (state = initialState, action) => {
           ...state,
           ...action.payload,
       };
+      case `${Utils.ActionName.GET_GEO_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+      case `${Utils.ActionName.GET_DATES_STATS}`:
+        return {
+          ...state,
+          ...action.payload,
+        };
+      case `${Utils.ActionName.GET_DASHBOARD_STATS}`:
+        return {
+          ...state,
+          ...action.payload,
+        };
+      case `${Utils.ActionName.GET_DASHBOARDNEW_STATS}`:
+          return {
+            ...state,
+            ...action.payload,
+          };
+      case `${Utils.ActionName.GET_DASHBOARDDEACTIVATE_STATS}`:
+        return {
+          ...state,
+          ...action.payload,
+        };
       case `${Utils.ActionName.GET_ALL_DATES}`:
         return {
           ...state,

@@ -198,16 +198,15 @@ export const getInfluencerStats = (username) => {
   };
 };
 // get Influencers Stats
-export const getGeoStats = (gender) => {
+export const getGeoStats = (city,country) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getGeo,`` ,
+      Utils.endPoints.getGeo,`?status=1&locationType=${city}&country=${country}`,
       (respData) => {
-        console.log("respDatarespDatarespData", respData)
         dispatch({
           type: Utils.ActionName.GET_GEO_STATS,
           payload: {
-            influencerStats: respData?.data?.data,
+            geoStats: respData?.data?.data,
           },
         });
       },
@@ -328,6 +327,26 @@ export const postUpdateUserStatus = (status, emails) => {
       (respData) => {
         console.log("respData==>saaa", respData)
         // Utils.showAlert(1, "Tagline and description updated successfully!")
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// post update date status
+export const postUpdateDateStatus = (status, ids) => {
+  return (dispatch) => {
+    const dataToSend = {
+      status, ids
+    };
+    Utils.api.postApiCall(
+      Utils.endPoints.updateDateStatus,
+      dataToSend,
+      (respData) => {
+        console.log("respData==>saaa", respData)
+        Utils.showAlert(1, "Post Blocked successfully!")
       },
       (error) => {
         let { data } = error;
@@ -515,6 +534,84 @@ export const getCountry = (status, active) => {
     );
   };
 };
+// get date stats
+export const getDateStats = (status, active) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.datestats,``,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_DATES_STATS,
+          payload: {
+            datesStats: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// get dashboard total user stats
+export const getDashboardStats = (start_date) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.datedashboardstats,`?start_date=${start_date ? start_date : ''}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_DASHBOARD_STATS,
+          payload: {
+            dashboardStats: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+export const getDashboardStatsNew = (status,start_date) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.datedashboardstats,`?status=${status}&start_date=${start_date ? start_date : ''}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_DASHBOARDNEW_STATS,
+          payload: {
+            dashboardStatsNew: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+export const getDashboardStatsDeactive = (status,start_date) => {
+  return (dispatch, getState) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.datedashboardstats,`?status=${status}&start_date=${start_date ? start_date : ''}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_DASHBOARDDEACTIVATE_STATS,
+          payload: {
+            dashboardStatsDeactive: respData?.data?.data,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
 // create country
 export const createCountry = () => {
   return (dispatch) => {
@@ -538,13 +635,9 @@ export const createCountry = () => {
 export const deleteInfluencer = (email) => {
   console.log("email", email)
   return (dispatch) => {
-    const dataToSend = {
-      email
-    };
-    console.log("dataToSend", dataToSend)
     Utils.api.deleteApiCall(
       Utils.endPoints.deleteInf,
-      dataToSend,
+      { data: { email: email } },
       (respData) => {
         Utils.showAlert(1, "Influence Delete successfully!");
       },

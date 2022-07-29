@@ -67,8 +67,8 @@ const InfluencersList = (props) => {
              dispatch(getInfluencer())
           }}>Inactive</Dropdown.Item>
           <Dropdown.Item eventKey="req">Edit</Dropdown.Item>
-          <Dropdown.Item eventKey="req" onClick={() => {
-             dispatch(deleteInfluencer(item?.email))
+          <Dropdown.Item eventKey="req" onClick={ async() => {
+             await dispatch(deleteInfluencer(item?.email))
              dispatch(getInfluencer())
           }}>Delete</Dropdown.Item>
         </DropdownButton>

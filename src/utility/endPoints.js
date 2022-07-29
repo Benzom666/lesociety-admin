@@ -18,10 +18,13 @@ const endPoint = {
   influencerEmail: "influencer/exists",
   influencerExistCode:"influencer/code-exists",
   getAllDate: "date",
+  updateDateStatus: "date/update-status",
   getRegisterDashboard: "dashboard/registration",
   getCountry: "country",
   postCountry: "country",
   getGeo: "dashboard/geo-stats",
-  deleteInf: "influencer"
+  deleteInf: "influencer",
+  datestats: "date/stats",
+  datedashboardstats: "dashboard/total-users"
 };
 export default endPoint;

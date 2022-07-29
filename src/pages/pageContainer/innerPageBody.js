@@ -8,14 +8,18 @@ import { Line } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
 import { useDispatch, useSelector } from "react-redux";
 import {CategoryScale} from 'chart.js'; 
-import { getCountry, getGeoStats, getRegDashboard, getRegDashboardMale, getUnRegDashboard, getUnRegDashboardMale } from './action';
+import { getCountry, getDashboardStats, getDashboardStatsDeactive, getDashboardStatsNew, getGeoStats, getRegDashboard, getRegDashboardMale, getUnRegDashboard, getUnRegDashboardMale } from './action';
 import moment from 'moment';
 Chart.register(CategoryScale);
 
 const PageContainer = props => {
-  const { registerCompFemaleList, registerCompMaleList, registerUnCompFemaleList, registerUnCompMaleList } = useSelector(
+  const { registerCompFemaleList, 
+    registerCompMaleList, 
+    registerUnCompFemaleList, 
+    registerUnCompMaleList, geoStats, dashboardStats, dashboardStatsNew, dashboardStatsDeactive } = useSelector(
     (state) => state.userListReducer
   );
+  console.log("dashboardStats", dashboardStats)
   const dispatch = useDispatch();
   const [regComp, setRegComp] = useState(moment().subtract(30, 'days'));
   const [inRegComp, setInRegComp] = useState(new Date());
@@ -26,6 +30,9 @@ const PageContainer = props => {
     dispatch(getUnRegDashboardMale(regComp))
     dispatch(getCountry())
     dispatch(getGeoStats())
+    dispatch(getDashboardStats())
+    dispatch(getDashboardStatsNew(5))
+    dispatch(getDashboardStatsDeactive(4))
   }, [])
   const data = {
     labels: 
@@ -56,7 +63,6 @@ const PageContainer = props => {
       }
     ]
   };
-  console.log("data==>", data)
   const unCompdata = {
     labels: 
       !!registerUnCompFemaleList && registerUnCompFemaleList.map((value) => 
@@ -101,20 +107,25 @@ const PageContainer = props => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-1" active>
-                      Action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStats(moment().subtract(1, 'd').format()))
+                    }}>Past Day</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStats(moment().subtract(7, 'd').format()))
+                    }}>Past Week</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStats(moment().subtract(1, 'months').format()))
+                    }}>Past Month</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStats(moment().subtract(1, 'years').format()))
+                    }}>Past Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Card.Header>       
               <Card.Body>   
-                <Card.Subtitle >271K people</Card.Subtitle>
+                <Card.Subtitle >{!!dashboardStats && dashboardStats[0]?.count} people</Card.Subtitle>
                 <Card.Text>
-                  + 4,2% <img src="/images/upArrow.svg" />
+                {!!dashboardStats && dashboardStats[0]?.percent} <img src="/images/upArrow.svg" />
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -129,20 +140,25 @@ const PageContainer = props => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-1" active>
-                      Action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                    }}>Past Day</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                    }}>Past Week</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                    }}>Past Month</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                    }}>Past Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Card.Header>       
               <Card.Body>   
-                <Card.Subtitle >6 299 people</Card.Subtitle>
+                <Card.Subtitle >{!!dashboardStatsNew && dashboardStatsNew[0]?.count} people</Card.Subtitle>
                 <Card.Text>
-                - 5,1% <img src="/images/downArrow.svg" />
+                {!!dashboardStatsNew && dashboardStatsNew[0]?.percent} <img src="/images/downArrow.svg" />
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -157,20 +173,25 @@ const PageContainer = props => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-1" active>
-                      Action
-                    </Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item href="#/action-4">Separated link</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                    }}>Past Day</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                    }}>Past Week</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                    }}>Past Month</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                    }}>Past Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Card.Header>       
               <Card.Body>   
-                <Card.Subtitle >2 088 people</Card.Subtitle>
+                <Card.Subtitle >{!!dashboardStatsDeactive && dashboardStatsDeactive[0]?.count} people</Card.Subtitle>
                 <Card.Text>
-                + 1.5% <img src="/images/upArrow.svg" />
+                {!!dashboardStatsDeactive && dashboardStatsDeactive[0]?.percent} <img src="/images/upArrow.svg" />
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -211,8 +232,13 @@ const PageContainer = props => {
             <Card className='gridCard'>
               <Card.Header>
                 <Card.Title> Geo  </Card.Title>
-                <Card.Link> Country </Card.Link>
-                <Card.Link> City </Card.Link>
+                <Card.Link onClick={() => {
+                    dispatch(getGeoStats())
+                }
+                }> Country </Card.Link>
+                <Card.Link onClick={() => {
+                }
+                }> City </Card.Link>
                 
                 <Dropdown align="end" >
                   <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
@@ -226,40 +252,24 @@ const PageContainer = props => {
                 </Dropdown>
 
               </Card.Header>       
-              <Card.Body >   
+              <Card.Body >  
                 <Row className='w-100'>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Toronto <span>94%</span> </h6> 
-                    <ProgressBar now={60} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Alberta <span>10%</span> </h6> 
-                    <ProgressBar now={10} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Manitoba <span>0,20%</span> </h6> 
-                    <ProgressBar now={2} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Halifax <span>0,20%</span> </h6> 
-                    <ProgressBar now={2} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Ontario <span> 0,13% </span> </h6> 
-                    <ProgressBar now={2} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Regina <span>0,73%</span> </h6> 
-                    <ProgressBar now={7} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Yukon <span>0,20% </span> </h6> 
-                    <ProgressBar now={2} />
-                  </Col>
-                  <Col md="6" className='mb-4 progressBarBox'>
-                    <h6> Other <span> 1,37% </span> </h6> 
-                    <ProgressBar now={13} />
-                  </Col>
+                  {
+                   geoStats.length > 0 ? 
+                   geoStats.map((value, index) => {
+                      return(
+                        <Col md="6" className='mb-4 progressBarBox'
+                        onClick={() => {
+                          dispatch(
+                            getGeoStats("city", value?.location)
+                          )
+                        }}>
+                          <h6> {value?.location ? value?.location : "Country Name"} <span>{value?.totalCount}%</span> </h6> 
+                          <ProgressBar now={value?.totalCount} />
+                        </Col>
+                      )
+                    }) : "Record Not Found."
+                  }
                 </Row>
               </Card.Body>
             </Card>
