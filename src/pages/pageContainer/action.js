@@ -198,10 +198,10 @@ export const getInfluencerStats = (username) => {
   };
 };
 // get Influencers Stats
-export const getGeoStats = (city,country) => {
+export const getGeoStats = (city,country,gender) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getGeo,`?status=1&locationType=${city}&country=${country}`,
+      Utils.endPoints.getGeo,`?status=1&locationType=${!!city ? city : ''}&country=${!!country ? country : ''}&gender=${!!gender ? gender : ''}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_GEO_STATS,

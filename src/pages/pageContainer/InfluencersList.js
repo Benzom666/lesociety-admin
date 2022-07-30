@@ -58,18 +58,21 @@ const InfluencersList = (props) => {
           id="input-group-dropdown-2"
           align="end"
         >
-          <Dropdown.Item eventKey="1" onClick={() => {
-             dispatch(influencerUpdateStatus(2, item?.email, true))
+          <Dropdown.Item eventKey="1" onClick={async() => {
+             dispatch(
+              await influencerUpdateStatus(2, item?.email, true))
              dispatch(getInfluencer())
           }}>Active</Dropdown.Item>
-          <Dropdown.Item eventKey="req" onClick={() => {
-             dispatch(influencerUpdateStatus(3, item?.email, false))
+          <Dropdown.Item eventKey="req" onClick={async() => {
+             dispatch(
+              await influencerUpdateStatus(3, item?.email, false))
              dispatch(getInfluencer())
           }}>Inactive</Dropdown.Item>
           <Dropdown.Item eventKey="req">Edit</Dropdown.Item>
           <Dropdown.Item eventKey="req" onClick={ async() => {
-             await dispatch(deleteInfluencer(item?.email))
-             dispatch(getInfluencer())
+              dispatch(
+                await deleteInfluencer(item?.email))
+              dispatch(getInfluencer())
           }}>Delete</Dropdown.Item>
         </DropdownButton>
       ),

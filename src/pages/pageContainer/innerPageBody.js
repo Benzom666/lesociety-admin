@@ -19,7 +19,7 @@ const PageContainer = props => {
     registerUnCompMaleList, geoStats, dashboardStats, dashboardStatsNew, dashboardStatsDeactive } = useSelector(
     (state) => state.userListReducer
   );
-  console.log("dashboardStats", dashboardStats)
+  console.log("dashboardStats", registerCompFemaleList)
   const dispatch = useDispatch();
   const [regComp, setRegComp] = useState(moment().subtract(30, 'days'));
   const [inRegComp, setInRegComp] = useState(new Date());
@@ -43,23 +43,23 @@ const PageContainer = props => {
     datasets: [
       {
         label: "Women",
-        data: 
-        [!!registerCompFemaleList && registerCompFemaleList.map((value) => 
-        value?.count.toString()
-        )],
+        data: !!registerCompFemaleList && registerCompFemaleList.map((value) => 
+        value?.count
+        ),
         fill: true,
         redraw :true,
-        // backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
+        backgroundColor: "rgba(242 68 98 / 64%)",
+        borderColor: "#f24462"
       },
       {
         label: "Men",
         data: !!registerCompMaleList && registerCompMaleList.map((value) => 
-        [value?.count]
+        value?.count
         ),
-        fill: false,
+        fill: true,
         redraw :true,
-        borderColor: "#742774"
+        borderColor: "#7F7FD5",
+        backgroundColor: "rgba(127 127 213 / 61%)",
       }
     ]
   };
@@ -73,21 +73,22 @@ const PageContainer = props => {
       {
         label: "Women",
         data: !!registerUnCompFemaleList && registerUnCompFemaleList.map((value) => 
-        [value?.count]
+        value?.count
         ),
         fill: true,
         redraw :true,
-        // backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)"
+        backgroundColor: "rgba(242 68 98 / 64%)",
+        borderColor: "#f24462"
       },
       {
         label: "Men",
         data: !!registerUnCompMaleList && registerUnCompMaleList.map((value) => 
-        [value?.count]
+        value?.count
         ),
         fill: false,
         redraw :true,
-        borderColor: "#742774"
+        borderColor: "#7F7FD5",
+        backgroundColor: "rgba(127 127 213 / 61%)",
       }
     ]
   };
@@ -246,8 +247,16 @@ const PageContainer = props => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-2">Female Date Location</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Male Geolocation</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                          dispatch(
+                            getGeoStats("", "", "female")
+                          )
+                        }}>Female Date Location</Dropdown.Item>
+                    <Dropdown.Item onClick={() => {
+                          dispatch(
+                            getGeoStats("", "", "male")
+                          )
+                        }}>Male Geolocation</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
 
