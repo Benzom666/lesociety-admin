@@ -10,24 +10,31 @@ import { useDispatch, useSelector } from "react-redux";
 import {CategoryScale} from 'chart.js'; 
 import { getCountry, getDashboardStats, getDashboardStatsDeactive, getDashboardStatsNew, getGeoStats, getRegDashboard, getRegDashboardMale, getUnRegDashboard, getUnRegDashboardMale } from './action';
 import moment from 'moment';
+import Utils from '../../utility'
 Chart.register(CategoryScale);
 
 const PageContainer = props => {
   const { registerCompFemaleList, 
     registerCompMaleList, 
     registerUnCompFemaleList, 
-    registerUnCompMaleList, geoStats, dashboardStats, dashboardStatsNew, dashboardStatsDeactive } = useSelector(
+    registerUnCompMaleList, geoStats, 
+    dashboardStats, dashboardStatsNew, 
+    dashboardStatsDeactive,rEndDate,rStartDate,unRstartDate, unRendDate } = useSelector(
     (state) => state.userListReducer
   );
-  console.log("dashboardStats", registerCompFemaleList)
+  console.log("rStartDate", rStartDate, rEndDate)
   const dispatch = useDispatch();
-  const [regComp, setRegComp] = useState(moment().subtract(30, 'days'));
+  const [regComp, setRegComp] = useState(moment().subtract(15, 'days'));
+  // const [regCompStrt, setRegCompStrt] = useState(new Date());
+  // const [regCompEnd, setRegCompEnd] = useState(new Date());
   const [inRegComp, setInRegComp] = useState(new Date());
+  const [inRegCompEnd, setInRegCompEnd] = useState(new Date());
+  // console.log("regCompStrtregCompStrtregCompStrt", regCompStrt)
   useEffect(() => {
-    dispatch(getRegDashboard(regComp))
-    dispatch(getRegDashboardMale(regComp))
-    dispatch(getUnRegDashboard(regComp))
-    dispatch(getUnRegDashboardMale(regComp))
+    dispatch(getRegDashboard())
+    dispatch(getRegDashboardMale())
+    dispatch(getUnRegDashboard())
+    dispatch(getUnRegDashboardMale())
     dispatch(getCountry())
     dispatch(getGeoStats())
     dispatch(getDashboardStats())
@@ -46,10 +53,13 @@ const PageContainer = props => {
         data: !!registerCompFemaleList && registerCompFemaleList.map((value) => 
         value?.count
         ),
-        fill: true,
-        redraw :true,
-        backgroundColor: "rgba(242 68 98 / 64%)",
-        borderColor: "#f24462"
+        fill: false,
+        backgroundColor: "rgb(242 68 98 / 22%)",
+        borderColor: "#f24462",
+        tension: 0.5,
+        borderWidth: 1,
+        pointBorderWidth:0,
+        pointRadius:0
       },
       {
         label: "Men",
@@ -57,9 +67,12 @@ const PageContainer = props => {
         value?.count
         ),
         fill: true,
-        redraw :true,
         borderColor: "#7F7FD5",
-        backgroundColor: "rgba(127 127 213 / 61%)",
+        tension: 0.5,
+        backgroundColor: "rgb(127 127 213 / 20%)",
+        borderWidth: 1,
+        pointBorderWidth:0,
+        pointRadius:0
       }
     ]
   };
@@ -75,20 +88,28 @@ const PageContainer = props => {
         data: !!registerUnCompFemaleList && registerUnCompFemaleList.map((value) => 
         value?.count
         ),
-        fill: true,
+        fill: false,
         redraw :true,
-        backgroundColor: "rgba(242 68 98 / 64%)",
-        borderColor: "#f24462"
+        backgroundColor: "rgb(242 68 98 / 22%)",
+        borderColor: "#f24462",
+        tension: 0.5,
+        borderWidth: 1,
+        pointBorderWidth:0,
+        pointRadius:0
       },
       {
         label: "Men",
         data: !!registerUnCompMaleList && registerUnCompMaleList.map((value) => 
         value?.count
         ),
-        fill: false,
+        fill: true,
         redraw :true,
         borderColor: "#7F7FD5",
-        backgroundColor: "rgba(127 127 213 / 61%)",
+        backgroundColor: "rgb(127 127 213 / 20%)",
+        tension: 0.5,
+        borderWidth: 1,
+        pointBorderWidth:0,
+        pointRadius:0
       }
     ]
   };
@@ -202,10 +223,36 @@ const PageContainer = props => {
               <Card.Header>
                 <Card.Title> Registration Completed  </Card.Title>    
                   <DateTimePicker 
-                    onChange={(e) => setRegComp(e)} 
-                    value={regComp} 
+                    onChange={(e) => {
+                      dispatch({
+                        type: Utils.ActionName.GET_REGCOMPFEMALE,
+                        type: Utils.ActionName.GET_REGCOMPMALE,
+                        payload: { rStartDate: e },
+                      })
+                      dispatch(getRegDashboard("", rStartDate, rEndDate))
+                      dispatch(getRegDashboardMale("", rStartDate, rEndDate))
+                    }} 
+                    value={rStartDate} 
                     calendarClassName="graphFilter" 
                     disableClock="false"
+                    format="y-MM-dd"
+                    minDetail="decade"
+                  />
+                  -
+                  <DateTimePicker 
+                    onChange={(e) => {
+                      dispatch({
+                        type: Utils.ActionName.GET_REGCOMPFEMALE,
+                        type: Utils.ActionName.GET_REGCOMPMALE,
+                        payload: { rEndDate: e },
+                      })
+                      dispatch(getRegDashboard("", rStartDate, rEndDate))
+                      dispatch(getRegDashboardMale("", rStartDate, rEndDate))
+                    }} 
+                    value={rEndDate} 
+                    calendarClassName="graphFilter" 
+                    disableClock="false"
+                    format="y-MM-dd"
                   />
               </Card.Header>       
               <Card.Body>
@@ -217,10 +264,35 @@ const PageContainer = props => {
               <Card.Header>
                 <Card.Title> Registration Uncompleted  </Card.Title>
                 <DateTimePicker 
-                    onChange={(e) => setInRegComp(e)} 
-                    value={inRegComp} 
+                     onChange={(e) => {
+                      dispatch({
+                        type: Utils.ActionName.GET_REGUNCOMPFEMALE,
+                        type: Utils.ActionName.GET_REGUNCOMPMALE,
+                        payload: { unRstartDate: e },
+                      })
+                      dispatch(getUnRegDashboard("", unRstartDate, unRendDate))
+                      dispatch(getUnRegDashboardMale("", unRstartDate, unRendDate))
+                    }} 
+                    value={unRstartDate} 
                     calendarClassName="graphFilter" 
                     disableClock="false"
+                    format="y-MM-dd"
+                  />
+                  -
+                  <DateTimePicker 
+                     onChange={(e) => {
+                      dispatch({
+                        type: Utils.ActionName.GET_REGUNCOMPFEMALE,
+                        type: Utils.ActionName.GET_REGUNCOMPMALE,
+                        payload: { unRendDate: e },
+                      })
+                      dispatch(getUnRegDashboard("", unRstartDate, unRendDate))
+                      dispatch(getUnRegDashboardMale("", unRstartDate, unRendDate))
+                    }} 
+                    value={unRendDate} 
+                    calendarClassName="graphFilter" 
+                    disableClock="false"
+                    format="y-MM-dd"
                   />
               </Card.Header>       
               <Card.Body>

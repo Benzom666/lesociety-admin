@@ -429,12 +429,14 @@ export const getAllDates = (status, active) => {
   };
 };
 // get register dashboard
-export const getRegDashboard = (startDate) => {
-  let start_date = moment(startDate).format('YYYY-MM-DD')
-  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+export const getRegDashboard = () => {
   return (dispatch, getState) => {
+    const { rStartDate, rEndDate} = getState().userListReducer;
+    let start_date = moment(rStartDate).subtract(15, 'd')
+    let start_mins_date = start_date.format('YYYY-MM-DD');
+    let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss')
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=${start_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGCOMPFEMALE,
@@ -450,12 +452,15 @@ export const getRegDashboard = (startDate) => {
     );
   };
 };
-export const getRegDashboardMale = (startDate) => {
-  let start_date = moment(startDate).format('YYYY-MM-DD')
-  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+export const getRegDashboardMale = () => {
   return (dispatch, getState) => {
+    const { rStartDate, rEndDate} = getState().userListReducer;
+    let start_date = moment(rStartDate).subtract(15, 'd')
+    let start_mins_date = start_date.format('YYYY-MM-DD');
+    let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss')
+
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=male&status=2&start_date=${start_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,`?gender=male&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGCOMPMALE,
@@ -471,12 +476,14 @@ export const getRegDashboardMale = (startDate) => {
     );
   };
 };
-export const getUnRegDashboard = (startDate) => {
-  let start_date = moment(startDate).format('YYYY-MM-DD')
-  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+export const getUnRegDashboard = () => {
   return (dispatch, getState) => {
+    const { unRstartDate, unRendDate} = getState().userListReducer;
+    let start_date = moment(unRstartDate).subtract(15, 'd')
+    let start_mins_date = start_date.format('YYYY-MM-DD');
+    let end_date = moment(unRendDate).format('YYYY-MM-DD:HH:mm:ss')
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=female&status=1&start_date=${start_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,`?gender=female&status=1&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGUNCOMPFEMALE,
@@ -492,12 +499,14 @@ export const getUnRegDashboard = (startDate) => {
     );
   };
 };
-export const getUnRegDashboardMale = (startDate) => {
-  let start_date = moment(startDate).format('YYYY-MM-DD')
-  let end_date = moment(new Date()).format('YYYY-MM-DD:HH:mm:ss')
+export const getUnRegDashboardMale = () => {
   return (dispatch, getState) => {
+    const { unRstartDate, unRendDate} = getState().userListReducer;
+    let start_date = moment(unRstartDate).subtract(15, 'd')
+    let start_mins_date = start_date.format('YYYY-MM-DD');
+    let end_date = moment(unRendDate).format('YYYY-MM-DD:HH:mm:ss')
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=male&status=1&start_date=${start_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,`?gender=male&status=1&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGUNCOMPMALE,

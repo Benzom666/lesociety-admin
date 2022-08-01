@@ -1,4 +1,10 @@
 import Utils from "../../utility";
+import moment from 'moment';
+
+const registerBackDate = new Date();
+registerBackDate.setDate(registerBackDate.getDate() - 15);
+const registerUnVefifiedBackDate = new Date();
+registerUnVefifiedBackDate.setDate(registerUnVefifiedBackDate.getDate() - 15);
 
 const initialState = {
   userlist: [],
@@ -26,7 +32,12 @@ const initialState = {
   search: "",
   current_page: "1",
   tab: 1,
+  rStartDate: registerBackDate,
+  rEndDate:new Date(),
+  unRstartDate:registerUnVefifiedBackDate,
+  unRendDate:new Date()
 }; 
+console.log("existEmailexistEmail", initialState.existEmail)
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {
     case `${Utils.ActionName.USER_LIST}`:
