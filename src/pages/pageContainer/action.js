@@ -133,16 +133,14 @@ export const getInfluencerEmailExists = (email) => {
     Utils.api.getApiCall(
       Utils.endPoints.influencerEmail,`?email=${email}`,
       (respData) => {
-        console.log("...state...state", respData?.data)
         dispatch({
           type: Utils.ActionName.GET_EXIST_MAIL,
-          // payload: {
-          //   existEmail: respData?.data?.data?.email,
-          // },
+          payload: {
+            existEmailScuse: respData?.data?.data?.message,
+          },
         });
       },
       (error) => {
-        // let { data } = error;
         dispatch({
           type: Utils.ActionName.GET_EXIST_MAIL,
           payload: {
@@ -248,6 +246,25 @@ export const influencerUpdateStatus = (status, email, active) => {
       dataToSend,
       (respData) => {
         Utils.showAlert(1, "Influencer status updated.");
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+// influencer detail update
+export const influencerUpdate = (name,email,promo,code,source) => {
+  return (dispatch) => {
+    const dataToSend = {
+      name,email,promo,code,source
+    };
+    Utils.api.putApiCall(
+      Utils.endPoints.influencerPut,
+      dataToSend,
+      (respData) => {
+        Utils.showAlert(1, "Influencer updated.");
       },
       (error) => {
         let { data } = error;
@@ -432,7 +449,7 @@ export const getAllDates = (status, active) => {
 export const getRegDashboard = () => {
   return (dispatch, getState) => {
     const { rStartDate, rEndDate} = getState().userListReducer;
-    let start_date = moment(rStartDate).subtract(15, 'd')
+    let start_date = moment(rStartDate)
     let start_mins_date = start_date.format('YYYY-MM-DD');
     let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss')
     Utils.api.getApiCall(
@@ -455,7 +472,7 @@ export const getRegDashboard = () => {
 export const getRegDashboardMale = () => {
   return (dispatch, getState) => {
     const { rStartDate, rEndDate} = getState().userListReducer;
-    let start_date = moment(rStartDate).subtract(15, 'd')
+    let start_date = moment(rStartDate)
     let start_mins_date = start_date.format('YYYY-MM-DD');
     let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss')
 
@@ -479,7 +496,7 @@ export const getRegDashboardMale = () => {
 export const getUnRegDashboard = () => {
   return (dispatch, getState) => {
     const { unRstartDate, unRendDate} = getState().userListReducer;
-    let start_date = moment(unRstartDate).subtract(15, 'd')
+    let start_date = moment(unRstartDate)
     let start_mins_date = start_date.format('YYYY-MM-DD');
     let end_date = moment(unRendDate).format('YYYY-MM-DD:HH:mm:ss')
     Utils.api.getApiCall(
@@ -502,7 +519,7 @@ export const getUnRegDashboard = () => {
 export const getUnRegDashboardMale = () => {
   return (dispatch, getState) => {
     const { unRstartDate, unRendDate} = getState().userListReducer;
-    let start_date = moment(unRstartDate).subtract(15, 'd')
+    let start_date = moment(unRstartDate)
     let start_mins_date = start_date.format('YYYY-MM-DD');
     let end_date = moment(unRendDate).format('YYYY-MM-DD:HH:mm:ss')
     Utils.api.getApiCall(

@@ -24,6 +24,7 @@ const endPoint = {
   postCountry: "country",
   getGeo: "dashboard/geo-stats",
   deleteInf: "influencer",
+  influencerPut : "influencer",
   datestats: "date/stats",
   datedashboardstats: "dashboard/total-users"
 };

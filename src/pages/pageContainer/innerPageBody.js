@@ -24,7 +24,7 @@ const PageContainer = props => {
   );
   console.log("rStartDate", rStartDate, rEndDate)
   const dispatch = useDispatch();
-  const [regComp, setRegComp] = useState(moment().subtract(15, 'days'));
+  const [regComp, setRegComp] = useState(moment().subtract(7, 'days'));
   // const [regCompStrt, setRegCompStrt] = useState(new Date());
   // const [regCompEnd, setRegCompEnd] = useState(new Date());
   const [inRegComp, setInRegComp] = useState(new Date());
@@ -57,7 +57,7 @@ const PageContainer = props => {
         backgroundColor: "rgb(242 68 98 / 22%)",
         borderColor: "#f24462",
         tension: 0.5,
-        borderWidth: 1,
+        borderWidth: 1.5,
         pointBorderWidth:0,
         pointRadius:0
       },
@@ -67,10 +67,10 @@ const PageContainer = props => {
         value?.count
         ),
         fill: true,
-        borderColor: "#7F7FD5",
+        borderColor: "#618CB4",
         tension: 0.5,
-        backgroundColor: "rgb(127 127 213 / 20%)",
-        borderWidth: 1,
+        backgroundColor: 'rgb(93 137 179 / 25%)',
+        borderWidth: 1.5,
         pointBorderWidth:0,
         pointRadius:0
       }
@@ -93,7 +93,7 @@ const PageContainer = props => {
         backgroundColor: "rgb(242 68 98 / 22%)",
         borderColor: "#f24462",
         tension: 0.5,
-        borderWidth: 1,
+        borderWidth: 1.5,
         pointBorderWidth:0,
         pointRadius:0
       },
@@ -104,10 +104,10 @@ const PageContainer = props => {
         ),
         fill: true,
         redraw :true,
-        borderColor: "#7F7FD5",
-        backgroundColor: "rgb(127 127 213 / 20%)",
+        borderColor: "#618CB4",
         tension: 0.5,
-        borderWidth: 1,
+        backgroundColor: 'rgb(93 137 179 / 25%)',
+        borderWidth: 1.5,
         pointBorderWidth:0,
         pointRadius:0
       }
@@ -166,13 +166,13 @@ const PageContainer = props => {
                       dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
                     }}>Past Day</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStatsNew(5, moment().subtract(7, 'd').format()))
                     }}>Past Week</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'months').format()))
                     }}>Past Month</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStatsNew(5, moment().subtract(1, 'years').format()))
                     }}>Past Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -199,13 +199,13 @@ const PageContainer = props => {
                       dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
                     }}>Past Day</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(7, 'd').format()))
                     }}>Past Week</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'months').format()))
                     }}>Past Month</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStatsDeactive(4, moment().subtract(1, 'years').format()))
                     }}>Past Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

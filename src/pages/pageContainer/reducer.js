@@ -2,9 +2,9 @@ import Utils from "../../utility";
 import moment from 'moment';
 
 const registerBackDate = new Date();
-registerBackDate.setDate(registerBackDate.getDate() - 15);
+registerBackDate.setDate(registerBackDate.getDate() - 7);
 const registerUnVefifiedBackDate = new Date();
-registerUnVefifiedBackDate.setDate(registerUnVefifiedBackDate.getDate() - 15);
+registerUnVefifiedBackDate.setDate(registerUnVefifiedBackDate.getDate() - 7);
 
 const initialState = {
   userlist: [],
@@ -25,6 +25,7 @@ const initialState = {
   dashboardStatsNew:[],
   dashboardStatsDeactive:[],
   existEmail: "",
+  existEmailScuse: "",
   existCodeMsg: "",
   existCode: "",
   pagination: {},

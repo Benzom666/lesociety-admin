@@ -18,10 +18,10 @@ import Utils from "../../utility/index.js";
 
 function UserList() {
   const dispatch = useDispatch();
-  const { influencerStats, existEmail, existCodeMsg, existCode} = useSelector(
+  const { influencerStats, existEmail, existEmailScuse, existCodeMsg, existCode} = useSelector(
     (state) => state.userListReducer
   );
-  console.log("existEmailexistEmail", existEmail)
+  console.log("existEmailexistEmail", existEmail) 
   useEffect(() => {
     dispatch(getInfluencer());
     dispatch(getInfluencerStats())
@@ -42,6 +42,30 @@ function UserList() {
     setSource("Enter Source");
     setCode('');
     setPromo('')
+    dispatch({
+      type: Utils.ActionName.GET_INFLUENCER_EXIST,
+      payload: {
+        existCodeMsg: ""
+      }
+    });
+    dispatch({
+      type: Utils.ActionName.GET_INFLUENCER_EXIST,
+      payload: {
+        existCode: "",
+      },
+    });
+    dispatch({
+      type: Utils.ActionName.GET_EXIST_MAIL,
+      payload: {
+        existEmailScuse: "",
+      },
+    });
+    dispatch({
+      type: Utils.ActionName.GET_EXIST_MAIL,
+      payload: {
+        existEmail: "",
+      },
+    });
   }
   const createInflu = () => {
     dispatch(influencerCreate(email, name, source, code, promo))
@@ -149,7 +173,7 @@ function UserList() {
                 }
                  placeholder="Enter Email" />
               </Form.Group>
-                {!!existEmail && <p>{existEmail}</p>}
+                {!!existEmailScuse.length > 0 ? <p className="text-success">{existEmailScuse}</p> : <p className="text-danger">{existEmail}</p>}
               <Form.Group className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Name</Form.Label>
                 <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Name" />
@@ -176,7 +200,8 @@ function UserList() {
                     getInfluencerExistCode(code))
                     }} placeholder="Enter Code" />
                 </Form.Group>
-                  {existCodeMsg || existCode}
+                  {existCodeMsg && <p className="text-success">{existCodeMsg}</p>} 
+                  {existCode && <p className="text-danger">{existCode}</p>}
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Promo %</Form.Label>
                   <Form.Control type="text" value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="Enter Promo %" />

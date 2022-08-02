@@ -9,12 +9,24 @@ import {
     Row,
     Col,
   } from "react-bootstrap";
-
+  import { useDispatch, useSelector } from "react-redux";
+import { getInfluencer, influencerUpdate } from './action';
 const EditInfluencers = (props) => {
+    const dispatch = useDispatch();
     const {name, email, promo, code, source} = props
+    const [userName, setUserName] = useState(name);
+    const [userEmail, setUserEmail] = useState(email);
+    const [userPromo, setUserPromo] = useState(promo);
+    const [userCode, setUserCode] = useState(code);
+    const [userSource, setUserSource] = useState(source);
+
     const [showPop, setShowPop] = useState(false);
     const handleShow = () => setShowPop(true);
-    const popupClosed = () => {setShowPop(false)};
+    const popupClosed = async() => {
+      await dispatch(influencerUpdate(userName,userEmail,userPromo,userCode,userSource))
+      setShowPop(false)
+      dispatch(getInfluencer())
+    };
   return (
     <><Dropdown.Item eventKey="req" onClick={handleShow}>
         Edit </Dropdown.Item>
@@ -35,15 +47,12 @@ const EditInfluencers = (props) => {
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
-                      value={email}
-                      // onChange={
-                      //   (e) => {
-                      //   setEmail(e.target.value)
-                      //   dispatch(
-                      //     getInfluencerEmailExists(email)
-                      //   )
-                      //   }
-                      // }
+                      value={userEmail}
+                      onChange={
+                        (e) => {
+                        setUserEmail(e.target.value)
+                        }
+                      }
                       placeholder="Enter Email"
                     />
                   </Form.Group>
@@ -52,8 +61,8 @@ const EditInfluencers = (props) => {
                     <Form.Label>Name</Form.Label>
                     <Form.Control
                       type="text"
-                      value={name}
-                      // onChange={(e) => setName(e.target.value)}
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
                       placeholder="Enter Name"
                     />
                   </Form.Group>
@@ -62,13 +71,10 @@ const EditInfluencers = (props) => {
                     <Form.Label>Source</Form.Label>
                     <select
                       class="form-control"
-                      value=""
-                      // onChange={(e) => setSource(e.target.value)}
+                      value={userSource}
+                      onChange={(e) => setUserSource(e.target.value)}
                     >
-                      <option>{source}</option>
-                      {/* {item?.source == "facebook" && <option value="facebook">Facebook</option>}
-                  {item?.source == "instagram" && <option value="instagram">Instagram</option>}
-                  {item?.source == "tiktok" && <option value="tiktok">Tik tok</option>} */}
+                      <option>{userSource}</option>
                       <option value="facebook">Facebook</option>
                       <option value="instagram">Instagram</option>
                       <option value="tiktok">Tik tok</option>
@@ -80,12 +86,10 @@ const EditInfluencers = (props) => {
                       <Form.Label>Code</Form.Label>
                       <Form.Control
                         type="text"
-                        value={code}
-                        // onChange={(e) => {
-                        //   setCode(e.target.value)
-                        //   dispatch(
-                        //   getInfluencerExistCode(code))
-                        //   }}
+                        value={userCode}
+                        onChange={(e) => {
+                          setUserCode(e.target.value)
+                          }}
                         placeholder="Enter Code"
                       />
                     </Form.Group>
@@ -93,8 +97,8 @@ const EditInfluencers = (props) => {
                       <Form.Label>Promo %</Form.Label>
                       <Form.Control
                         type="text"
-                        value={promo}
-                        // onChange={(e) => setPromo(e.target.value)}
+                        value={userPromo}
+                        onChange={(e) => setUserPromo(e.target.value)}
                         placeholder="Enter Promo %"
                       />
                     </Form.Group>
