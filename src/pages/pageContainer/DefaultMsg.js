@@ -27,7 +27,6 @@ export const DefaultMsg = (props) => {
         <Modal.Body> 
           <ListGroup>
             {!!defaultMsg && defaultMsg.map((value, index) => {
-              console.log("value model==>", value)
               return(
                 <ListGroup.Item>
               <Form.Check type="radio" id={index} name="requestmsg" value={value} 

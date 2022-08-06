@@ -33,6 +33,8 @@ const initialState = {
   search: "",
   current_page: "1",
   tab: 1,
+  // rowSelected: [],
+  // emails:[],
   rStartDate: registerBackDate,
   rEndDate:new Date(),
   unRstartDate:registerUnVefifiedBackDate,
