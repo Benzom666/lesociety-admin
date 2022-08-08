@@ -6,6 +6,7 @@ import {
   Dropdown,
   Button,
   Toast,
+  Spinner,
 } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useSelector } from "react-redux";
@@ -201,8 +202,8 @@ const UserTableData = (props) => {
   //     payload: { rowSelected: emails },
   //   });
   // };
-  const selectRow1 = (row) => {
-    console.log("row==>", row.emailId)
+  const selectRow1 = (row, rowIndex) => {
+    console.log("row==>", row, rowIndex)
 console.log("rowSelected==>", rowSelected)
     // setEmail([...email, row?.emailId])
     // const email = isSelect.map((item) => item.emailId);
@@ -213,6 +214,7 @@ console.log("rowSelected==>", rowSelected)
     });
   }
   const handleOnSelectAll = (row, isSelect) => {
+    console.log("row======>", row)
     const allEmail = isSelect.map((item) => item.emailId);
     dispatch({
       type: Utils.ActionName.USER_LIST,
@@ -344,10 +346,10 @@ console.log("rowSelected==>", rowSelected)
         columns={columns}
         defaultSorted={defaultSorted}
         selectRow={selectRow}
-        pagination={ paginationFactory(options) }
+        // pagination={ paginationFactory(options) }
         // pagination={ paginationFactory() }
       />
-      {console.log("rowSelected leang", rowSelected)}
+      <p className="text-danger">{props?.endUser}</p>
       {!!rowSelected && rowSelected.length > 0 &&(
         <Toast show={showA} onClose={toggleShowA} className="requestPopup">
           <Toast.Header></Toast.Header>
@@ -376,6 +378,7 @@ console.log("rowSelected==>", rowSelected)
         msgSubmit={msgSubmit}
         handleClose={handleClose}
       />
+      
     </>
   );
 };

@@ -1,6 +1,8 @@
 /*---------------------------sidebarUi--------------------------*/
 .sideBarUI {
   width: 202px;
+  height: 100vh;
+  position: fixed;
   background-color: #222326;
   &_header {
     padding: 60px 30px;

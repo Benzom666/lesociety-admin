@@ -37,10 +37,27 @@ function PostList(props) {
   const [isActive, setIsActive] = useState(false);
   const [saveId, setSaveId] = useState();
   const [id, setId] = useState();
-console.log("saveIdsaveId", saveId)
+  const [endUser, setEndUser] = useState()
+  
+  let offSet = 1;
+  const handleScroll = (e) => {
+    e.preventDefault();
+    const scrollHeight = e.target.documentElement.scrollHeight;
+    const currentHeight = Math.ceil(
+      e.target.documentElement.scrollTop + window.innerHeight
+    );
+    if (currentHeight + 1 >= scrollHeight) {
+      dispatch(getAllDates("", "", offSet += 1))
+      setEndUser("End The Post.")
+    }
+  }
+  useEffect(() => {
+    dispatch(getAllDates("", "", offSet));
+    window.addEventListener("scroll", handleScroll)
+  }, [])
+
   useEffect(() => {
     dispatch(getDefaultMsgList("postMessage"));
-    dispatch(getAllDates());
     dispatch(getDateStats())
   }, []);
   const msgSubmit = () => {
@@ -49,12 +66,12 @@ console.log("saveIdsaveId", saveId)
   };
  
   const UserPostList = datesList.map((value) => {
-    console.log("valuevaluevalue", value)
     const checkedUser = () =>{
       setSelectedUser(!selectedUser)
       selectedUser == true && setEmailSelected(value?.user_data[0]?.email)
     }
     return(
+      <>
       <Card className="bg-dark text-white">
       {value?.user_data.map((userDetail, index) => (
         <Card.Img key={index} src={userDetail?.images[0]} alt="Card image" />
@@ -100,16 +117,18 @@ console.log("saveIdsaveId", saveId)
       </Card.ImgOverlay>
       {saveId === value?._id && (
         <Card.Body
-          className={`posterDetails ${isActive ? "posterDetailShow" : ""}`}
+          className={`posterDetails r-spacing ${isActive ? "posterDetailShow" : ""}`}
         >
+          <div className="y-scroll post-cont-spacing">
           <h3> {value?.middle_class_dates} </h3>
           <p>{value?.date_details}</p>
+          </div>
         </Card.Body>
       )}
     </Card>
+    </>
     )
   });
-  console.log("datesCont==>", datesCont?.total_dates)
 
   return (
     <div className="dashboardUi">
@@ -215,7 +234,10 @@ console.log("saveIdsaveId", saveId)
                   <Dropdown.Item eventKey="100">100</Dropdown.Item>
                 </DropdownButton>
               </InputGroup>
-              <div className="userPostListBox">{UserPostList}</div>
+              <div className="userPostListBox">
+                {UserPostList}
+                <p className="text-danger">{endUser}</p>
+                </div>
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">
               <InputGroup className="">

@@ -221,7 +221,11 @@ const PageContainer = props => {
           <Col md="8" sm="12">
             <Card className='gridCard'>
               <Card.Header>
+              <Row className='w-100'>
+              <Col md="8"> 
                 <Card.Title> Registration Completed  </Card.Title>    
+              </Col>
+              <Col md="4" className='clandr-date'> 
                   <DateTimePicker 
                     onChange={(e) => {
                       dispatch({
@@ -235,10 +239,10 @@ const PageContainer = props => {
                     value={rStartDate} 
                     calendarClassName="graphFilter" 
                     disableClock="false"
-                    format="y-MM-dd"
+                    format="dd/MM/y"
                     minDetail="decade"
                   />
-                  -
+                  <span className='dategap'> - </span>
                   <DateTimePicker 
                     onChange={(e) => {
                       dispatch({
@@ -252,8 +256,10 @@ const PageContainer = props => {
                     value={rEndDate} 
                     calendarClassName="graphFilter" 
                     disableClock="false"
-                    format="y-MM-dd"
+                    format="dd/MM/y"
                   />
+                  </Col>
+                </Row>
               </Card.Header>       
               <Card.Body>
                 <Line data={data} />
@@ -262,7 +268,11 @@ const PageContainer = props => {
             {/* end section */}
             <Card className='gridCard'>
               <Card.Header>
+              <Row className='w-100'>
+                <Col md="8"> 
                 <Card.Title> Registration Uncompleted  </Card.Title>
+                </Col>
+                <Col md="4" className='clandr-date'> 
                 <DateTimePicker 
                      onChange={(e) => {
                       dispatch({
@@ -276,9 +286,9 @@ const PageContainer = props => {
                     value={unRstartDate} 
                     calendarClassName="graphFilter" 
                     disableClock="false"
-                    format="y-MM-dd"
+                    format="dd/MM/y"
                   />
-                  -
+                 <span className='dategap'> - </span>
                   <DateTimePicker 
                      onChange={(e) => {
                       dispatch({
@@ -292,8 +302,10 @@ const PageContainer = props => {
                     value={unRendDate} 
                     calendarClassName="graphFilter" 
                     disableClock="false"
-                    format="y-MM-dd"
+                    format="dd/MM/y"
                   />
+                  </Col>
+                </Row>
               </Card.Header>       
               <Card.Body>
                 <Line data={unCompdata} />

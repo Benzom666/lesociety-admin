@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../sideBar/sidebar.js";
 import UserTableContent from "./userTable.js";
 import {
@@ -16,9 +16,27 @@ function UserList() {
   const { userlist, pagination, tab, search, usersAdminStatus } = useSelector(
     (state) => state.userListReducer
   );
+  const [endUser, setEndUser] = useState()
+  let offSet = 1;
+  let paginations = pagination;
+  const handleScroll = (e) => {
+    console.log("offSet <= pagination?.total_pages", offSet , paginations)
+    const scrollHeight = e.target.documentElement.scrollHeight;
+    const currentHeight = Math.ceil(
+      e.target.documentElement.scrollTop + window.innerHeight
+    );
+    if (currentHeight + 1 >= scrollHeight) {
+      dispatch(getUserList("", offSet += 1))
+      setEndUser("End The UserList.")
+    }
+  }
+  useEffect(() => {
+    dispatch(getUserList("", offSet));
+    window.addEventListener("scroll", handleScroll)
+  },[])
+
   useEffect(() => {
     dispatch(getUserStatusCounter());
-    dispatch(getUserList());
     dispatch(
       getDefaultMsgList("taglineAndDesc")
     )
@@ -82,10 +100,10 @@ function UserList() {
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
-              <UserTableContent />
+              <UserTableContent endUser={endUser}/>
             </Tab.Pane>
-            <Tab.Pane eventKey="link-2">{<UserTableContent />}</Tab.Pane>
-            <Tab.Pane eventKey="link-3">{<UserTableContent />}</Tab.Pane>
+            <Tab.Pane eventKey="link-2">{<UserTableContent endUser={endUser}/>}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{<UserTableContent endUser={endUser}/>}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       </div>

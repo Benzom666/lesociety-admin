@@ -28,11 +28,11 @@ function PostList(props) {
   const [cardId, setCardId] = useState();
   const handleClose = () => setShow(false);
 
-  useEffect(() => {
-    dispatch(getUserStatusCounter());
-    dispatch(getUserList());
-    dispatch(getDefaultMsgList("taglineAndDesc"))
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getUserStatusCounter());
+  //   dispatch(getUserList());
+  //   dispatch(getDefaultMsgList("taglineAndDesc"))
+  // }, []);
 
   const msgSubmit = () => {
     dispatch(
@@ -61,10 +61,10 @@ function PostList(props) {
         }
         {
           isActive === true || cardId === post?._id && <Card.Body>
-          <Card.Text>
+          <Card.Text className="y-scroll">
             {post?.tag_desc_verified === true && post?.un_verified_description.length > 0 ? post?.un_verified_description : post?.description}
           </Card.Text>
-          <Card.Title>{post?.tag_desc_verified === true && post?.un_verified_tagline.length > 0 ? post?.un_verified_tagline : post?.tagline}</Card.Title>
+          <Card.Title className="y-scroll">{post?.tag_desc_verified === true && post?.un_verified_tagline.length > 0 ? post?.un_verified_tagline : post?.tagline}</Card.Title>
         </Card.Body>
         }
         <Card.Title> {post?.user_name} </Card.Title>
@@ -77,7 +77,6 @@ function PostList(props) {
             setIsActive(false)
             setCardId(post?._id)
             }}>Info</Card.Link>
-            {console.log("is active", isActive)}
         </div>
         <div>
           <Button className="requestBtn" onClick={()=>{

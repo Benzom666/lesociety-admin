@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../sideBar/sidebar.js";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,10 +11,26 @@ function PostList(props) {
   const { userlist } = useSelector(
     (state) => state.userListReducer
   );
-
+  const [endUser, setEndUser] = useState()
+  
+  let offSet = 1;
+  const handleScroll = (e) => {
+    e.preventDefault();
+    const scrollHeight = e.target.documentElement.scrollHeight;
+    const currentHeight = Math.ceil(
+      e.target.documentElement.scrollTop + window.innerHeight
+    );
+    if (currentHeight + 1 >= scrollHeight) {
+      dispatch(getUserList("", offSet += 1))
+      setEndUser("End The Post.")
+    }
+  }
+  useEffect(() => {
+    dispatch(getUserList("", offSet));
+    window.addEventListener("scroll", handleScroll)
+  }, [])
   useEffect(() => {
     dispatch(getUserStatusCounter());
-    dispatch(getUserList());
     dispatch(getDefaultMsgList("taglineAndDesc"))
   }, []);
 
@@ -26,6 +42,7 @@ function PostList(props) {
       <div className="inner-page userListUI">
         <PageHeader />
         <DataTablePagination data={userlist} />
+        <p className="text-danger">{endUser}</p>
       </div>
     </div>
   );

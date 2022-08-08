@@ -21,9 +21,26 @@ function UserList() {
   const { influencerStats, existEmail, existEmailScuse, existCodeMsg, existCode} = useSelector(
     (state) => state.userListReducer
   );
-  console.log("existEmailexistEmail", existEmail) 
+  const [endUser, setEndUser] = useState()
+  let offSet = 1;
+  const handleScroll = (e) => {
+    e.preventDefault();
+    const scrollHeight = e.target.documentElement.scrollHeight;
+    const currentHeight = Math.ceil(
+      e.target.documentElement.scrollTop + window.innerHeight
+    );
+    if (currentHeight + 1 >= scrollHeight) {
+      dispatch(getInfluencer("", "", offSet += 1))
+      setEndUser("End The Post.")
+    }
+  }
   useEffect(() => {
-    dispatch(getInfluencer());
+    dispatch(getInfluencer("", "", offSet));
+    window.addEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    // dispatch(getInfluencer());
     dispatch(getInfluencerStats())
   }, []);
 
@@ -137,6 +154,7 @@ function UserList() {
           <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
               <InfluencersList />
+              <p className="text-danger">{endUser}</p>
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">
               <InfluencersList />
@@ -164,8 +182,8 @@ function UserList() {
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" value={email} 
                 onChange={
-                  (e) => {
-                  setEmail(e.target.value)
+                  async (e) => {
+                  await setEmail(e.target.value)
                   dispatch(
                     getInfluencerEmailExists(email)
                   )

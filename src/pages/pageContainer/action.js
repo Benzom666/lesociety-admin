@@ -1,17 +1,17 @@
 import moment from "moment";
 import Utils from "../../utility";
 
-export const getUserList = (status) => {
+export const getUserList = (status, offSet) => {
   return (dispatch, getState) => {
-    const { per_page, current_page, search } = getState().userListReducer;
+    const { per_page, current_page, search, userlist } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${current_page}`,
+      `?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: {
-            userlist: respData?.data?.data?.users,
+            userlist: [...userlist, ...respData?.data?.data?.users],
             pagination: respData?.data?.data?.pagination,
           },
         });
@@ -107,11 +107,11 @@ export const getAllRequest = (username) => {
 };
 
 // get influencer
-export const getInfluencer = (status, active) => {
+export const getInfluencer = (status, active, offSet) => {
   return (dispatch, getState) => {
     const { per_page, current_page = 1, search } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getInfluencer,`?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${current_page}&active=${active ? active : ''}`,
+      Utils.endPoints.getInfluencer,`?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active ? active : ''}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER,
@@ -423,17 +423,17 @@ export const getPendingUser = () => {
   };
 };
 // get influencer
-export const getAllDates = (status, active) => {
+export const getAllDates = (status, active, offSet) => {
   return (dispatch, getState) => {
-    const { per_page, current_page, search } = getState().userListReducer;
+    const { per_page, current_page, search, datesList } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getAllDate,`?email=${search}&status=${status ? status : ""}&per_page=${per_page}&current_page=${current_page}`,
+      Utils.endPoints.getAllDate,`?email=${search}&status=${status ? status : ""}&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
         console.log("respDatarespData", respData)
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: {
-            datesList: respData?.data?.data?.dates,
+            datesList: [...datesList, ...respData?.data?.data?.dates],
             datesCont: respData?.data?.data?.pagination,
           },
         });
