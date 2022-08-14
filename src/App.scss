@@ -59,3 +59,10 @@
 .r-spacing{
   padding: 0px !important;
 }
+body .form-control:focus{
+  box-shadow: none !important;
+  }
+  a:focus{
+  border: none !important;
+  box-shadow: none !important;
+  }
