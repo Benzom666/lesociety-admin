@@ -40,7 +40,7 @@ function PostList(props) {
     <div className="dashboardUi">
       <SideBar />
       <div className="inner-page userListUI">
-        <PageHeader />
+        <PageHeader title="Verify Photo"/>
         <DataTablePagination data={userlist} />
         <p className="text-danger">{endUser}</p>
       </div>

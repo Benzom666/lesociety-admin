@@ -95,7 +95,7 @@ const UserTableData = (props) => {
         </span>
       ),
       DropDown:
-        item?.email_verified == true ? (
+        item?.email_verified &&  item.status != 2 ? (
           <DropdownButton
             variant="outline-secondary"
             title={

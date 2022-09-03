@@ -134,7 +134,7 @@ function PostList(props) {
     <div className="dashboardUi">
       <SideBar />
       <div className="inner-page userListUI">
-        <PageHeader />
+        <PageHeader title="Posts" />
         <Tab.Container defaultActiveKey="link-1">
           <Nav variant="tabs">
             <Nav.Item>

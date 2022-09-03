@@ -116,7 +116,7 @@ const PageContainer = props => {
 
   return (
     <div className="inner-page">
-      <PageHeader/>
+      <PageHeader title="Dashboard"/>
         <div className='dashboardPageUI'>
           <Row>
           <Col md="4" sm="12">

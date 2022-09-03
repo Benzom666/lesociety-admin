@@ -6,7 +6,7 @@ const PageHeader = props => {
 
   return (
     <Stack direction="horizontal" className="pageHeaderBox" gap={3}>
-      <div className="pageTitle"> Statistics </div>
+      <div className="pageTitle"> {props.title} </div>
       <div className="ms-auto profileDropDown"> 
         <Dropdown align="end">
         <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">

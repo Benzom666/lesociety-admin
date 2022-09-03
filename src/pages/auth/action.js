@@ -10,7 +10,12 @@ export const onSubmit = (values, navigate) => {
       Utils.endPoints.login,
       dataToSend,
       (respData) => {
-        localStorage.setItem("accessToken", respData?.data?.data?.token);
+        const saveLocalStorage = async function () {
+          await Promise.resolve();
+          localStorage.setItem("accessToken", respData?.data?.data?.token);
+        // localStorage.setItem("accessToken", respData?.data?.data?.token);
+        }
+        saveLocalStorage();
         navigate("/dashboard");
       },
       (error) => {

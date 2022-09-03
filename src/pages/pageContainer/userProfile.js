@@ -38,7 +38,7 @@ const PageContainer = props => {
     <div className='dashboardUi'> 
       <SideBar />
         <div className="inner-page userProfile-page">
-      <PageHeader/>
+      <PageHeader title="Users profile"/>
             <div className='userProfileDetail'>
               <ProfileImages img={!!userProfileData && userProfileData?.images}/>
               <Card body className="userProfileName">
@@ -49,7 +49,7 @@ const PageContainer = props => {
                 <Button className="requestBtn" onClick={handleShow}>Request</Button>
                 {
                   userProfileData?.status === 2 ? 
-                  <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verifyed</button> :
+                  <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verified</button> :
                   <Button className="verifyBtn" 
                 onClick={() => dispatch(postUpdateUserStatus(2, userProfileData?.email))}
                 >Verify</Button>
