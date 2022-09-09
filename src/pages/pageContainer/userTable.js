@@ -25,6 +25,7 @@ import {
 } from "./action";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { DefaultMsg } from "./DefaultMsg";
+import ProfileImage from '../../assets/images/profleIamge.svg';
 
 const UserTableData = (props) => {
   const dispatch = useDispatch();
@@ -35,7 +36,8 @@ const UserTableData = (props) => {
     search,
     per_page,
     defaultMsg,
-    rowSelected,emails
+    rowSelected,
+    emails,
   } = useSelector((state) => state.userListReducer);
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
@@ -67,7 +69,7 @@ const UserTableData = (props) => {
               dispatch(getUserProfile(item.user_name));
             }}
           >
-            <img src={item.images[0]} alt="RyanUser" border="0" />{" "}
+            <img src={item.images[0] || ProfileImage} alt="RyanUser" border="0" />{" "}
             <p> {item.user_name} </p>
           </Link>
         </div>
@@ -95,7 +97,7 @@ const UserTableData = (props) => {
         </span>
       ),
       DropDown:
-        item?.email_verified &&  item.status != 2 ? (
+        item?.email_verified && item.status != 2 ? (
           <DropdownButton
             variant="outline-secondary"
             title={
@@ -156,7 +158,7 @@ const UserTableData = (props) => {
     {
       dataField: "registerDate",
       text: "Registered Date",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "emailId",
@@ -202,19 +204,23 @@ const UserTableData = (props) => {
   //     payload: { rowSelected: emails },
   //   });
   // };
-  const selectRow1 = (row, rowIndex) => {
-    console.log("row==>", row, rowIndex)
-console.log("rowSelected==>", rowSelected)
+  const selectRow1 = (row, checkType) => {
+    let selectedRow = rowSelected;
+    if(checkType) {
+      selectedRow = [...selectedRow, row.emailId];
+    } else {
+      selectedRow.splice(selectedRow.indexOf(row.emailId), 1);
+    }
     // setEmail([...email, row?.emailId])
     // const email = isSelect.map((item) => item.emailId);
-    let emails = row.emailId
+    // let emailSelected = [...rowSelected, row.emailId];
     dispatch({
       type: Utils.ActionName.USER_LIST,
-      payload: { rowSelected: emails },
+      payload: { rowSelected: selectedRow },
     });
-  }
+  };
+
   const handleOnSelectAll = (row, isSelect) => {
-    console.log("row======>", row)
     const allEmail = isSelect.map((item) => item.emailId);
     dispatch({
       type: Utils.ActionName.USER_LIST,
@@ -260,7 +266,6 @@ console.log("rowSelected==>", rowSelected)
   //     Showing { from } to { to } of { size } Results
   //   </span>
   // );
-  console.log("pagination.length", pagination)
   const options = {
     paginationSize: 4,
     pageStartIndex: 1,
@@ -269,26 +274,32 @@ console.log("rowSelected==>", rowSelected)
     // withFirstAndLast: false, // Hide the going to First and Last page button
     // hideSizePerPage: true, // Hide the sizePerPage dropdown always
     // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
-    firstPageText: 'First',
-    prePageText: 'Back',
-    nextPageText: 'Next',
-    lastPageText: 'Last',
-    nextPageTitle: 'First page',
-    prePageTitle: 'Pre page',
-    firstPageTitle: 'Next page',
-    lastPageTitle: 'Last page',
+    firstPageText: "First",
+    prePageText: "Back",
+    nextPageText: "Next",
+    lastPageText: "Last",
+    nextPageTitle: "First page",
+    prePageTitle: "Pre page",
+    firstPageTitle: "Next page",
+    lastPageTitle: "Last page",
     // showTotal: true,
     // paginationTotalRenderer: customTotal,
     disablePageTitle: true,
-    sizePerPageList: [{
-      text: '5', value: 5
-    }, {
-      text: '10', value: 10
-    }, {
-      text: 'All', value: pagination?.total_users
-    }] 
+    sizePerPageList: [
+      {
+        text: "5",
+        value: 5,
+      },
+      {
+        text: "10",
+        value: 10,
+      },
+      {
+        text: "All",
+        value: pagination?.total_users,
+      },
+    ],
   };
-
   return (
     <>
       <InputGroup className="">
@@ -298,6 +309,7 @@ console.log("rowSelected==>", rowSelected)
           id="search"
           name="search"
           value={search}
+          // disabled={}
           onChange={(e) => {
             dispatch({
               type: Utils.ActionName.USER_LIST,
@@ -346,11 +358,12 @@ console.log("rowSelected==>", rowSelected)
         columns={columns}
         defaultSorted={defaultSorted}
         selectRow={selectRow}
+        // ref={userlist.length === index+1 ? props.ref : null}
         // pagination={ paginationFactory(options) }
         // pagination={ paginationFactory() }
       />
       <p className="text-danger">{props?.endUser}</p>
-      {!!rowSelected && rowSelected.length > 0 &&(
+      {!!rowSelected && rowSelected.length > 0 ? (
         <Toast show={showA} onClose={toggleShowA} className="requestPopup">
           <Toast.Header></Toast.Header>
           <Toast.Body className="d-flex align-items-center w-100">
@@ -368,7 +381,7 @@ console.log("rowSelected==>", rowSelected)
             </Button>
           </Toast.Body>
         </Toast>
-      )}
+      ) : null}
       <DefaultMsg
         setid={setId}
         defaultMsg={defaultMsg[0]?.taglineAndDesc}
@@ -378,7 +391,6 @@ console.log("rowSelected==>", rowSelected)
         msgSubmit={msgSubmit}
         handleClose={handleClose}
       />
-      
     </>
   );
 };

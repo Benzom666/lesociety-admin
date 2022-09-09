@@ -44,16 +44,15 @@ const InfluencersList = (props) => {
     document.getElementById("search").focus();
   }, []);
   const products =
-    !!influencerList &&
     influencerList?.map((item, index) => {
       return {
         id: index,
         name: item?.name,
         source: (
           <div className="social-source-icon">
-            {(item?.source == "facebook" && <img src={FaceBookIcon} />) ||
-              (item?.source == "instagram" && <img src={InstagramIcon} />) ||
-              (item?.source == "tiktok" && <img src={TicTocIcon} />)}
+            {(item?.source == "facebook" && <img src={FaceBookIcon} alt="facebook" />) ||
+              (item?.source == "instagram" && <img src={InstagramIcon} alt="instagram"/>) ||
+              (item?.source == "tiktok" && <img src={TicTocIcon} alt="tiktok" />)}
           </div>
         ),
         email: item?.email,
@@ -106,7 +105,7 @@ const InfluencersList = (props) => {
         ),
       };
     });
-
+    console.log(products);
   const columns = [
     {
       dataField: "name",
@@ -265,7 +264,7 @@ const InfluencersList = (props) => {
         keyField="id"
         data={products}
         columns={columns}
-        defaultSorted={defaultSorted}
+        // defaultSorted={defaultSorted}
         selectRow={selectRow}
         // pagination={paginations}
       />

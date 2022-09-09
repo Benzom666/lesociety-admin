@@ -1,5 +1,5 @@
 import Utils from "../../utility";
-import moment from 'moment';
+import moment from "moment";
 
 const registerBackDate = new Date();
 registerBackDate.setDate(registerBackDate.getDate() - 7);
@@ -15,15 +15,15 @@ const initialState = {
   defaultMsg: [],
   influencerList: [],
   datesList: [],
-  datesCont:[],
+  datesCont: [],
   registerCompFemaleList: [],
   registerCompMaleList: [],
-  registerUnCompFemaleList:[],
+  registerUnCompFemaleList: [],
   registerUnCompMaleList: [],
   datesStats: [],
   dashboardStats: [],
-  dashboardStatsNew:[],
-  dashboardStatsDeactive:[],
+  dashboardStatsNew: [],
+  dashboardStatsDeactive: [],
   existEmail: "",
   existEmailScuse: "",
   existCodeMsg: "",
@@ -33,105 +33,116 @@ const initialState = {
   search: "",
   current_page: "1",
   tab: 1,
-  // rowSelected: [],
+  rowSelected: [],
   // emails:[],
   rStartDate: registerBackDate,
-  rEndDate:new Date(),
-  unRstartDate:registerUnVefifiedBackDate,
-  unRendDate:new Date()
-}; 
-console.log("existEmailexistEmail", initialState.existEmail)
+  rEndDate: new Date(),
+  unRstartDate: registerUnVefifiedBackDate,
+  unRendDate: new Date(),
+  loading: false,
+};
+console.log("existEmailexistEmail", initialState.existEmail);
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {
-    case `${Utils.ActionName.USER_LIST}`:
+    case Utils.ActionName.USER_LIST:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case Utils.ActionName.GET_TOKEN:
       return {
         ...state,
         ...action.payload,
       };
     case `${Utils.ActionName.USER_PROFILE}`:
-        return {
-          ...state,
-          ...action.payload,
-      };
-      case `${Utils.ActionName.USER_COUNTER}`:
-        return {
-          ...state,
-          ...action.payload,
-      };
-      case `${Utils.ActionName.GET_INFLUENCER_STATS}`:
-        return {
-          ...state,
-          ...action.payload,
-      };
-      case `${Utils.ActionName.GET_DEFAULT_MSG}`:
-        return {
-          ...state,
-          ...action.payload,
-      };
-      case `${Utils.ActionName.GET_INFLUENCER}`:
-        return {
-          ...state,
-          ...action.payload,
-      };
-      case `${Utils.ActionName.GET_GEO_STATS}`:
       return {
         ...state,
         ...action.payload,
       };
-      case `${Utils.ActionName.GET_DATES_STATS}`:
-        return {
-          ...state,
-          ...action.payload,
-        };
-      case `${Utils.ActionName.GET_DASHBOARD_STATS}`:
-        return {
-          ...state,
-          ...action.payload,
-        };
-      case `${Utils.ActionName.GET_DASHBOARDNEW_STATS}`:
-          return {
-            ...state,
-            ...action.payload,
-          };
-      case `${Utils.ActionName.GET_DASHBOARDDEACTIVATE_STATS}`:
-        return {
-          ...state,
-          ...action.payload,
-        };
-      case `${Utils.ActionName.GET_ALL_DATES}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.USER_COUNTER}`:
+      return {
+        ...state,
+        ...action.payload,
       };
-      case `${Utils.ActionName.GET_EXIST_MAIL}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.GET_INFLUENCER_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
       };
-      case `${Utils.ActionName.GET_INFLUENCER_EXIST}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.GET_DEFAULT_MSG}`:
+      return {
+        ...state,
+        ...action.payload,
       };
-      case `${Utils.ActionName.GET_REGCOMPFEMALE}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.GET_INFLUENCER}`:
+      return {
+        ...state,
+        ...action.payload,
       };
-      case `${Utils.ActionName.GET_REGCOMPMALE}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.GET_GEO_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
       };
-      case `${Utils.ActionName.GET_REGUNCOMPFEMALE}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.GET_DATES_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
       };
-      case `${Utils.ActionName.GET_REGUNCOMPMALE}`:
-        return {
-          ...state,
-          ...action.payload,
+    case `${Utils.ActionName.GET_DASHBOARD_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_DASHBOARDNEW_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_DASHBOARDDEACTIVATE_STATS}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_ALL_DATES}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_EXIST_MAIL}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_INFLUENCER_EXIST}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_REGCOMPFEMALE}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_REGCOMPMALE}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_REGUNCOMPFEMALE}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_REGUNCOMPMALE}`:
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return { ...state };

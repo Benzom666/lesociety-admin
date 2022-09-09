@@ -2,12 +2,14 @@ import moment from "moment";
 import Utils from "../../utility";
 
 export const getUserList = (status, offSet) => {
+  // alert(status);
   return (dispatch, getState) => {
     const { per_page, current_page, search, userlist } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}`,
+      `?userName=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
+        console.log(respData?.data?.data?.total_pages, '333');
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: {
@@ -424,7 +426,14 @@ export const getPendingUser = () => {
 };
 // get influencer
 export const getAllDates = (status, active, offSet) => {
+
   return (dispatch, getState) => {
+    dispatch({
+      type: 'SET_LOADING',
+      payload: {
+        loading: true
+      }
+    })
     const { per_page, current_page, search, datesList } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.getAllDate,`?email=${search}&status=${status ? status : ""}&per_page=${per_page}&current_page=${offSet}`,
@@ -435,6 +444,7 @@ export const getAllDates = (status, active, offSet) => {
           payload: {
             datesList: [...datesList, ...respData?.data?.data?.dates],
             datesCont: respData?.data?.data?.pagination,
+            loading: false
           },
         });
       },
@@ -451,7 +461,7 @@ export const getRegDashboard = () => {
     const { rStartDate, rEndDate} = getState().userListReducer;
     let start_date = moment(rStartDate)
     let start_mins_date = start_date.format('YYYY-MM-DD');
-    let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss')
+    let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss');
     Utils.api.getApiCall(
       Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {

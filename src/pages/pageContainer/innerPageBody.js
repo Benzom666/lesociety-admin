@@ -31,15 +31,19 @@ const PageContainer = props => {
   const [inRegCompEnd, setInRegCompEnd] = useState(new Date());
   // console.log("regCompStrtregCompStrtregCompStrt", regCompStrt)
   useEffect(() => {
-    dispatch(getRegDashboard())
-    dispatch(getRegDashboardMale())
-    dispatch(getUnRegDashboard())
-    dispatch(getUnRegDashboardMale())
-    dispatch(getCountry())
-    dispatch(getGeoStats())
-    dispatch(getDashboardStats())
-    dispatch(getDashboardStatsNew(5))
-    dispatch(getDashboardStatsDeactive(4))
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+    // setTimeout(() => {
+      dispatch(getRegDashboard())
+      dispatch(getRegDashboardMale())
+      dispatch(getUnRegDashboard())
+      dispatch(getUnRegDashboardMale())
+      dispatch(getCountry())
+      dispatch(getGeoStats())
+      dispatch(getDashboardStats())
+      dispatch(getDashboardStatsNew(5))
+      dispatch(getDashboardStatsDeactive(4))
+    // }, 3000)
   }, [])
   const data = {
     labels: 

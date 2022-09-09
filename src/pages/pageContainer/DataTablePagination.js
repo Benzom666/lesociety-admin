@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Utils from "../../utility/index.js";
 import { Nav, Tab, Badge, Form, Card, Button } from "react-bootstrap";
@@ -15,8 +15,9 @@ import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import { DefaultMsg } from "./DefaultMsg";
 
 function PostList(props) {
+  const { setEndUser } = props;
   const dispatch = useDispatch();
-  const { usersAdminStatus, userlist, defaultMsg } = useSelector(
+  const { usersAdminStatus, userlist, defaultMsg, pagination, loading } = useSelector(
     (state) => state.userListReducer
   );
   const [id, setId] = useState();
@@ -25,22 +26,35 @@ function PostList(props) {
   const [show, setShow] = useState();
   const [msg, setMsg] = useState();
   const [cardId, setCardId] = useState();
+  const [page, setPage] = useState(2);
+  const [status, setStatus] = useState(5);
   const handleClose = () => setShow(false);
 
-  // useEffect(() => {
-  //   dispatch(getUserStatusCounter());
-  //   dispatch(getUserList());
-  //   dispatch(getDefaultMsgList("taglineAndDesc"))
-  // }, []);
 
   const msgSubmit = () => {
     dispatch(postSendDefaulMsg("taglineAndDesc", id, userEmail));
     setShow(false);
   };
-
-  const UserPostList = userlist.map((post) => {
+  const observer = useRef();
+  const lastPostElementRef = useCallback(node => {
+    if(loading) return;
+    if(observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting && pagination.total_pages >= page) {
+        console.log("visible");
+        dispatch(getUserList(status, page));
+        setPage(page+1);
+      }
+      else {
+        setEndUser("End of page");
+        console.log(page)
+      }
+    });
+    if(node) observer.current.observe(node);
+  });
+  const UserPostList = userlist.map((post, index) => {
     return (
-      <Card className={"text-white verifyPhotoCard"} key={post.id}>
+      <Card className={"text-white verifyPhotoCard"} key={post.id} ref={userlist.length === index+1 ? lastPostElementRef : null} >
         <div className="cardActionBox">
           <Form.Check className="checkboxUI" type="checkbox" />
         </div>
@@ -113,7 +127,7 @@ function PostList(props) {
                     setUserEmail(post?.email);
                   }}
                 >
-                  Request
+                  Requestttt
                 </Button>
                 <Button
                   className={"verifyBtn"}
@@ -139,7 +153,47 @@ function PostList(props) {
     <>
       <Tab.Container defaultActiveKey="link-2">
         <Nav variant="tabs">
-          {/* <Nav.Item>
+         
+          <Nav.Item>
+            <Nav.Link
+              eventKey="link-2"
+              onClick={() => {
+                dispatch({
+                  type: Utils.ActionName.USER_LIST,
+                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
+                });
+                dispatch(getUserList(5, 1));
+                setStatus(5);
+                setPage(2);
+              }}
+            >
+              New Users Pending Verification
+              <Badge pill bg="secondary">
+                {usersAdminStatus?.new_users}
+              </Badge>
+            </Nav.Link>
+          </Nav.Item>
+         
+          <Nav.Item>
+            <Nav.Link
+              eventKey="link-4"
+              onClick={() => {
+                dispatch({
+                  type: Utils.ActionName.USER_LIST,
+                  payload: { status: 1, tab: 2, search: "", per_page: 10, userlist: [],  },
+                });
+                setStatus(1);
+                dispatch(getUserList(1, 1));
+                setPage(2)
+              }}
+            >
+              All Users Pending Verification
+              <Badge pill bg="secondary">
+                {usersAdminStatus?.pending_users}
+              </Badge>
+            </Nav.Link>
+          </Nav.Item>
+           {/* <Nav.Item>
             <Nav.Link
               eventKey="link-1"
               onClick={() => {
@@ -156,24 +210,7 @@ function PostList(props) {
               </Badge>
             </Nav.Link>
           </Nav.Item> */}
-          <Nav.Item>
-            <Nav.Link
-              eventKey="link-2"
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList(5));
-              }}
-            >
-              New Users Pending Verification
-              <Badge pill bg="secondary">
-                {usersAdminStatus?.new_users}
-              </Badge>
-            </Nav.Link>
-          </Nav.Item>
-          {/* <Nav.Item>
+           {/* <Nav.Item>
             <Nav.Link
               eventKey="link-3"
               onClick={() => {
@@ -190,37 +227,21 @@ function PostList(props) {
               </Badge>
             </Nav.Link>
           </Nav.Item> */}
-          <Nav.Item>
-            <Nav.Link
-              eventKey="link-4"
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList(1));
-              }}
-            >
-              All Users Pending Verification
-              <Badge pill bg="secondary">
-                {usersAdminStatus?.pending_users}
-              </Badge>
-            </Nav.Link>
-          </Nav.Item>
         </Nav>
         <Tab.Content>
+           <Tab.Pane eventKey="link-2">
+            <VerifyPhotoCards UserPostList={status === 5 ? UserPostList : []} />
+          </Tab.Pane> 
+           <Tab.Pane eventKey="link-4">
+            <VerifyPhotoCards UserPostList={status === 1 ? UserPostList : []}
+            />
+          </Tab.Pane> 
           {/* <Tab.Pane eventKey="link-1">
             <VerifyPhotoCards UserPostList={UserPostList} />
           </Tab.Pane> */}
-          <Tab.Pane eventKey="link-2">
-            <VerifyPhotoCards UserPostList={UserPostList} />
-          </Tab.Pane>
           {/* <Tab.Pane eventKey="link-3">
             <VerifyPhotoCards UserPostList={UserPostList} />
           </Tab.Pane> */}
-          <Tab.Pane eventKey="link-4">
-            <VerifyPhotoCards UserPostList={UserPostList} />
-          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
       <DefaultMsg

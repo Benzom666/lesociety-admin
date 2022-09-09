@@ -1,5 +1,5 @@
 import Utils from ".";
-import axios from "axios/index";
+import axios from "axios";
 
 /**
  * function to check if code matches to user invalid.
@@ -36,6 +36,8 @@ const postApiCall = async (
   successCallback,
   errorCallback
 ) => {
+  const token = localStorage.getItem("accessToken");
+  console.log(token);
 await  Utils.constants.axios
     .post(endPoint, params)
     .then((response) => {
@@ -87,8 +89,14 @@ const getApiCall = async (
   errorCallback,
   data ={}
 ) => {
-  
- await Utils.constants.axios
+  const axiosFunc =  axios.create({
+    timeout: 100000,
+    baseURL: "https://staging-api.secrettime.com/api/v1/",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+    },
+  })
+ await axiosFunc
     .get(Utils.constants.apiUrl + endPoint + params, data)
     .then((response) => {
       successCallback(response);

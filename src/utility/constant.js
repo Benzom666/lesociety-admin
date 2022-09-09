@@ -1,8 +1,5 @@
 import axios from "axios";
 
-/**
- * setup axios instance
- */
 const $axios = axios.create({
   timeout: 100000,
   baseURL: "https://staging-api.secrettime.com/api/v1/",

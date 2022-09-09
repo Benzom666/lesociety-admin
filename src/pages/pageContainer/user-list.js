@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import SideBar from "../sideBar/sidebar.js";
 import UserTableContent from "./userTable.js";
 import {
@@ -16,10 +16,11 @@ function UserList() {
   const { userlist, pagination, tab, search, usersAdminStatus } = useSelector(
     (state) => state.userListReducer
   );
-  const [endUser, setEndUser] = useState()
+  const [endUser, setEndUser] = useState();
+  
   let offSet = 1;
   let paginations = pagination;
-  const handleScroll = (e) => {
+  const handleScroll = function (e) {
     console.log("offSet <= pagination?.total_pages", offSet , paginations)
     const scrollHeight = e.target.documentElement.scrollHeight;
     const currentHeight = Math.ceil(
@@ -32,8 +33,16 @@ function UserList() {
   }
   useEffect(() => {
     dispatch(getUserList("", offSet));
-    window.addEventListener("scroll", handleScroll)
-  },[])
+    window.addEventListener("scroll", handleScroll, true);
+    // setTimeout(() => {
+    //   window.addEventListener("scroll", handleScroll);
+    //   console.log(paginations);
+    // }, 1000)
+  },[]);
+  useEffect(() => {
+    console.log(pagination.current_page >= pagination.total_pages);
+    if( pagination.total_pages <= pagination.current_page ) window.removeEventListener("scroll", handleScroll, true);
+  }, [pagination])
 
   useEffect(() => {
     dispatch(getUserStatusCounter());
@@ -102,8 +111,8 @@ function UserList() {
             <Tab.Pane eventKey="link-1">
               <UserTableContent endUser={endUser}/>
             </Tab.Pane>
-            <Tab.Pane eventKey="link-2">{<UserTableContent endUser={endUser}/>}</Tab.Pane>
-            <Tab.Pane eventKey="link-3">{<UserTableContent endUser={endUser}/>}</Tab.Pane>
+            <Tab.Pane eventKey="link-2">{<UserTableContent endUser={endUser} />}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{<UserTableContent endUser={endUser} />}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       </div>
