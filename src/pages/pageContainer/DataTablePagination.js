@@ -47,7 +47,6 @@ function PostList(props) {
       }
       else {
         setEndUser("End of page");
-        console.log(page)
       }
     });
     if(node) observer.current.observe(node);
@@ -127,7 +126,7 @@ function PostList(props) {
                     setUserEmail(post?.email);
                   }}
                 >
-                  Requestttt
+                  Request
                 </Button>
                 <Button
                   className={"verifyBtn"}

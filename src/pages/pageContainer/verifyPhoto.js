@@ -16,7 +16,7 @@ const PostList = React.memo(function (props) {
   const { userlist } = useSelector(
     (state) => state.userListReducer
   );
-  const [endUser, setEndUser] = useState();
+  const [endUser, setEndUser] = useState("");
 
   useEffect(() => {
     dispatch(getUserList(5, 1));

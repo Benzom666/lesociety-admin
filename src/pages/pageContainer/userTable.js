@@ -211,9 +211,6 @@ const UserTableData = (props) => {
     } else {
       selectedRow.splice(selectedRow.indexOf(row.emailId), 1);
     }
-    // setEmail([...email, row?.emailId])
-    // const email = isSelect.map((item) => item.emailId);
-    // let emailSelected = [...rowSelected, row.emailId];
     dispatch({
       type: Utils.ActionName.USER_LIST,
       payload: { rowSelected: selectedRow },

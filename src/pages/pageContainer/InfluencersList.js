@@ -154,20 +154,7 @@ const InfluencersList = (props) => {
       order: "desc",
     },
   ];
-  // const selectRow1 = (row, isSelect) => {
-  //   var emails = rowSelected;
 
-  //   if (isSelect) {
-  //     emails.push(row.emailId);
-  //   } else {
-  //     emails = emails.filter((item) => item !== row.emailId);
-  //   }
-
-  //   dispatch({
-  //     type: Utils.ActionName.GET_INFLUENCER,
-  //     payload: { rowSelected: emails },
-  //   });
-  // };
   const handleOnSelectAll = (row, isSelect) => {
     const allEmail = isSelect.map((item) => item.emailId);
 

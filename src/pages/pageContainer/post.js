@@ -193,7 +193,7 @@ function PostList(props) {
                     type: Utils.ActionName.USER_LIST,
                     payload: { tab: 1, search: "", per_page: 10, userlist: [] },
                   });
-                  dispatch(getAllDates());
+                  dispatch(getAllDates("", "", 1));
                   setStatus("");
                   setPage(2);
                 }}
@@ -212,7 +212,7 @@ function PostList(props) {
                     type: Utils.ActionName.USER_LIST,
                     payload: { tab: 2, search: "", per_page: 10, userlist: [] },
                   });
-                  dispatch(getAllDates(5));
+                  dispatch(getAllDates(5, "", 1));
                   setStatus(5);
                   setPage(2);
                 }}
@@ -231,7 +231,7 @@ function PostList(props) {
                     type: Utils.ActionName.USER_LIST,
                     payload: { tab: 3, search: "", per_page: 10, userlist: [] },
                   });
-                  dispatch(getAllDates(3));
+                  dispatch(getAllDates(3, "", 1));
                   setStatus(3);
                   setPage(2);
                 }}
@@ -258,11 +258,11 @@ function PostList(props) {
                       payload: { search: e.target.value },
                     });
                     if (tab === 1) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else if (tab === 2) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     }
                   }}
                 />
@@ -277,11 +277,11 @@ function PostList(props) {
                       payload: { per_page: e },
                     });
                     if (tab === 1) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else if (tab === 2) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else {
-                      dispatch(getAllDates(1));
+                      dispatch(getAllDates(1, "", 1));
                     }
                   }}
                 >
@@ -311,11 +311,11 @@ function PostList(props) {
                       payload: { search: e.target.value },
                     });
                     if (tab === 1) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else if (tab === 2) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     }
                   }}
                 />
@@ -330,11 +330,11 @@ function PostList(props) {
                       payload: { per_page: e },
                     });
                     if (tab === 1) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else if (tab === 2) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else {
-                      dispatch(getAllDates(1));
+                      dispatch(getAllDates(1, "", 1));
                     }
                   }}
                 >
@@ -361,11 +361,11 @@ function PostList(props) {
                       payload: { search: e.target.value },
                     });
                     if (tab === 1) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else if (tab === 2) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     }
                   }}
                 />
@@ -380,11 +380,11 @@ function PostList(props) {
                       payload: { per_page: e },
                     });
                     if (tab === 1) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else if (tab === 2) {
-                      dispatch(getAllDates());
+                      dispatch(getAllDates("", "", 1));
                     } else {
-                      dispatch(getAllDates(1));
+                      dispatch(getAllDates(1, "", 1));
                     }
                   }}
                 >

@@ -5,13 +5,14 @@ import Login from "../pages/auth/login.js";
 import ResetPassword from "../pages/auth/reset-password.js";
 import ForgotPassword from "../pages/auth/forgot-password";
 import RequireAuth from "./RequireAuth";
-import UserList from "../pages/pageContainer/user-list";
-import Allinfluencers from "../pages/pageContainer/influencers";
+// import UserList from "../pages/pageContainer/user-list";
+// import Allinfluencers from "../pages/pageContainer/influencers";
 import PostList from "../pages/pageContainer/post.js";
 import PublicAuth from "./publicAuth";
 import VerifyPhoto from "../pages/pageContainer/verifyPhoto.js";
 import UserProfile from "../pages/pageContainer/userProfile";
-
+import UserList from "../pages/UserList/UserList";
+import InfluencerPage from "../pages/Influencer/Influencer.js";
 function Router() {
   return (
     <BrowserRouter>
@@ -73,12 +74,20 @@ function Router() {
             </RequireAuth>
           }
         />
+        {/* <Route
+          path={"/country"}
+          element={
+            <RequireAuth>
+              <InfluencerPage />
+            </RequireAuth>
+          }
+        /> */}
         <Route path={"/post"} element={<PostList />} />
         <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path={"/forgot-password"} element={<ForgotPassword />} />
         <Route path={"/"} element={<Login />} />
         <Route path={"/dashboard"} element={<Dashboard />} />
-        <Route path={"/all-influencers"} element={<Allinfluencers />} />
+        <Route path={"/all-influencers"} element={<InfluencerPage />} />
         <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path="*" element={<>Not found</>} />
       </Routes>

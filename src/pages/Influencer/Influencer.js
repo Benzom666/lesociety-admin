@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import _ from 'lodash';
 import {
   Nav,
@@ -19,12 +19,12 @@ import {
   getInfluencerExistCode,
   getInfluencerStats,
   influencerCreate,
-} from "./action";
-import PageHeader from "./header";
-import InfluencersList from "./InfluencersList.js";
+} from "../pageContainer/action";
+import PageHeader from "../pageContainer/header";
+import InfluencersList from "./InfluencerTable";
 import Utils from "../../utility/index.js";
 
-function UserList() {
+function InfluencerPage() {
   const dispatch = useDispatch();
   const {
     influencerStats,
@@ -32,23 +32,14 @@ function UserList() {
     existEmailScuse,
     existCodeMsg,
     existCode,
+    loading,
+    pagination
   } = useSelector((state) => state.userListReducer);
   const [endUser, setEndUser] = useState();
-  let offSet = 1;
-  const handleScroll = (e) => {
-    e.preventDefault();
-    const scrollHeight = e.target.documentElement.scrollHeight;
-    const currentHeight = Math.ceil(
-      e.target.documentElement.scrollTop + window.innerHeight
-    );
-    if (currentHeight + 1 >= scrollHeight) {
-      dispatch(getInfluencer("", "", (offSet += 1)));
-      setEndUser("End The Post.");
-    }
-  };
+  
   useEffect(() => {
-    dispatch(getInfluencer("", "", offSet));
-    window.addEventListener("scroll", handleScroll);
+    dispatch(getInfluencer("", "", 1));
+    // window.addEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -62,6 +53,8 @@ function UserList() {
   const [source, setSource] = useState();
   const [code, setCode] = useState();
   const [promo, setPromo] = useState();
+  const [page, setPage] = useState(2);
+  const [status, setStatus] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -105,7 +98,22 @@ function UserList() {
     setEmail(e.target.value);
     dispatch(getInfluencerEmailExists(e.target.value));
   }, 2000);
-  console.log(existEmailScuse);
+  
+  const observer = useRef();
+  const lastPostElementRef = useCallback(node => {
+    if(loading) return;
+    if(observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting && pagination.total_pages >= page) {
+        dispatch(getInfluencer(status, page));
+        setPage(page+1);
+      }
+      else {
+        setEndUser("End of page");
+      }
+    });
+    if(node) observer.current.observe(node);
+  });
   return (
     <div className="dashboardUi">
       <SideBar />
@@ -125,6 +133,8 @@ function UserList() {
                   },
                 });
                 dispatch(getInfluencer());
+                setStatus("");
+                setPage(2);
               }}
             >
               <Nav.Link eventKey="link-1">
@@ -146,6 +156,8 @@ function UserList() {
                   },
                 });
                 dispatch(getInfluencer(2, true));
+                setStatus(2);
+                setPage(2);
               }}
             >
               <Nav.Link eventKey="link-2">
@@ -167,6 +179,8 @@ function UserList() {
                     influencerList: [],
                   },
                 });
+                setStatus(1);
+                setPage(2);
               }}
             >
               <Nav.Link eventKey="link-3">
@@ -186,14 +200,14 @@ function UserList() {
           </Nav>
           <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
-              <InfluencersList />
+              {!status ? <InfluencersList lastPostElementRef={lastPostElementRef}/>: null}
               <p className="text-danger">{endUser}</p>
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">
-              <InfluencersList />
+            {status === 2 ? <InfluencersList lastPostElementRef={lastPostElementRef} /> : null}
             </Tab.Pane>
             <Tab.Pane eventKey="link-3">
-              <InfluencersList />
+            {status === 1 ?<InfluencersList lastPostElementRef={lastPostElementRef} />: null}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
@@ -292,4 +306,4 @@ function UserList() {
   );
 }
 
-export default UserList;
+export default InfluencerPage;

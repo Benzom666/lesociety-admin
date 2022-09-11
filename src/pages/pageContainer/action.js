@@ -4,6 +4,12 @@ import Utils from "../../utility";
 export const getUserList = (status, offSet) => {
   // alert(status);
   return (dispatch, getState) => {
+    dispatch({
+      type: 'SET_LOADING',
+      payload: {
+        loading: true
+      }
+    })
     const { per_page, current_page, search, userlist } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
@@ -15,6 +21,7 @@ export const getUserList = (status, offSet) => {
           payload: {
             userlist: [...userlist, ...respData?.data?.data?.users],
             pagination: respData?.data?.data?.pagination,
+            loading: false
           },
         });
       },
@@ -111,6 +118,12 @@ export const getAllRequest = (username) => {
 // get influencer
 export const getInfluencer = (status, active, offSet) => {
   return (dispatch, getState) => {
+    dispatch({
+      type: 'SET_LOADING',
+      payload: {
+        loading: true
+      }
+    })
     const { per_page, current_page = 1, search } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.getInfluencer,`?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active ? active : ''}`,
@@ -119,6 +132,7 @@ export const getInfluencer = (status, active, offSet) => {
           type: Utils.ActionName.GET_INFLUENCER,
           payload: {
             influencerList: respData?.data?.data?.influencer,
+            loading: false
           },
         });
       },
