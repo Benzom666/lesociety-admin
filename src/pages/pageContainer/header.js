@@ -1,10 +1,13 @@
 import React from 'react';
 import {Stack,Dropdown, Image } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 import Profile from '../../assets/images/profleIamge.svg'
 
 const PageHeader = props => {
+  let navigate = useNavigate();
   const logoutHandler = () => {
     localStorage.removeItem("accessToken");
+    navigate("/");
   }
   return (
     <Stack direction="horizontal" className="pageHeaderBox" gap={3}>
@@ -16,7 +19,7 @@ const PageHeader = props => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu variant="dark">
-            <Dropdown.Item href="#/action-1" active role="button" onClick={logoutHandler}>
+            <Dropdown.Item active role="button" onClick={logoutHandler}>
             Logout
             </Dropdown.Item>
             {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>

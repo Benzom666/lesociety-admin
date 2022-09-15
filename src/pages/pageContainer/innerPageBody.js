@@ -134,16 +134,16 @@ const PageContainer = props => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStats(moment().subtract(1, 'd').format()))
+                      dispatch(getDashboardStats(moment().subtract(1, 'd').format(), moment().format()));
                     }}>Past Day</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStats(moment().subtract(7, 'd').format()))
+                      dispatch(getDashboardStats(moment().subtract(7, 'd').format(), moment().format()));
                     }}>Past Week</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStats(moment().subtract(1, 'months').format()))
+                      dispatch(getDashboardStats(moment().subtract(1, 'months').format(), moment().format()));
                     }}>Past Month</Dropdown.Item>
                     <Dropdown.Item onClick={() => {
-                      dispatch(getDashboardStats(moment().subtract(1, 'years').format()))
+                      dispatch(getDashboardStats(moment().subtract(1, 'years').format(), moment().format()));
                     }}>Past Year</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

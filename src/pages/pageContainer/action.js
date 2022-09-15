@@ -605,10 +605,10 @@ export const getDateStats = (status, active) => {
   };
 };
 // get dashboard total user stats
-export const getDashboardStats = (start_date) => {
-  return (dispatch, getState) => {
+export const getDashboardStats = (start_date, end_date) => {
+  return (dispatch) => {
     Utils.api.getApiCall(
-      Utils.endPoints.datedashboardstats,`?start_date=${start_date ? start_date : ''}`,
+      Utils.endPoints.datedashboardstats,`?start_date=${start_date ? start_date : ''}&end_date=${end_date? end_date : ''}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARD_STATS,
@@ -624,10 +624,10 @@ export const getDashboardStats = (start_date) => {
     );
   };
 };
-export const getDashboardStatsNew = (status,start_date) => {
+export const getDashboardStatsNew = (status,start_date, end_date) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.datedashboardstats,`?status=${status}&start_date=${start_date ? start_date : ''}`,
+      Utils.endPoints.datedashboardstats,`?status=${status}&start_date=${start_date ? start_date : ''}&end_date=${end_date ? end_date : ''}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARDNEW_STATS,
