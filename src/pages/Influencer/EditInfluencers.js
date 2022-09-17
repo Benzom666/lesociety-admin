@@ -10,7 +10,7 @@ import {
     Col,
   } from "react-bootstrap";
   import { useDispatch, useSelector } from "react-redux";
-import { getInfluencer, influencerUpdate } from './action';
+import { getInfluencer, influencerUpdate } from '../pageContainer/action';
 const EditInfluencers = (props) => {
     const dispatch = useDispatch();
     const {name, email, promo, code, source} = props

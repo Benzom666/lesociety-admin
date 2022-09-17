@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import _ from 'lodash';
+import _ from "lodash";
 import {
   Nav,
   Tab,
@@ -33,10 +33,10 @@ function InfluencerPage() {
     existCodeMsg,
     existCode,
     loading,
-    pagination
+    pagination,
   } = useSelector((state) => state.userListReducer);
   const [endUser, setEndUser] = useState();
-  
+
   useEffect(() => {
     dispatch(getInfluencer("", "", 1));
     // window.addEventListener("scroll", handleScroll);
@@ -44,35 +44,21 @@ function InfluencerPage() {
 
   useEffect(() => {
     // dispatch(getInfluencer());
+    // clearState();
     dispatch(getInfluencerStats());
   }, []);
 
   const [show, setShow] = useState(false);
-  const [email, setEmail] = useState();
-  const [name, setName] = useState();
-  const [source, setSource] = useState();
-  const [code, setCode] = useState();
-  const [promo, setPromo] = useState();
+  const [formData, setFormData] = useState({email: '', name: '', source: '', code: '', promo: ''});
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const clearState = () => {
-    setEmail("");
-    setName("");
-    setSource("Enter Source");
-    setCode("");
-    setPromo("");
+    setFormData({email: '', name: '', source: '', code: '', promo: ''});
     dispatch({
       type: Utils.ActionName.GET_INFLUENCER_EXIST,
       payload: {
         existCodeMsg: "",
-      },
-    });
-    dispatch({
-      type: Utils.ActionName.GET_INFLUENCER_EXIST,
-      payload: {
         existCode: "",
       },
     });
@@ -80,39 +66,37 @@ function InfluencerPage() {
       type: Utils.ActionName.GET_EXIST_MAIL,
       payload: {
         existEmailScuse: "",
-      },
-    });
-    dispatch({
-      type: Utils.ActionName.GET_EXIST_MAIL,
-      payload: {
         existEmail: "",
       },
     });
   };
-  const createInflu = () => {
-    dispatch(influencerCreate(email, name, source, code, promo));
-    setShow(false);
-    clearState();
+  const handleModal = () => {
+    if (show) clearState();
+    setShow(!show);
   };
-  const emailChangeHandler = _.debounce(async (e) => {
-    setEmail(e.target.value);
+  const createInflu = () => {
+    dispatch(influencerCreate(formData));
+    handleModal();
+  };
+  const emailChangeHandler = _.debounce((e) => {
+    // alert("input working");
+    setFormData({...formData, email: e.target.value});
     dispatch(getInfluencerEmailExists(e.target.value));
-  }, 2000);
-  
+  }, 1500);
+
   const observer = useRef();
-  const lastPostElementRef = useCallback(node => {
-    if(loading) return;
-    if(observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && pagination.total_pages >= page) {
+  const lastPostElementRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && pagination.total_pages >= page) {
         dispatch(getInfluencer(status, page));
-        setPage(page+1);
-      }
-      else {
+        setPage(page + 1);
+      } else {
         setEndUser("End of page");
       }
     });
-    if(node) observer.current.observe(node);
+    if (node) observer.current.observe(node);
   });
   return (
     <div className="dashboardUi">
@@ -192,7 +176,7 @@ function InfluencerPage() {
             </Nav.Item>
             <Button
               variant="primary"
-              onClick={handleShow}
+              onClick={handleModal}
               className="ml-auto createNewBtn"
             >
               Create new
@@ -200,14 +184,20 @@ function InfluencerPage() {
           </Nav>
           <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
-              {!status ? <InfluencersList lastPostElementRef={lastPostElementRef}/>: null}
+              {!status ? (
+                <InfluencersList lastPostElementRef={lastPostElementRef} />
+              ) : null}
               <p className="text-danger">{endUser}</p>
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">
-            {status === 2 ? <InfluencersList lastPostElementRef={lastPostElementRef} /> : null}
+              {status === 2 ? (
+                <InfluencersList lastPostElementRef={lastPostElementRef} />
+              ) : null}
             </Tab.Pane>
             <Tab.Pane eventKey="link-3">
-            {status === 1 ?<InfluencersList lastPostElementRef={lastPostElementRef} />: null}
+              {status === 1 ? (
+                <InfluencersList lastPostElementRef={lastPostElementRef} />
+              ) : null}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
@@ -217,7 +207,7 @@ function InfluencerPage() {
           aria-labelledby="contained-modal-title-vcenter"
           centered
           show={show}
-          onHide={handleClose}
+          onHide={handleModal}
           className="requestModal influencerModal"
         >
           <Modal.Header closeButton>
@@ -229,22 +219,23 @@ function InfluencerPage() {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                value={email}
+                // value={email}
                 onChange={emailChangeHandler}
                 placeholder="Enter Email"
               />
+              {existEmailScuse.length ? (
+                <p className="text-success">{existEmailScuse}</p>
+              ) : (
+                <p className="text-danger">{existEmail}</p>
+              )}
             </Form.Group>
-            {existEmailScuse.length > 0 ? (
-              <p className="text-success">{existEmailScuse}</p>
-            ) : (
-              <p className="text-danger">{existEmail}</p>
-            )}
+
             <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                // value={name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
                 placeholder="Enter Name"
               />
             </Form.Group>
@@ -253,8 +244,8 @@ function InfluencerPage() {
               <Form.Label>Source</Form.Label>
               <select
                 class="form-control"
-                value={source}
-                onChange={(e) => setSource(e.target.value)}
+                // value={source}
+                onChange={(e) => setFormData({...formData, source: e.target.value})}
               >
                 <option>Enter Source</option>
                 <option value="facebook">Facebook</option>
@@ -269,22 +260,25 @@ function InfluencerPage() {
                 <Form.Label>Code</Form.Label>
                 <Form.Control
                   type="text"
-                  value={code}
+                  // value={code}
                   onChange={(e) => {
-                    setCode(e.target.value);
-                    dispatch(getInfluencerExistCode(code));
+                    setFormData({...formData, code: e.target.value});
+                    dispatch(getInfluencerExistCode(e.target.value));
                   }}
                   placeholder="Enter Code"
                 />
+                {existCodeMsg.length ? (
+                  <p className="text-success">{existCodeMsg}</p>
+                ) : (
+                  <p className="text-danger">{existCode}</p>
+                )}
               </Form.Group>
-              {existCodeMsg && <p className="text-success">{existCodeMsg}</p>}
-              {existCode && <p className="text-danger">{existCode}</p>}
               <Form.Group as={Col} controlId="formGridPassword">
                 <Form.Label>Promo %</Form.Label>
                 <Form.Control
                   type="text"
-                  value={promo}
-                  onChange={(e) => setPromo(e.target.value)}
+                  // value={promo}
+                  onChange={(e) => setFormData({...formData, promo: e.target.value})}
                   placeholder="Enter Promo %"
                 />
               </Form.Group>

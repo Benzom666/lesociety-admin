@@ -64,8 +64,7 @@ function UserTable({ lastPostElementRef, endUser }) {
     } else {
       dispatch(getUserList(1));
     }
-  }, 2000);
-  // const debouncedSearchHandler = _.debounce(searchHandler, 1000);
+  }, 1500);
   const msgSubmit = () => {
     dispatch(postSendDefaulMsg("taglineAndDesc", id, rowSelected));
     setShow(false);

@@ -4,10 +4,6 @@ import {
   InputGroup,
   DropdownButton,
   Dropdown,
-  Button,
-  Modal,
-  Row,
-  Col,
   Table,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +17,7 @@ import {
 import FaceBookIcon from "../../assets/images/facebook.svg";
 import TicTocIcon from "../../assets/images/ticTok.svg";
 import InstagramIcon from "../../assets/images/instagram.svg";
-import EditInfluencers from "../pageContainer/EditInfluencers";
+import EditInfluencers from "./EditInfluencers";
 
 const InfluencersTable = ({ lastPostElementRef }) => {
   const dispatch = useDispatch();

@@ -28,7 +28,7 @@ export const DefaultMsg = (props) => {
           <ListGroup>
             {!!defaultMsg && defaultMsg.map((value, index) => {
               return(
-                <ListGroup.Item>
+                <ListGroup.Item key={index}>
               <Form.Check type="radio" id={index} name="requestmsg" value={value} 
               onChange={(e) => {
                 setMsg(e.target.value)

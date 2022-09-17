@@ -1,38 +1,39 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, InputGroup, DropdownButton, Dropdown } from "react-bootstrap";
+import _ from 'lodash';
+
 import Utils from "../../utility/index.js";
 import { getUserList } from "./action.js";
 
-
-function VerifyPhotoCards(props) {
-    const dispatch = useDispatch();
-    const { tab, search, per_page} = useSelector(
-      (state) => state.userListReducer
-    );
-    const {UserPostList} = props
+function VerifyPhotoCards({ UserPostList }) {
+  const dispatch = useDispatch();
+  const { tab, search, per_page } = useSelector(
+    (state) => state.userListReducer
+  );
+  const searchHandler = _.debounce((e) => {
+    dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { search: e.target.value },
+    });
+    if (tab === 1) {
+      dispatch(getUserList());
+    } else if (tab === 2) {
+      dispatch(getUserList());
+    } else {
+      dispatch(getUserList());
+    }
+  }, 1000);
   return (
     <>
       <InputGroup className="">
-      <Form.Control
+        <Form.Control
           placeholder="Search"
           type="text"
           id="search"
           name="search"
-          value={search}
-          onChange={(e) => {
-            dispatch({
-              type: Utils.ActionName.USER_LIST,
-              payload: { search: e.target.value },
-            });
-            if (tab === 1) {
-              dispatch(getUserList());
-            } else if (tab === 2) {
-              dispatch(getUserList());
-            } else {
-              dispatch(getUserList());
-            }
-          }}
+          // value={search}
+          onChange={searchHandler}
         />
         <DropdownButton
           variant="outline-secondary"
@@ -48,7 +49,7 @@ function VerifyPhotoCards(props) {
               dispatch(getUserList());
             } else if (tab === 2) {
               dispatch(getUserList());
-            }else if (tab === 3) {
+            } else if (tab === 3) {
               dispatch(getUserList(2));
             } else {
               dispatch(getUserList(1));

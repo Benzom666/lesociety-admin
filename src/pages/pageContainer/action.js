@@ -5,23 +5,28 @@ export const getUserList = (status, offSet) => {
   // alert(status);
   return (dispatch, getState) => {
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
-        loading: true
-      }
-    })
-    const { per_page, current_page, search, userlist } = getState().userListReducer;
+        loading: true,
+      },
+    });
+    const { per_page, current_page, search, userlist } =
+      getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?userName=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}`,
+      `?user_name=${search}&location=&status=${
+        status ? status : ""
+      }&assetOnly=&per_page=${per_page}&current_page=1`,
       (respData) => {
-        console.log(respData?.data?.data?.total_pages, '333');
+        console.log(respData?.data?.data?.total_pages, "333");
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: {
-            userlist: [...userlist, ...respData?.data?.data?.users],
+            userlist: search.length
+              ? respData?.data?.data?.users
+              : [...userlist, ...respData?.data?.data?.users],
             pagination: respData?.data?.data?.pagination,
-            loading: false
+            loading: false,
           },
         });
       },
@@ -36,12 +41,13 @@ export const getUserList = (status, offSet) => {
 export const getDefaultMsgList = (msgType) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getDefaultMsgList, `?messageType=${msgType}` ,
+      Utils.endPoints.getDefaultMsgList,
+      `?messageType=${msgType}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DEFAULT_MSG,
           payload: {
-            defaultMsg : respData.data.data
+            defaultMsg: respData.data.data,
           },
         });
       },
@@ -73,11 +79,12 @@ export const getUserProfile = (username) => {
     );
   };
 };
-// user status counter 
+// user status counter
 export const getUserStatusCounter = (username) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.userStatusCounter, `` ,
+      Utils.endPoints.userStatusCounter,
+      ``,
       (respData) => {
         dispatch({
           type: Utils.ActionName.USER_COUNTER,
@@ -97,9 +104,10 @@ export const getUserStatusCounter = (username) => {
 export const getAllRequest = (username) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getRequest, `` ,
+      Utils.endPoints.getRequest,
+      ``,
       (respData) => {
-        console.log("GET_REQUEST", respData)
+        console.log("GET_REQUEST", respData);
         dispatch({
           type: Utils.ActionName.GET_REQUEST,
           payload: {
@@ -116,23 +124,26 @@ export const getAllRequest = (username) => {
 };
 
 // get influencer
-export const getInfluencer = (status, active, offSet) => {
+export const getInfluencer = (status = "", active = "", offSet = 1) => {
   return (dispatch, getState) => {
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
-        loading: true
-      }
-    })
+        loading: true,
+      },
+    });
     const { per_page, current_page = 1, search } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getInfluencer,`?email=${search}&location=&status=${status ? status : ""}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active ? active : ''}`,
+      Utils.endPoints.getInfluencer,
+      `?user_name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER,
           payload: {
-            influencerList: respData?.data?.data?.influencer,
-            loading: false
+            influencerList: search.length
+              ? respData?.data?.data?.influencer
+              : respData?.data?.data?.influencer,
+            loading: false,
           },
         });
       },
@@ -144,23 +155,27 @@ export const getInfluencer = (status, active, offSet) => {
   };
 };
 // get influencer email exists
-export const getInfluencerEmailExists = (email) => { 
+export const getInfluencerEmailExists = (email) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.influencerEmail,`?email=${email}`,
+      Utils.endPoints.influencerEmail,
+      `?email=${email}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_EXIST_MAIL,
           payload: {
             existEmailScuse: respData?.data?.data?.message,
+            existEmail: "",
           },
         });
       },
       (error) => {
+        console.log(error?.data?.data[0].message);
         dispatch({
           type: Utils.ActionName.GET_EXIST_MAIL,
           payload: {
-            existEmail: error?.data?.data?.email,
+            existEmail: error?.data?.data[0]?.message,
+            existEmailScuse: "",
           },
         });
       }
@@ -171,20 +186,23 @@ export const getInfluencerEmailExists = (email) => {
 export const getInfluencerExistCode = (code) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.influencerExistCode,`?code=${code}` ,
+      Utils.endPoints.influencerExistCode,
+      `?code=${code}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER_EXIST,
           payload: {
-            existCodeMsg: respData?.data?.message
-          }
+            existCodeMsg: respData?.data?.message,
+            existCode: "",
+          },
         });
       },
       (error) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER_EXIST,
           payload: {
-            existCode: error?.data?.data?.code,
+            existCode: error?.data?.data[0]?.message,
+            existCodeMsg: "",
           },
         });
       }
@@ -195,7 +213,8 @@ export const getInfluencerExistCode = (code) => {
 export const getInfluencerStats = (username) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getInfluencersStats, `` ,
+      Utils.endPoints.getInfluencersStats,
+      ``,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER_STATS,
@@ -212,10 +231,13 @@ export const getInfluencerStats = (username) => {
   };
 };
 // get Influencers Stats
-export const getGeoStats = (city,country,gender) => {
+export const getGeoStats = (city, country, gender) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getGeo,`?status=1&locationType=${!!city ? city : ''}&country=${!!country ? country : ''}&gender=${!!gender ? gender : ''}`,
+      Utils.endPoints.getGeo,
+      `?status=2&locationType=country&country=${
+        !!country ? country : ""
+      }&gender=${!!gender ? gender : ""}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_GEO_STATS,
@@ -232,15 +254,11 @@ export const getGeoStats = (city,country,gender) => {
   };
 };
 // influencer update status
-export const influencerCreate = (email, name, source, code, promo) => {
-  console.log("email, name, source, code, promo", email, name, source, code, promo)
+export const influencerCreate = (formData) => {
   return (dispatch) => {
-    const dataToSend = {
-      email, name, source, code, promo
-    };
     Utils.api.postApiCall(
       Utils.endPoints.influencerCreate,
-      dataToSend,
+      formData,
       (respData) => {
         Utils.showAlert(1, "Influence created successfully!");
       },
@@ -255,7 +273,9 @@ export const influencerCreate = (email, name, source, code, promo) => {
 export const influencerUpdateStatus = (status, email, active) => {
   return (dispatch) => {
     const dataToSend = {
-      status, email, active
+      status,
+      email,
+      active,
     };
     Utils.api.putApiCall(
       Utils.endPoints.influencerUpdateStatus,
@@ -271,10 +291,14 @@ export const influencerUpdateStatus = (status, email, active) => {
   };
 };
 // influencer detail update
-export const influencerUpdate = (name,email,promo,code,source) => {
+export const influencerUpdate = (name, email, promo, code, source) => {
   return (dispatch) => {
     const dataToSend = {
-      name,email,promo,code,source
+      name,
+      email,
+      promo,
+      code,
+      source,
     };
     Utils.api.putApiCall(
       Utils.endPoints.influencerPut,
@@ -299,9 +323,7 @@ export const postSetRequest = () => {
     Utils.api.postApiCall(
       Utils.endPoints.postSetRequest,
       dataToSend,
-      (respData) => {
-
-      },
+      (respData) => {},
       (error) => {
         let { data } = error;
         Utils.showAlert(2, data?.message);
@@ -309,12 +331,14 @@ export const postSetRequest = () => {
     );
   };
 };
-// post send default msg 
+// post send default msg
 export const postSendDefaulMsg = (messageType, message_id, user_email_list) => {
   return (dispatch) => {
     // const { password } = values;
     const dataToSend = {
-      messageType, message_id, user_email_list
+      messageType,
+      message_id,
+      user_email_list,
     };
     Utils.api.postApiCall(
       Utils.endPoints.sendDefaultMsg,
@@ -339,7 +363,7 @@ export const postVerfiyUser = (email) => {
       Utils.endPoints.userVerify,
       dataToSend,
       (respData) => {
-        Utils.showAlert(1, "Tagline and description updated successfully!")
+        Utils.showAlert(1, "Tagline and description updated successfully!");
       },
       (error) => {
         let { data } = error;
@@ -352,13 +376,14 @@ export const postVerfiyUser = (email) => {
 export const postUpdateUserStatus = (status, emails) => {
   return (dispatch) => {
     const dataToSend = {
-      status, emails
+      status,
+      emails,
     };
     Utils.api.postApiCall(
       Utils.endPoints.updateUserStatus,
       dataToSend,
       (respData) => {
-        console.log("respData==>saaa", respData)
+        console.log("respData==>saaa", respData);
         // Utils.showAlert(1, "Tagline and description updated successfully!")
       },
       (error) => {
@@ -372,14 +397,15 @@ export const postUpdateUserStatus = (status, emails) => {
 export const postUpdateDateStatus = (status, ids) => {
   return (dispatch) => {
     const dataToSend = {
-      status, ids
+      status,
+      ids,
     };
     Utils.api.postApiCall(
       Utils.endPoints.updateDateStatus,
       dataToSend,
       (respData) => {
-        console.log("respData==>saaa", respData)
-        Utils.showAlert(1, "Post Blocked successfully!")
+        console.log("respData==>saaa", respData);
+        Utils.showAlert(1, "Post Blocked successfully!");
       },
       (error) => {
         let { data } = error;
@@ -393,12 +419,14 @@ export const getDeactivateUser = () => {
     const { per_page, current_page, search } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?email=${search}&location=&status=3&assetOnly=&per_page=${per_page}&current_page=${current_page}`,
+      `?user_name=${search}&location=&status=3&assetOnly=&per_page=${per_page}&current_page=${current_page}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: {
-            userlist: respData?.data?.data?.users,
+            userlist: search.length
+              ? respData?.data?.data?.users
+              : respData?.data?.data?.users,
             pagination: respData?.data?.data?.pagination,
           },
         });
@@ -414,15 +442,17 @@ export const getDeactivateUser = () => {
 
 export const getPendingUser = () => {
   return (dispatch, getState) => {
-    const { per_page, current_page ,search} = getState().userListReducer;
+    const { per_page, current_page, search } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?email=${search}&location=&status=0&assetOnly=&per_page=${per_page}&current_page=${current_page}`,
+      `?user_name=${search}&location=&status=0&assetOnly=&per_page=${per_page}&current_page=${current_page}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: {
-            userlist: respData?.data?.data?.users,
+            userlist: search.length
+              ? respData?.data?.data?.users
+              : respData?.data?.data?.users,
             pagination: respData?.data?.data?.pagination,
           },
         });
@@ -440,25 +470,30 @@ export const getPendingUser = () => {
 };
 // get influencer
 export const getAllDates = (status, active, offSet) => {
-
   return (dispatch, getState) => {
     dispatch({
-      type: 'SET_LOADING',
+      type: "SET_LOADING",
       payload: {
-        loading: true
-      }
-    })
-    const { per_page, current_page, search, datesList } = getState().userListReducer;
+        loading: true,
+      },
+    });
+    const { per_page, current_page, search, datesList } =
+      getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getAllDate,`?email=${search}&status=${status ? status : ""}&per_page=${per_page}&current_page=${offSet}`,
+      Utils.endPoints.getAllDate,
+      `?user_name=${search}&status=${
+        status ? status : ""
+      }&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
-        console.log("respDatarespData", respData)
+        console.log("respDatarespData", respData);
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: {
-            datesList: [...datesList, ...respData?.data?.data?.dates],
+            datesList: search.length
+              ? respData?.data?.data?.dates
+              : [...datesList, ...respData?.data?.data?.dates],
             datesCont: respData?.data?.data?.pagination,
-            loading: false
+            loading: false,
           },
         });
       },
@@ -472,12 +507,13 @@ export const getAllDates = (status, active, offSet) => {
 // get register dashboard
 export const getRegDashboard = () => {
   return (dispatch, getState) => {
-    const { rStartDate, rEndDate} = getState().userListReducer;
-    let start_date = moment(rStartDate)
-    let start_mins_date = start_date.format('YYYY-MM-DD');
-    let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss');
+    const { rStartDate, rEndDate } = getState().userListReducer;
+    let start_date = moment(rStartDate);
+    let start_mins_date = start_date.format("YYYY-MM-DD");
+    let end_date = moment(rEndDate).format("YYYY-MM-DD:HH:mm:ss");
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=female&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,
+      `?gender=female&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGCOMPFEMALE,
@@ -495,13 +531,14 @@ export const getRegDashboard = () => {
 };
 export const getRegDashboardMale = () => {
   return (dispatch, getState) => {
-    const { rStartDate, rEndDate} = getState().userListReducer;
-    let start_date = moment(rStartDate)
-    let start_mins_date = start_date.format('YYYY-MM-DD');
-    let end_date = moment(rEndDate).format('YYYY-MM-DD:HH:mm:ss')
+    const { rStartDate, rEndDate } = getState().userListReducer;
+    let start_date = moment(rStartDate);
+    let start_mins_date = start_date.format("YYYY-MM-DD");
+    let end_date = moment(rEndDate).format("YYYY-MM-DD:HH:mm:ss");
 
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=male&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,
+      `?gender=male&status=2&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGCOMPMALE,
@@ -519,12 +556,13 @@ export const getRegDashboardMale = () => {
 };
 export const getUnRegDashboard = () => {
   return (dispatch, getState) => {
-    const { unRstartDate, unRendDate} = getState().userListReducer;
-    let start_date = moment(unRstartDate)
-    let start_mins_date = start_date.format('YYYY-MM-DD');
-    let end_date = moment(unRendDate).format('YYYY-MM-DD:HH:mm:ss')
+    const { unRstartDate, unRendDate } = getState().userListReducer;
+    let start_date = moment(unRstartDate);
+    let start_mins_date = start_date.format("YYYY-MM-DD");
+    let end_date = moment(unRendDate).format("YYYY-MM-DD:HH:mm:ss");
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=female&status=1&start_date=${start_mins_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,
+      `?gender=female&status=1&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGUNCOMPFEMALE,
@@ -542,12 +580,13 @@ export const getUnRegDashboard = () => {
 };
 export const getUnRegDashboardMale = () => {
   return (dispatch, getState) => {
-    const { unRstartDate, unRendDate} = getState().userListReducer;
-    let start_date = moment(unRstartDate)
-    let start_mins_date = start_date.format('YYYY-MM-DD');
-    let end_date = moment(unRendDate).format('YYYY-MM-DD:HH:mm:ss')
+    const { unRstartDate, unRendDate } = getState().userListReducer;
+    let start_date = moment(unRstartDate);
+    let start_mins_date = start_date.format("YYYY-MM-DD");
+    let end_date = moment(unRendDate).format("YYYY-MM-DD:HH:mm:ss");
     Utils.api.getApiCall(
-      Utils.endPoints.getRegisterDashboard,`?gender=male&status=1&start_date=${start_mins_date}&end_date=${end_date}`,
+      Utils.endPoints.getRegisterDashboard,
+      `?gender=male&status=1&start_date=${start_mins_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_REGUNCOMPMALE,
@@ -567,9 +606,10 @@ export const getUnRegDashboardMale = () => {
 export const getCountry = (status, active) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.getCountry,``,
+      Utils.endPoints.getCountry,
+      ``,
       (respData) => {
-        console.log("respData==>LLsss", respData)
+        console.log("respData==>LLsss", respData);
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: {
@@ -588,7 +628,8 @@ export const getCountry = (status, active) => {
 export const getDateStats = (status, active) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.datestats,``,
+      Utils.endPoints.datestats,
+      ``,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DATES_STATS,
@@ -608,7 +649,10 @@ export const getDateStats = (status, active) => {
 export const getDashboardStats = (start_date, end_date) => {
   return (dispatch) => {
     Utils.api.getApiCall(
-      Utils.endPoints.datedashboardstats,`?start_date=${start_date ? start_date : ''}&end_date=${end_date? end_date : ''}`,
+      Utils.endPoints.datedashboardstats,
+      `?start_date=${start_date ? start_date : ""}&end_date=${
+        end_date ? end_date : ""
+      }`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARD_STATS,
@@ -624,10 +668,13 @@ export const getDashboardStats = (start_date, end_date) => {
     );
   };
 };
-export const getDashboardStatsNew = (status,start_date, end_date) => {
+export const getDashboardStatsNew = (status, start_date, end_date) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.datedashboardstats,`?status=${status}&start_date=${start_date ? start_date : ''}&end_date=${end_date ? end_date : ''}`,
+      Utils.endPoints.datedashboardstats,
+      `?status=${status}&start_date=${start_date ? start_date : ""}&end_date=${
+        end_date ? end_date : ""
+      }`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARDNEW_STATS,
@@ -643,10 +690,11 @@ export const getDashboardStatsNew = (status,start_date, end_date) => {
     );
   };
 };
-export const getDashboardStatsDeactive = (status,start_date) => {
+export const getDashboardStatsDeactive = (status, start_date) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
-      Utils.endPoints.datedashboardstats,`?status=${status}&start_date=${start_date ? start_date : ''}`,
+      Utils.endPoints.datedashboardstats,
+      `?status=${status}&start_date=${start_date ? start_date : ""}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARDDEACTIVATE_STATS,
@@ -683,7 +731,7 @@ export const createCountry = () => {
 };
 // get country
 export const deleteInfluencer = (email) => {
-  console.log("email", email)
+  console.log("email", email);
   return (dispatch) => {
     Utils.api.deleteApiCall(
       Utils.endPoints.deleteInf,

@@ -94,6 +94,8 @@ const getApiCall = async (
     baseURL: "https://staging-api.secrettime.com/api/v1/",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+//      Content-Type: 'application/x-www-form-urlencoded'
+      
     },
   })
  await axiosFunc

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import SideBar from "../sideBar/sidebar.js";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Nav,
@@ -13,6 +12,9 @@ import {
   Toast,
   Button,
 } from "react-bootstrap";
+import _ from 'lodash';
+
+import SideBar from "../sideBar/sidebar.js";
 import LocationIcon from "../../assets/images/location.svg";
 import GetReadyIcon from "../../assets/images/getReady.svg";
 import { MdOutlineRotate90DegreesCcw } from "react-icons/md";
@@ -98,6 +100,19 @@ function PostList(props) {
     });
     if(node) observer.current.observe(node);
   });
+  const searchHandler = _.debounce((e) => {
+    dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { search: e.target.value },
+    });
+    if (tab === 1) {
+      dispatch(getAllDates("", "", 1));
+    } else if (tab === 2) {
+      dispatch(getAllDates("", "", 1));
+    } else {
+      dispatch(getAllDates("", "", 1));
+    }
+  }, 1000)
   const UserPostList = datesList.map((value, index) => {
     const checkedUser = () => {
       setSelectedUser(!selectedUser);
@@ -242,6 +257,44 @@ function PostList(props) {
                 </Badge>
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-4"
+                onClick={() => {
+                  dispatch({
+                    type: Utils.ActionName.USER_LIST,
+                    payload: { tab: 4, search: "", per_page: 10, userlist: [] },
+                  });
+                  dispatch(getAllDates(5, "", 1));
+                  setStatus(5);
+                  setPage(2);
+                }}
+              >
+                Warned 
+                <Badge pill bg="secondary">
+                  {datesStats?.warned_dates}
+                </Badge>
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-5"
+                onClick={() => {
+                  dispatch({
+                    type: Utils.ActionName.USER_LIST,
+                    payload: { tab: 5, search: "", per_page: 10, userlist: [] },
+                  });
+                  dispatch(getAllDates(6, "", 1));
+                  setStatus(6);
+                  setPage(2);
+                }}
+              >
+                Resubmitted
+                <Badge pill bg="secondary">
+                  {datesStats?.resubmitted_dates}
+                </Badge>
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
@@ -251,20 +304,8 @@ function PostList(props) {
                   type="text"
                   id="search"
                   name="search"
-                  value={search}
-                  onChange={(e) => {
-                    dispatch({
-                      type: Utils.ActionName.USER_LIST,
-                      payload: { search: e.target.value },
-                    });
-                    if (tab === 1) {
-                      dispatch(getAllDates("", "", 1));
-                    } else if (tab === 2) {
-                      dispatch(getAllDates("", "", 1));
-                    } else {
-                      dispatch(getAllDates("", "", 1));
-                    }
-                  }}
+                  // value={search}
+                  onChange={searchHandler}
                 />
                 <DropdownButton
                   variant="outline-secondary"
@@ -304,20 +345,8 @@ function PostList(props) {
                   type="text"
                   id="search"
                   name="search"
-                  value={search}
-                  onChange={(e) => {
-                    dispatch({
-                      type: Utils.ActionName.USER_LIST,
-                      payload: { search: e.target.value },
-                    });
-                    if (tab === 1) {
-                      dispatch(getAllDates("", "", 1));
-                    } else if (tab === 2) {
-                      dispatch(getAllDates("", "", 1));
-                    } else {
-                      dispatch(getAllDates("", "", 1));
-                    }
-                  }}
+                  // value={search}
+                  onChange={searchHandler}
                 />
                 <DropdownButton
                   variant="outline-secondary"
@@ -354,20 +383,8 @@ function PostList(props) {
                   type="text"
                   id="search"
                   name="search"
-                  value={search}
-                  onChange={(e) => {
-                    dispatch({
-                      type: Utils.ActionName.USER_LIST,
-                      payload: { search: e.target.value },
-                    });
-                    if (tab === 1) {
-                      dispatch(getAllDates("", "", 1));
-                    } else if (tab === 2) {
-                      dispatch(getAllDates("", "", 1));
-                    } else {
-                      dispatch(getAllDates("", "", 1));
-                    }
-                  }}
+                  // value={search}
+                  onChange={searchHandler}
                 />
                 <DropdownButton
                   variant="outline-secondary"
@@ -396,6 +413,82 @@ function PostList(props) {
                 </DropdownButton>
               </InputGroup>
               {status === 3 ? <div className="userPostListBox">{UserPostList}</div> : null}
+            </Tab.Pane>
+            <Tab.Pane eventKey="link-4">
+              <InputGroup className="">
+                <Form.Control
+                  placeholder="Search"
+                  type="text"
+                  id="search"
+                  name="search"
+                  // value={search}
+                  onChange={searchHandler}
+                />
+                <DropdownButton
+                  variant="outline-secondary"
+                  title={`${per_page} Per Page`}
+                  id="input-group-dropdown-2"
+                  align="end"
+                  onSelect={(e) => {
+                    dispatch({
+                      type: Utils.ActionName.USER_LIST,
+                      payload: { per_page: e },
+                    });
+                    if (tab === 1) {
+                      dispatch(getAllDates("", "", 1));
+                    } else if (tab === 2) {
+                      dispatch(getAllDates("", "", 1));
+                    } else {
+                      dispatch(getAllDates(1, "", 1));
+                    }
+                  }}
+                >
+                  <Dropdown.Item eventKey="10">10</Dropdown.Item>
+                  <Dropdown.Item eventKey="20">20</Dropdown.Item>
+                  <Dropdown.Item eventKey="25">25</Dropdown.Item>
+                  <Dropdown.Item eventKey="50">50</Dropdown.Item>
+                  <Dropdown.Item eventKey="100">100</Dropdown.Item>
+                </DropdownButton>
+              </InputGroup>
+              {status === 5 ? <div className="userPostListBox">{UserPostList}</div> : null}
+            </Tab.Pane>
+            <Tab.Pane eventKey="link-5">
+              <InputGroup className="">
+                <Form.Control
+                  placeholder="Search"
+                  type="text"
+                  id="search"
+                  name="search"
+                  // value={search}
+                  onChange={searchHandler}
+                />
+                <DropdownButton
+                  variant="outline-secondary"
+                  title={`${per_page} Per Page`}
+                  id="input-group-dropdown-2"
+                  align="end"
+                  onSelect={(e) => {
+                    dispatch({
+                      type: Utils.ActionName.USER_LIST,
+                      payload: { per_page: e },
+                    });
+                    if (tab === 1) {
+                      dispatch(getAllDates("", "", 1));
+                    } else if (tab === 2) {
+                      dispatch(getAllDates("", "", 1));
+                    } else {
+                      dispatch(getAllDates(1, "", 1));
+                    }
+                  }}
+                >
+                  <Dropdown.Item eventKey="10">10</Dropdown.Item>
+                  <Dropdown.Item eventKey="20">20</Dropdown.Item>
+                  <Dropdown.Item eventKey="25">25</Dropdown.Item>
+                  <Dropdown.Item eventKey="50">50</Dropdown.Item>
+                  <Dropdown.Item eventKey="100">100</Dropdown.Item>
+                </DropdownButton>
+              </InputGroup>
+              {status === 6 ? <div className="userPostListBox">{UserPostList}</div> : null}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
