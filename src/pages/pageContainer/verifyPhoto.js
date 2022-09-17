@@ -19,9 +19,11 @@ const PostList = React.memo(function (props) {
   const [endUser, setEndUser] = useState("");
 
   useEffect(() => {
+    dispatch({
+      type: 'USER_LIST',
+      payload: {userlist: []},
+    });
     dispatch(getUserList(5, 1));
-  }, []);
-  useEffect(() => {
     dispatch(getUserStatusCounter());
     dispatch(getDefaultMsgList("taglineAndDesc"));
   }, []);

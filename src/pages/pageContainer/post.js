@@ -56,25 +56,8 @@ function PostList(props) {
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
 
-  // let offSet = 1;
-  // const handleScroll = (e) => {
-  //   e.preventDefault();
-  //   const scrollHeight = e.target.documentElement.scrollHeight;
-  //   const currentHeight = Math.ceil(
-  //     e.target.documentElement.scrollTop + window.innerHeight
-  //   );
-  //   if (currentHeight + 1 >= scrollHeight) {
-  //     dispatch(getAllDates("", "", (offSet += 1)));
-  //     setEndUser("End The Post.");
-  //   }
-  // };
-  
   useEffect(() => {
     dispatch(getAllDates("", "", 1));
-    // window.addEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
     dispatch(getDefaultMsgList("postMessage"));
     dispatch(getDateStats());
   }, []);

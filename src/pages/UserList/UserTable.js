@@ -53,9 +53,11 @@ function UserTable({ lastPostElementRef, endUser }) {
   const toggleShowA = () => setShowA(!showA);
 
   const searchHandler = _.debounce((e) => {
+    let payload = { search: e.target.value,  }
+    if(!e.target.value) payload.userlist = [];
     dispatch({
       type: Utils.ActionName.USER_LIST,
-      payload: { search: e.target.value },
+      payload,
     });
     if (tab === 1) {
       dispatch(getUserList());
