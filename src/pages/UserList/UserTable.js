@@ -16,12 +16,8 @@ import { Link } from "react-router-dom";
 
 import {
   getUserList,
-  getPendingUser,
-  getDeactivateUser,
   getUserProfile,
-  getDefaultMsgList,
   postSendDefaulMsg,
-  postVerfiyUser,
   postUpdateUserStatus,
 } from "../pageContainer/action";
 import Utils from "../../utility";

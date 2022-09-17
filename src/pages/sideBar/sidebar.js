@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 // import withAuth from "../../core/withAuth";
-import { Offcanvas, Button, Nav } from "react-bootstrap";
+import { Nav } from "react-bootstrap";
 import "./sidebarUI.scss";
 import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 
-const SideBar = (props) => {
+const SideBar = () => {
   const [show, setShow] = useState(true);
   const navigate = useNavigate();
   const handleClose = () => setShow(true);

@@ -4,12 +4,9 @@ import Utils from "../../utility/index.js";
 import { Nav, Tab, Badge, Form, Card, Button } from "react-bootstrap";
 import VerifyProfileImages from "./profileImage";
 import {
-  getDefaultMsgList,
   getUserList,
-  getUserStatusCounter,
-  postSendDefaulMsg,
-  postSetRequest,
   postVerfiyUser,
+  postSendDefaulMsg,
 } from "./action.js";
 import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import { DefaultMsg } from "./DefaultMsg";

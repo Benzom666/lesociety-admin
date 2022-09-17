@@ -37,14 +37,7 @@ const PageContainer = (props) => {
     unRstartDate,
     unRendDate,
   } = useSelector((state) => state.userListReducer);
-  console.log("rStartDate", rStartDate, rEndDate);
   const dispatch = useDispatch();
-  const [regComp, setRegComp] = useState(moment().subtract(7, "days"));
-  // const [regCompStrt, setRegCompStrt] = useState(new Date());
-  // const [regCompEnd, setRegCompEnd] = useState(new Date());
-  const [inRegComp, setInRegComp] = useState(new Date());
-  const [inRegCompEnd, setInRegCompEnd] = useState(new Date());
-  // console.log("regCompStrtregCompStrtregCompStrt", regCompStrt)
   useEffect(() => {
     dispatch(getRegDashboard());
     dispatch(getRegDashboardMale());
@@ -128,7 +121,8 @@ const PageContainer = (props) => {
       },
     ],
   };
-
+  const { count = 0, percent = 0, sign = "" } = dashboardStats;
+  console.log(count, percent, sign, dashboardStats);
   return (
     <div className="inner-page">
       <PageHeader title="Dashboard" />
@@ -199,12 +193,23 @@ const PageContainer = (props) => {
                 </Dropdown>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>
-                  {!!dashboardStats && dashboardStats[0]?.count} people
-                </Card.Subtitle>
+                <Card.Subtitle>{count} people</Card.Subtitle>
                 <Card.Text>
-                  {!!dashboardStats && dashboardStats[0]?.percent}{" "}
-                  <img src="/images/upArrow.svg" />
+                  {percent ? (
+                    <>
+                      {" "}
+                      `${sign} ${percent} `
+                      {sign === "+" ? (
+                        <img src="/images/upArrow.svg" />
+                      ) : sign === "-" ? (
+                        <img src="/images/downArrow.svg" />
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  ) : (
+                    0
+                  )}
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -275,12 +280,24 @@ const PageContainer = (props) => {
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>
-                  {!!dashboardStatsNew && dashboardStatsNew[0]?.count} people
+                  {dashboardStatsNew.length && dashboardStatsNew[0]?.count}{" "}
+                  people
                 </Card.Subtitle>
-                <Card.Text>
-                  {!!dashboardStatsNew && dashboardStatsNew[0]?.percent}{" "}
-                  <img src="/images/downArrow.svg" />
-                </Card.Text>
+                {dashboardStatsNew.length && dashboardStatsNew[0]?.percent ? (
+                  <Card.Text>
+                    ` ${dashboardStatsNew[0]?.sign} $
+                    {dashboardStatsNew[0]?.percent}`{" "}
+                    {dashboardStatsNew[0]?.sign === "-" ? (
+                      <img src="/images/downArrow.svg" />
+                    ) : dashboardStatsNew[0]?.sign === "+" ? (
+                      <img src="/images/upArrow.svg" />
+                    ) : (
+                      ""
+                    )}
+                  </Card.Text>
+                ) : (
+                  <Card.Text> 0</Card.Text>
+                )}
               </Card.Body>
             </Card>
           </Col>
@@ -354,9 +371,23 @@ const PageContainer = (props) => {
                   people
                 </Card.Subtitle>
                 <Card.Text>
-                  {!!dashboardStatsDeactive &&
-                    dashboardStatsDeactive[0]?.percent}{" "}
-                  <img src="/images/upArrow.svg" />
+                  {dashboardStatsDeactive.length &&
+                  dashboardStatsDeactive[0]?.percent ? (
+                    <>
+                      {" "}
+                      ` ${dashboardStatsDeactive[0]?.sign} $
+                      {dashboardStatsDeactive[0]?.percent} `
+                      {dashboardStatsDeactive[0]?.sign === "-" ? (
+                        <img src="/images/downArrow.svg" />
+                      ) : dashboardStatsDeactive[0]?.sign === "+" ? (
+                        <img src="/images/upArrow.svg" />
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  ) : (
+                    0
+                  )}
                 </Card.Text>
               </Card.Body>
             </Card>

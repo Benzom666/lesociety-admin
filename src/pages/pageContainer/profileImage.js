@@ -1,5 +1,5 @@
 import React from 'react';
-import {Stack,Dropdown, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 
 const ProfileImages = props => {
   const {img, image_verified, un_verified_images} = props

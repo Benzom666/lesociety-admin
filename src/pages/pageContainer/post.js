@@ -29,7 +29,7 @@ import {
 import { DefaultMsg } from "./DefaultMsg";
 import Utils from "../../utility/index.js";
 
-function PostList(props) {
+function PostList() {
   const dispatch = useDispatch();
   const {
     tab,
@@ -274,7 +274,7 @@ function PostList(props) {
               >
                 Resubmitted
                 <Badge pill bg="secondary">
-                  {datesStats?.resubmitted_dates}
+                  {datesStats?.re_submitted_dates}
                 </Badge>
               </Nav.Link>
             </Nav.Item>

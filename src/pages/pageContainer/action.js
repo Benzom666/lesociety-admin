@@ -657,7 +657,7 @@ export const getDashboardStats = (start_date, end_date) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARD_STATS,
           payload: {
-            dashboardStats: respData?.data?.data,
+            dashboardStats: respData?.data?.data[0],
           },
         });
       },
