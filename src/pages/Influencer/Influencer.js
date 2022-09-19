@@ -133,7 +133,7 @@ function InfluencerPage() {
                 dispatch({
                   type: Utils.ActionName.GET_INFLUENCER,
                   payload: {
-                    tab: 1,
+                    tab: 2,
                     search: "",
                     per_page: 10,
                     influencerList: [],
@@ -153,16 +153,16 @@ function InfluencerPage() {
             </Nav.Item>
             <Nav.Item
               onClick={() => {
-                dispatch(getInfluencer(1, false));
                 dispatch({
                   type: Utils.ActionName.GET_INFLUENCER,
                   payload: {
-                    tab: 1,
+                    tab: 3,
                     search: "",
                     per_page: 10,
                     influencerList: [],
                   },
                 });
+                dispatch(getInfluencer(1, false));
                 setStatus(1);
                 setPage(2);
               }}

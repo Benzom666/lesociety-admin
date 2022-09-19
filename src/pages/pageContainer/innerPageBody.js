@@ -208,7 +208,7 @@ const PageContainer = (props) => {
                       )}
                     </>
                   ) : (
-                    0
+                    `0 %`
                   )}
                 </Card.Text>
               </Card.Body>
@@ -296,7 +296,7 @@ const PageContainer = (props) => {
                     )}
                   </Card.Text>
                 ) : (
-                  <Card.Text> 0</Card.Text>
+                  <Card.Text> 0 %</Card.Text>
                 )}
               </Card.Body>
             </Card>
@@ -386,7 +386,7 @@ const PageContainer = (props) => {
                       )}
                     </>
                   ) : (
-                    0
+                    '0 %'
                   )}
                 </Card.Text>
               </Card.Body>

@@ -132,17 +132,17 @@ export const getInfluencer = (status = "", active = "", offSet = 1) => {
         loading: true,
       },
     });
-    const { per_page, current_page = 1, search } = getState().userListReducer;
+    const { per_page, influencerList, current_page = 1, search } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.getInfluencer,
-      `?user_name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
+      `?name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_INFLUENCER,
           payload: {
             influencerList: search.length
               ? respData?.data?.data?.influencer
-              : respData?.data?.data?.influencer,
+              : [...influencerList, ...respData?.data?.data?.influencer],
             loading: false,
           },
         });
@@ -646,13 +646,11 @@ export const getDateStats = (status, active) => {
   };
 };
 // get dashboard total user stats
-export const getDashboardStats = (start_date, end_date) => {
+export const getDashboardStats = (start_date = "", end_date = "") => {
   return (dispatch) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats,
-      `?start_date=${start_date ? start_date : ""}&end_date=${
-        end_date ? end_date : ""
-      }`,
+      `?status=&start_date=${start_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARD_STATS,

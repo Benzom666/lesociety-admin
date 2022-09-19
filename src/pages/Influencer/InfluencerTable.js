@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Form,
   InputGroup,
@@ -7,6 +7,7 @@ import {
   Table,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash";
 
 import Utils from "../../utility";
 import {
@@ -21,20 +22,13 @@ import EditInfluencers from "./EditInfluencers";
 
 const InfluencersTable = ({ lastPostElementRef }) => {
   const dispatch = useDispatch();
-  
-  const {
-    influencerList,
-    pagination,
-    tab,
-    search,
-    per_page,
-    defaultMsg,
-    rowSelected,
-  } = useSelector((state) => state.userListReducer);
+
+  const { influencerList, tab, per_page } = useSelector(
+    (state) => state.userListReducer
+  );
   useEffect(() => {
     document.getElementById("search").focus();
   }, []);
-  
 
   const handleOnSelectAll = (e) => {
     const allEmail = influencerList.map((item) => item.emailId);
@@ -53,20 +47,21 @@ const InfluencersTable = ({ lastPostElementRef }) => {
           type="text"
           id="search"
           name="search"
-          value={search}
-          onChange={(e) => {
+          onChange={_.debounce((e) => {
+            const payload = { search: e.target.value };
+            if(!e.target.value) payload.influencerList = [];
             dispatch({
               type: Utils.ActionName.GET_INFLUENCER,
-              payload: { search: e.target.value },
+              payload,
             });
             if (tab === 1) {
               dispatch(getInfluencer());
             } else if (tab === 2) {
               dispatch(getInfluencer(2));
-            } else {
-              dispatch(getInfluencer(3));
+            } else if(tab === 3) {
+              dispatch(getInfluencer(1));
             }
-          }}
+          }, 1000)}
         />
         <DropdownButton
           variant="outline-secondary"
@@ -82,8 +77,8 @@ const InfluencersTable = ({ lastPostElementRef }) => {
               dispatch(getInfluencer());
             } else if (tab === 2) {
               dispatch(getInfluencer(2));
-            } else {
-              dispatch(getInfluencer(3));
+            } else if (tab === 3) {
+              dispatch(getInfluencer(1));
             }
           }}
         >
@@ -173,9 +168,9 @@ const InfluencersTable = ({ lastPostElementRef }) => {
                       >
                         <Dropdown.Item
                           eventKey="1"
-                          onClick={async () => {
+                          onClick={ () => {
                             dispatch(
-                              await influencerUpdateStatus(
+                               influencerUpdateStatus(
                                 2,
                                 influencer?.email,
                                 true

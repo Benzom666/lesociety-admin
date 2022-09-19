@@ -170,19 +170,16 @@
               width: 80px;
               text-align: center;
             }
-            &:nth-child(2) {
-              width: 170px;
-            }
-            &:nth-last-child(3) {
-              text-align: center;
-            }
-            &:nth-last-child(2) {
-              width: 100px;
-            }
-            &:last-child {
-              width: 60px;
-              text-align: center;
-            }
+            // &:nth-child(2) {
+            //   width: 170px;
+            // }
+            // &:nth-last-child(2) {
+            //   width: 100px;
+            // }
+            // &:last-child {
+            //   width: 60px;
+            //   text-align: center;
+            // }
             .order-4,
             .caret-4-desc,
             .caret-4-asc {
@@ -247,17 +244,17 @@
               width: 80px;
               text-align: center;
             }
-            &:nth-child(2) {
-              width: 200px;
-            }
-            &:nth-last-child(3) {
-              text-align: center;
-            }
-            &:nth-last-child(2) {
-              width: 100px;
-            }
+            // &:nth-child(2) {
+            //   width: 200px;
+            // }
+            // &:nth-last-child(3) {
+            //   text-align: center;
+            // }
+            // &:nth-last-child(2) {
+            //   width: 100px;
+            // }
             &:last-child {
-              width: 100px;
+              width: 80px;
               text-align: center;
             }
             .dropdown-toggle {
