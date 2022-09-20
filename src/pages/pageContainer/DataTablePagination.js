@@ -1,22 +1,17 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Utils from "../../utility/index.js";
-import { Nav, Tab, Badge, Form, Card, Button } from "react-bootstrap";
+import { Nav, Tab, Form, Card, Button } from "react-bootstrap";
 import VerifyProfileImages from "./profileImage";
-import {
-  getUserList,
-  postVerfiyUser,
-  postSendDefaulMsg,
-} from "./action.js";
+import { getUserList, postVerfiyUser, postSendDefaulMsg } from "./action.js";
 import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import { DefaultMsg } from "./DefaultMsg";
+import { NavItemSet } from "./Component";
 
 function PostList(props) {
   const { setEndUser } = props;
   const dispatch = useDispatch();
-  const { usersAdminStatus, userlist, defaultMsg, pagination, loading } = useSelector(
-    (state) => state.userListReducer
-  );
+  const { usersAdminStatus, userlist, defaultMsg, pagination, loading } =
+    useSelector((state) => state.userListReducer);
   const [id, setId] = useState();
   const [userEmail, setUserEmail] = useState();
   const [isActive, setIsActive] = useState(false);
@@ -27,34 +22,34 @@ function PostList(props) {
   const [status, setStatus] = useState(5);
   const handleClose = () => setShow(false);
 
-
   const msgSubmit = () => {
     dispatch(postSendDefaulMsg("taglineAndDesc", id, userEmail));
     setShow(false);
   };
   const observer = useRef();
-  const lastPostElementRef = useCallback(node => {
-    if(loading) return;
-    if(observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && pagination.total_pages >= page) {
-        console.log("visible");
+  const lastPostElementRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && pagination.total_pages >= page) {
         dispatch(getUserList(status, page));
-        setPage(page+1);
-      }
-      else {
+        setPage(page + 1);
+      } else {
         setEndUser("End of page");
       }
     });
-    if(node) observer.current.observe(node);
+    if (node) observer.current.observe(node);
   });
   const UserPostList = userlist.map((post, index) => {
     return (
-      <Card className={"text-white verifyPhotoCard"} key={post.id} ref={userlist.length === index+1 ? lastPostElementRef : null} >
+      <Card
+        className={"text-white verifyPhotoCard"}
+        key={post.id}
+        ref={userlist.length === index + 1 ? lastPostElementRef : null}
+      >
         <div className="cardActionBox">
           <Form.Check className="checkboxUI" type="checkbox" />
         </div>
-        {console.log("cardIdcardIdcardId", cardId)}
         <div className="userProfileDetail">
           {cardId === undefined || cardId != post?._id ? (
             <VerifyProfileImages
@@ -149,95 +144,40 @@ function PostList(props) {
     <>
       <Tab.Container defaultActiveKey="link-2">
         <Nav variant="tabs">
-         
-          <Nav.Item>
-            <Nav.Link
-              eventKey="link-2"
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList(5, 1));
-                setStatus(5);
-                setPage(2);
-              }}
-            >
-              New Users Pending Verification
-              <Badge pill bg="secondary">
-                {usersAdminStatus?.new_users}
-              </Badge>
-            </Nav.Link>
-          </Nav.Item>
-         
-          <Nav.Item>
-            <Nav.Link
-              eventKey="link-4"
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { status: 1, tab: 2, search: "", per_page: 10, userlist: [],  },
-                });
-                setStatus(1);
-                dispatch(getUserList(1, 1));
-                setPage(2)
-              }}
-            >
-              All Users Pending Verification
-              <Badge pill bg="secondary">
-                {usersAdminStatus?.pending_users}
-              </Badge>
-            </Nav.Link>
-          </Nav.Item>
-           {/* <Nav.Item>
-            <Nav.Link
-              eventKey="link-1"
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList());
-              }}
-            >
-              Total Users
-              <Badge pill bg="secondary">
-                {usersAdminStatus?.total_users}
-              </Badge>
-            </Nav.Link>
-          </Nav.Item> */}
-           {/* <Nav.Item>
-            <Nav.Link
-              eventKey="link-3"
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 2, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList(2));
-              }}
-            >
-              Verified Users
-              <Badge pill bg="secondary">
-                {usersAdminStatus?.verified_users}
-              </Badge>
-            </Nav.Link>
-          </Nav.Item> */}
+          <NavItemSet
+            eventKey="link-2"
+            status={5}
+            badge={usersAdminStatus?.new_users}
+            setStatus={setStatus}
+            title="New Users Pending Verification"
+            setPage={setPage}
+            payload={{ tab: 2, search: "", per_page: 10, userlist: [] }}
+            getFunc={getUserList}
+          />
+          <NavItemSet
+            eventKey="link-4"
+            status={1}
+            badge={usersAdminStatus?.pending_users}
+            setStatus={setStatus}
+            title="All Users Pending Verification"
+            setPage={setPage}
+            payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
+            getFunc={getUserList}
+          />
         </Nav>
         <Tab.Content>
-           <Tab.Pane eventKey="link-2">
-            <VerifyPhotoCards UserPostList={status === 5 ? UserPostList : []} />
-          </Tab.Pane> 
-           <Tab.Pane eventKey="link-4">
-            <VerifyPhotoCards UserPostList={status === 1 ? UserPostList : []}
+          <Tab.Pane eventKey="link-2">
+            <VerifyPhotoCards
+              UserPostList={status === 5 ? UserPostList : []}
+              status={status}
             />
-          </Tab.Pane> 
-          {/* <Tab.Pane eventKey="link-1">
-            <VerifyPhotoCards UserPostList={UserPostList} />
-          </Tab.Pane> */}
-          {/* <Tab.Pane eventKey="link-3">
-            <VerifyPhotoCards UserPostList={UserPostList} />
-          </Tab.Pane> */}
+          </Tab.Pane>
+          <Tab.Pane eventKey="link-4">
+            <VerifyPhotoCards
+              UserPostList={status === 1 ? UserPostList : []}
+              status={status}
+            />
+          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
       <DefaultMsg

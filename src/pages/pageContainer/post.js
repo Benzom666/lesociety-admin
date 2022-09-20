@@ -161,7 +161,6 @@ function PostList() {
           <Nav variant="tabs">
             <NavItemSet
               eventKey="link-1"
-              dispatch={dispatch}
               status=""
               badge={datesStats?.total_dates}
               setStatus={setStatus}
@@ -172,7 +171,6 @@ function PostList() {
             />
             <NavItemSet
               eventKey="link-2"
-              dispatch={dispatch}
               status={5}
               badge={datesStats?.new_dates}
               setStatus={setStatus}
@@ -183,7 +181,6 @@ function PostList() {
             />
             <NavItemSet
               eventKey="link-3"
-              dispatch={dispatch}
               status={3}
               badge={datesStats?.deactivated_dates}
               setStatus={setStatus}
@@ -194,7 +191,6 @@ function PostList() {
             />
             <NavItemSet
               eventKey="link-4"
-              dispatch={dispatch}
               status={6}
               badge={datesStats?.warned_dates}
               setStatus={setStatus}
@@ -205,7 +201,6 @@ function PostList() {
             />
             <NavItemSet
               eventKey="link-5"
-              dispatch={dispatch}
               status={7}
               badge={datesStats?.re_submitted_dates}
               setStatus={setStatus}
@@ -219,7 +214,6 @@ function PostList() {
             <Tab.Pane eventKey="link-1">
               <SearchDropdownSet
                 per_page={per_page}
-                dispatch={dispatch}
                 searchHandler={searchHandler}
                 status={status}
                 getFunc={getAllDates}
@@ -235,7 +229,6 @@ function PostList() {
             <Tab.Pane eventKey="link-2">
               <SearchDropdownSet
                 per_page={per_page}
-                dispatch={dispatch}
                 searchHandler={searchHandler}
                 status={status}
                 getFunc={getAllDates}
@@ -248,7 +241,6 @@ function PostList() {
             <Tab.Pane eventKey="link-3">
               <SearchDropdownSet
                 per_page={per_page}
-                dispatch={dispatch}
                 searchHandler={searchHandler}
                 status={status}
                 getFunc={getAllDates}
@@ -261,7 +253,6 @@ function PostList() {
             <Tab.Pane eventKey="link-4">
               <SearchDropdownSet
                 per_page={per_page}
-                dispatch={dispatch}
                 searchHandler={searchHandler}
                 status={status}
                 getFunc={getAllDates}
@@ -274,7 +265,6 @@ function PostList() {
             <Tab.Pane eventKey="link-5">
               <SearchDropdownSet
                 per_page={per_page}
-                dispatch={dispatch}
                 searchHandler={searchHandler}
                 status={status}
                 getFunc={getAllDates}

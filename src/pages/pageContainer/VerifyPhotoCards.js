@@ -1,68 +1,32 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, InputGroup, DropdownButton, Dropdown } from "react-bootstrap";
-import _ from 'lodash';
+import _ from "lodash";
 
 import Utils from "../../utility/index.js";
 import { getUserList } from "./action.js";
+import { SearchDropdownSet } from "./Component";
 
-function VerifyPhotoCards({ UserPostList }) {
+function VerifyPhotoCards({ UserPostList, status }) {
   const dispatch = useDispatch();
-  const { tab, search, per_page } = useSelector(
+  const { per_page } = useSelector(
     (state) => state.userListReducer
   );
   const searchHandler = _.debounce((e) => {
     dispatch({
       type: Utils.ActionName.USER_LIST,
-      payload: { search: e.target.value },
+      payload: { search: e.target.value, userlist: [] },
     });
-    if (tab === 1) {
-      dispatch(getUserList());
-    } else if (tab === 2) {
-      dispatch(getUserList());
-    } else {
-      dispatch(getUserList());
-    }
+    dispatch(getUserList(status));
   }, 1000);
   return (
     <>
-      <InputGroup className="">
-        <Form.Control
-          placeholder="Search"
-          type="text"
-          id="search"
-          name="search"
-          // value={search}
-          onChange={searchHandler}
-        />
-        <DropdownButton
-          variant="outline-secondary"
-          title={`${per_page} Per Page`}
-          id="input-group-dropdown-2"
-          align="end"
-          onSelect={(e) => {
-            dispatch({
-              type: Utils.ActionName.USER_LIST,
-              payload: { per_page: e },
-            });
-            if (tab === 1) {
-              dispatch(getUserList());
-            } else if (tab === 2) {
-              dispatch(getUserList());
-            } else if (tab === 3) {
-              dispatch(getUserList(2));
-            } else {
-              dispatch(getUserList(1));
-            }
-          }}
-        >
-          <Dropdown.Item eventKey="10">10</Dropdown.Item>
-          <Dropdown.Item eventKey="20">20</Dropdown.Item>
-          <Dropdown.Item eventKey="25">25</Dropdown.Item>
-          <Dropdown.Item eventKey="50">50</Dropdown.Item>
-          <Dropdown.Item eventKey="100">100</Dropdown.Item>
-        </DropdownButton>
-      </InputGroup>
+      <SearchDropdownSet
+        per_page={per_page}
+        searchHandler={searchHandler}
+        status={status}
+        getFunc={getUserList}
+        payload={{ userlist: [] }}
+      />
       <div className="userPostListBox">{UserPostList}</div>
     </>
   );

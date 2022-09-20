@@ -124,7 +124,7 @@ export const getAllRequest = (username) => {
 };
 
 // get influencer
-export const getInfluencer = (status = "",  offSet = 1, active = "",) => {
+export const getInfluencer = (status = "", offSet = 1, active = "") => {
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",
@@ -132,7 +132,12 @@ export const getInfluencer = (status = "",  offSet = 1, active = "",) => {
         loading: true,
       },
     });
-    const { per_page, influencerList, current_page = 1, search } = getState().userListReducer;
+    const {
+      per_page,
+      influencerList,
+      current_page = 1,
+      search,
+    } = getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.getInfluencer,
       `?name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
@@ -231,13 +236,15 @@ export const getInfluencerStats = (username) => {
   };
 };
 // get Influencers Stats
-export const getGeoStats = (city, country, gender) => {
+export const getGeoStats = (
+  country = "",
+  gender = "",
+  locationType = "country"
+) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.getGeo,
-      `?status=2&locationType=country&country=${
-        !!country ? country : ""
-      }&gender=${!!gender ? gender : ""}`,
+      `?status=2&locationType=${locationType}&country=${country}&gender=${gender}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_GEO_STATS,
@@ -469,7 +476,7 @@ export const getPendingUser = () => {
   };
 };
 // get influencer
-export const getAllDates = (status,  offSet, active="") => {
+export const getAllDates = (status, offSet, active = "") => {
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",

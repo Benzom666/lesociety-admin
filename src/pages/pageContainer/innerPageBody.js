@@ -505,9 +505,10 @@ const PageContainer = (props) => {
                   }}
                 >
                   {" "}
-                  Country{" "}
+                  Country{"  "}
                 </Card.Link>
-                <Card.Link onClick={() => {}}> City </Card.Link>
+                {/* <Card.Link onClick={() => {
+                  dispatch(getGeoStats("", "", "city"))}}> City </Card.Link> */}
 
                 <Dropdown align="end">
                   <Dropdown.Toggle
@@ -520,14 +521,14 @@ const PageContainer = (props) => {
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(getGeoStats("", "", "female"));
+                        dispatch(getGeoStats("", "female", ""));
                       }}
                     >
                       Female Date Location
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(getGeoStats("", "", "male"));
+                        dispatch(getGeoStats("", "male", ""));
                       }}
                     >
                       Male Geolocation
@@ -544,7 +545,7 @@ const PageContainer = (props) => {
                             md="6"
                             className="mb-4 progressBarBox"
                             onClick={() => {
-                              dispatch(getGeoStats("city", value?.location));
+                              dispatch(getGeoStats(value?.location, "", "city"));
                             }}
                           >
                             <h6>
