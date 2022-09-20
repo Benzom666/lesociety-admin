@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Form,
-  InputGroup,
-  DropdownButton,
-  Dropdown,
-  Table,
-} from "react-bootstrap";
+import { DropdownButton, Dropdown, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 
@@ -19,11 +13,12 @@ import FaceBookIcon from "../../assets/images/facebook.svg";
 import TicTocIcon from "../../assets/images/ticTok.svg";
 import InstagramIcon from "../../assets/images/instagram.svg";
 import EditInfluencers from "./EditInfluencers";
+import { SearchDropdownSet } from "../pageContainer/Component";
 
-const InfluencersTable = ({ lastPostElementRef }) => {
+const InfluencersTable = ({ lastPostElementRef, status }) => {
   const dispatch = useDispatch();
 
-  const { influencerList, tab, per_page } = useSelector(
+  const { influencerList, per_page } = useSelector(
     (state) => state.userListReducer
   );
   useEffect(() => {
@@ -32,64 +27,31 @@ const InfluencersTable = ({ lastPostElementRef }) => {
 
   const handleOnSelectAll = (e) => {
     const allEmail = influencerList.map((item) => item.emailId);
-
     dispatch({
       type: Utils.ActionName.GET_INFLUENCER,
       payload: { rowSelected: allEmail },
     });
   };
 
+  const searchHandler = _.debounce((e) => {
+    const payload = { search: e.target.value };
+    if (!e.target.value) payload.influencerList = [];
+    dispatch({
+      type: Utils.ActionName.GET_INFLUENCER,
+      payload,
+    });
+    dispatch(getInfluencer(status));
+  }, 1000);
+
   return (
     <>
-      <InputGroup className="">
-        <Form.Control
-          placeholder="Search"
-          type="text"
-          id="search"
-          name="search"
-          onChange={_.debounce((e) => {
-            const payload = { search: e.target.value };
-            if(!e.target.value) payload.influencerList = [];
-            dispatch({
-              type: Utils.ActionName.GET_INFLUENCER,
-              payload,
-            });
-            if (tab === 1) {
-              dispatch(getInfluencer());
-            } else if (tab === 2) {
-              dispatch(getInfluencer(2));
-            } else if(tab === 3) {
-              dispatch(getInfluencer(1));
-            }
-          }, 1000)}
-        />
-        <DropdownButton
-          variant="outline-secondary"
-          title={`${per_page} Per Page`}
-          id="input-group-dropdown-2"
-          align="end"
-          onSelect={(e) => {
-            dispatch({
-              type: Utils.ActionName.GET_INFLUENCER,
-              payload: { per_page: e },
-            });
-            if (tab === 1) {
-              dispatch(getInfluencer());
-            } else if (tab === 2) {
-              dispatch(getInfluencer(2));
-            } else if (tab === 3) {
-              dispatch(getInfluencer(1));
-            }
-          }}
-        >
-          <Dropdown.Item eventKey="10">10</Dropdown.Item>
-          <Dropdown.Item eventKey="20">20</Dropdown.Item>
-          <Dropdown.Item eventKey="25">25</Dropdown.Item>
-          <Dropdown.Item eventKey="50">50</Dropdown.Item>
-          <Dropdown.Item eventKey="100">100</Dropdown.Item>
-        </DropdownButton>
-      </InputGroup>
-
+      <SearchDropdownSet
+        per_page={per_page}
+        searchHandler={searchHandler}
+        status={status}
+        getFunc={getInfluencer}
+        payload={{ influencerList: [] }}
+      />
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
@@ -168,13 +130,9 @@ const InfluencersTable = ({ lastPostElementRef }) => {
                       >
                         <Dropdown.Item
                           eventKey="1"
-                          onClick={ () => {
+                          onClick={() => {
                             dispatch(
-                               influencerUpdateStatus(
-                                2,
-                                influencer?.email,
-                                true
-                              )
+                              influencerUpdateStatus(2, influencer?.email, true)
                             );
                             dispatch(getInfluencer());
                           }}

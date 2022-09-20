@@ -23,8 +23,9 @@ import {
 import Utils from "../../utility";
 import ProfileImage from "../../assets/images/profleIamge.svg";
 import { DefaultMsg } from "../pageContainer/DefaultMsg";
+import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
 
-function UserTable({ lastPostElementRef, endUser }) {
+function UserTable({ lastPostElementRef, endUser, status }) {
   const dispatch = useDispatch();
   const {
     userlist,
@@ -49,19 +50,13 @@ function UserTable({ lastPostElementRef, endUser }) {
   const toggleShowA = () => setShowA(!showA);
 
   const searchHandler = _.debounce((e) => {
-    let payload = { search: e.target.value,  }
-    if(!e.target.value) payload.userlist = [];
+    console.log(e.target.value);
+    let payload = { search: e.target.value, userlist: [] };
     dispatch({
       type: Utils.ActionName.USER_LIST,
       payload,
     });
-    if (tab === 1) {
-      dispatch(getUserList());
-    } else if (tab === 2) {
-      dispatch(getUserList(2));
-    } else {
-      dispatch(getUserList(1));
-    }
+    dispatch(getUserList(status));
   }, 1500);
   const msgSubmit = () => {
     dispatch(postSendDefaulMsg("taglineAndDesc", id, rowSelected));
@@ -80,15 +75,16 @@ function UserTable({ lastPostElementRef, endUser }) {
     }
     dispatch({
       type: Utils.ActionName.USER_LIST,
-      payload: { rowSelected: selectedRow }
+      payload: { rowSelected: selectedRow },
     });
   };
   const allCheckboxHandler = (e) => {
     let allEmail = [];
     if (e.target.checked) {
-      allEmail = (userlist.filter((user) => user.email_verified && user.status === 1)).map(item => item.email);
-
-    } 
+      allEmail = userlist
+        .filter((user) => user.email_verified && user.status === 1)
+        .map((item) => item.email);
+    }
     dispatch({
       type: Utils.ActionName.USER_LIST,
       payload: { rowSelected: allEmail },
@@ -96,7 +92,7 @@ function UserTable({ lastPostElementRef, endUser }) {
   };
   return (
     <div>
-      <InputGroup className="">
+      {/* <InputGroup className="">
         <Form.Control
           placeholder="Search"
           type="text"
@@ -130,12 +126,24 @@ function UserTable({ lastPostElementRef, endUser }) {
           <Dropdown.Item eventKey="50">50</Dropdown.Item>
           <Dropdown.Item eventKey="100">100</Dropdown.Item>
         </DropdownButton>
-      </InputGroup>
+      </InputGroup> */}
+      <SearchDropdownSet
+        per_page={per_page}
+        dispatch={dispatch}
+        searchHandler={searchHandler}
+        status={status}
+        getFunc={getUserList}
+        payload={{ userlist: [] }}
+      />
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
             <th>
-              <input type="checkbox" onChange={(e) => allCheckboxHandler(e)} id="all-check" />
+              <input
+                type="checkbox"
+                onChange={(e) => allCheckboxHandler(e)}
+                id="all-check"
+              />
             </th>
             <th>User Name</th>
             <th>Gender</th>

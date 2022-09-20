@@ -57,7 +57,7 @@ export default function DataTablePagination(props) {
                 dispatch(getUserList());
               }}
             >
-              Total Users
+              Total Usersss
               <Badge pill bg="secondary">
                 {usersAdminStatus?.total_users}
               </Badge>

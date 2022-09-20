@@ -124,7 +124,7 @@ export const getAllRequest = (username) => {
 };
 
 // get influencer
-export const getInfluencer = (status = "", active = "", offSet = 1) => {
+export const getInfluencer = (status = "",  offSet = 1, active = "",) => {
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",
@@ -469,7 +469,7 @@ export const getPendingUser = () => {
   };
 };
 // get influencer
-export const getAllDates = (status, active, offSet) => {
+export const getAllDates = (status,  offSet, active="") => {
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",

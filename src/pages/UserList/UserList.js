@@ -11,6 +11,7 @@ import {
 } from "../pageContainer/action";
 import Utils from "../../utility/index.js";
 import PageHeader from "../pageContainer/header";
+import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
 
 function UserList() {
   const dispatch = useDispatch();
@@ -50,68 +51,44 @@ function UserList() {
         <PageHeader title="Users list" />
         <Tab.Container defaultActiveKey="link-1">
           <Nav variant="tabs">
-            <Nav.Item
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 1, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList("", 1));
-                setStatus("");
-                setPage(2);
-              }}
-            >
-              <Nav.Link eventKey="link-1">
-                Total Users
-                <Badge pill bg="secondary">
-                  {usersAdminStatus?.total_users ? usersAdminStatus?.total_users : "0"}
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                eventKey="link-2"
-                onClick={() => {
-                  dispatch({
-                    type: Utils.ActionName.USER_LIST,
-                    payload: { tab: 2, search: "", per_page: 10, userlist: [] },
-                  });
-                  dispatch(getUserList(2, 1));
-                  setStatus(2);
-                  setPage(2);
-                }}
-              >
-                Verified Users
-                <Badge pill bg="secondary">
-                  {usersAdminStatus?.verified_users ? usersAdminStatus?.verified_users : "0"}
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.USER_LIST,
-                  payload: { tab: 3, search: "", per_page: 10, userlist: [] },
-                });
-                dispatch(getUserList(1, 1));
-                setStatus(1);
-                setPage(2);
-              }}
-            >
-              <Nav.Link eventKey="link-3">
-                Pending Verification
-                <Badge pill bg="secondary">
-                  {usersAdminStatus?.pending_users ? usersAdminStatus?.pending_users : "0"}
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
+            <NavItemSet
+              eventKey="link-1"
+              dispatch={dispatch}
+              status=""
+              badge={usersAdminStatus?.total_users }
+              setStatus={setStatus}
+              title="Total Users"
+              setPage={setPage}
+              payload={{ tab: 1, search: "", per_page: 10, userlist: [] }}
+              getFunc={getUserList}
+            />
+            <NavItemSet
+              eventKey="link-2"
+              status={2}
+              badge={usersAdminStatus?.verified_users }
+              setStatus={setStatus}
+              title="Total Users"
+              setPage={setPage}
+              payload={{ tab: 1, search: "", per_page: 10, userlist: [] }}
+              getFunc={getUserList}
+            />
+            <NavItemSet
+              eventKey="link-3"
+              status={1}
+              badge={usersAdminStatus?.pending_users }
+              setStatus={setStatus}
+              title="Pending Verification"
+              setPage={setPage}
+              payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
+              getFunc={getUserList}
+            />
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
-            {!status ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef}/> : null}
+            {!status ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}
             </Tab.Pane>
-            <Tab.Pane eventKey="link-2">{status === 2 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} /> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} /> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-2">{status === 2 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       <p className="text-danger">{endUser}</p>

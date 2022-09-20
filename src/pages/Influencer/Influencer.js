@@ -23,6 +23,7 @@ import {
 import PageHeader from "../pageContainer/header";
 import InfluencersList from "./InfluencerTable";
 import Utils from "../../utility/index.js";
+import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
 
 function InfluencerPage() {
   const dispatch = useDispatch();
@@ -38,13 +39,11 @@ function InfluencerPage() {
   const [endUser, setEndUser] = useState();
 
   useEffect(() => {
-    dispatch(getInfluencer("", "", 1));
+    dispatch(getInfluencer("", 1, ""));
     // window.addEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    // dispatch(getInfluencer());
-    // clearState();
     dispatch(getInfluencerStats());
   }, []);
 
@@ -90,7 +89,7 @@ function InfluencerPage() {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && pagination.total_pages >= page) {
-        dispatch(getInfluencer(status, page));
+        dispatch(getInfluencer(status, page, ""));
         setPage(page + 1);
       } else {
         setEndUser("End of page");
@@ -105,75 +104,38 @@ function InfluencerPage() {
         <PageHeader title="Promo codes" />
         <Tab.Container defaultActiveKey="link-1">
           <Nav variant="tabs">
-            <Nav.Item
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.GET_INFLUENCER,
-                  payload: {
-                    tab: 1,
-                    search: "",
-                    per_page: 10,
-                    influencerList: [],
-                  },
-                });
-                dispatch(getInfluencer());
-                setStatus("");
-                setPage(2);
-              }}
-            >
-              <Nav.Link eventKey="link-1">
-                Total
-                <Badge pill bg="secondary">
-                  {influencerStats?.total}
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.GET_INFLUENCER,
-                  payload: {
-                    tab: 2,
-                    search: "",
-                    per_page: 10,
-                    influencerList: [],
-                  },
-                });
-                dispatch(getInfluencer(2, true));
-                setStatus(2);
-                setPage(2);
-              }}
-            >
-              <Nav.Link eventKey="link-2">
-                Active
-                <Badge pill bg="secondary">
-                  {influencerStats?.active}
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item
-              onClick={() => {
-                dispatch({
-                  type: Utils.ActionName.GET_INFLUENCER,
-                  payload: {
-                    tab: 3,
-                    search: "",
-                    per_page: 10,
-                    influencerList: [],
-                  },
-                });
-                dispatch(getInfluencer(1, false));
-                setStatus(1);
-                setPage(2);
-              }}
-            >
-              <Nav.Link eventKey="link-3">
-                Inactive
-                <Badge pill bg="secondary">
-                  {influencerStats?.inactive}
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
+            <NavItemSet
+              eventKey="link-1"
+              status=""
+              badge={influencerStats?.total }
+              setStatus={setStatus}
+              title="Total"
+              setPage={setPage}
+              payload={{ tab: 1, search: "", per_page: 10, influencerList: [] }}
+              getFunc={getInfluencer}
+            />
+            <NavItemSet
+              eventKey="link-2"
+              status={2}
+              badge={influencerStats?.active }
+              setStatus={setStatus}
+              title="Active"
+              setPage={setPage}
+              payload={{ tab: 1, search: "", per_page: 10, influencerList: [] }}
+              getFunc={getInfluencer}
+              active={true}
+            />
+            <NavItemSet
+              eventKey="link-3"
+              status={1}
+              badge={influencerStats?.inactive }
+              setStatus={setStatus}
+              title="Inactive"
+              setPage={setPage}
+              payload={{ tab: 3, search: "", per_page: 10, influencerList: [] }}
+              getFunc={getInfluencer}
+              active={false}
+            />
             <Button
               variant="primary"
               onClick={handleModal}
@@ -185,18 +147,18 @@ function InfluencerPage() {
           <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
               {!status ? (
-                <InfluencersList lastPostElementRef={lastPostElementRef} />
+                <InfluencersList lastPostElementRef={lastPostElementRef} status={status}/>
               ) : null}
               <p className="text-danger">{endUser}</p>
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">
               {status === 2 ? (
-                <InfluencersList lastPostElementRef={lastPostElementRef} />
+                <InfluencersList lastPostElementRef={lastPostElementRef} status={status}/>
               ) : null}
             </Tab.Pane>
             <Tab.Pane eventKey="link-3">
               {status === 1 ? (
-                <InfluencersList lastPostElementRef={lastPostElementRef} />
+                <InfluencersList lastPostElementRef={lastPostElementRef} status={status} />
               ) : null}
             </Tab.Pane>
           </Tab.Content>
