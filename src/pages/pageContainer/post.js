@@ -39,6 +39,10 @@ function PostList() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
+    dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { tab: 1, search: "", per_page: 10, datesList: [] },
+    })
     dispatch(getAllDates("", 1, ""));
     dispatch(getDefaultMsgList("postMessage"));
     dispatch(getDateStats());
