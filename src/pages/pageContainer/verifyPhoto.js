@@ -13,15 +13,13 @@ import DataTablePagination from "./DataTablePagination.js";
 
 const PostList = React.memo(function (props) {
   const dispatch = useDispatch();
-  const { userlist } = useSelector(
-    (state) => state.userListReducer
-  );
+  const { userlist } = useSelector((state) => state.userListReducer);
   const [endUser, setEndUser] = useState("");
 
   useEffect(() => {
     dispatch({
-      type: 'USER_LIST',
-      payload: {userlist: []},
+      type: "USER_LIST",
+      payload: { tab: 2, search: "", per_page: 10, userlist: [] },
     });
     dispatch(getUserList(5, 1));
     dispatch(getUserStatusCounter());
@@ -33,10 +31,7 @@ const PostList = React.memo(function (props) {
       <SideBar />
       <div className="inner-page userListUI">
         <PageHeader title="Verify Photo" />
-        <DataTablePagination
-          data={userlist}
-          setEndUser={setEndUser}
-        />
+        <DataTablePagination data={userlist} setEndUser={setEndUser} />
         <p className="text-danger">{endUser}</p>
       </div>
     </div>

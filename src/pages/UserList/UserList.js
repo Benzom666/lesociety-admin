@@ -23,6 +23,10 @@ function UserList() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
+    dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { tab: 1, search: "", per_page: 10, userlist: [] },
+    })
     dispatch(getUserList("", 1));
     dispatch(getUserStatusCounter());
     dispatch(
