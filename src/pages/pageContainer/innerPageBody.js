@@ -510,7 +510,7 @@ const PageContainer = (props) => {
                 {/* <Card.Link onClick={() => {
                   dispatch(getGeoStats("", "", "city"))}}> City </Card.Link> */}
 
-                <Dropdown align="end">
+                <Dropdown align="end" style={{marginLeft: "16px"}}>
                   <Dropdown.Toggle
                     id="dropdown-button-dark-example1"
                     variant="secondary"
@@ -521,14 +521,14 @@ const PageContainer = (props) => {
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(getGeoStats("", "female", ""));
+                        dispatch(getGeoStats("", "female", "country"));
                       }}
                     >
                       Female Date Location
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(getGeoStats("", "male", ""));
+                        dispatch(getGeoStats("", "male", "country"));
                       }}
                     >
                       Male Geolocation
