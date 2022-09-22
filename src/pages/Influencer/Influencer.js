@@ -39,21 +39,27 @@ function InfluencerPage() {
   const [endUser, setEndUser] = useState();
 
   useEffect(() => {
+    dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { tab: 1, search: "", per_page: 10, influencerList: [] },
+    });
     dispatch(getInfluencer("", 1, ""));
-    // window.addEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
     dispatch(getInfluencerStats());
   }, []);
 
   const [show, setShow] = useState(false);
-  const [formData, setFormData] = useState({email: '', name: '', source: '', code: '', promo: ''});
+  const [formData, setFormData] = useState({
+    email: "",
+    name: "",
+    source: "",
+    code: "",
+    promo: "",
+  });
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
 
   const clearState = () => {
-    setFormData({email: '', name: '', source: '', code: '', promo: ''});
+    setFormData({ email: "", name: "", source: "", code: "", promo: "" });
     dispatch({
       type: Utils.ActionName.GET_INFLUENCER_EXIST,
       payload: {
@@ -79,7 +85,7 @@ function InfluencerPage() {
   };
   const emailChangeHandler = _.debounce((e) => {
     // alert("input working");
-    setFormData({...formData, email: e.target.value});
+    setFormData({ ...formData, email: e.target.value });
     dispatch(getInfluencerEmailExists(e.target.value));
   }, 1500);
 
@@ -107,7 +113,7 @@ function InfluencerPage() {
             <NavItemSet
               eventKey="link-1"
               status=""
-              badge={influencerStats?.total }
+              badge={influencerStats?.total}
               setStatus={setStatus}
               title="Total"
               setPage={setPage}
@@ -117,7 +123,7 @@ function InfluencerPage() {
             <NavItemSet
               eventKey="link-2"
               status={2}
-              badge={influencerStats?.active }
+              badge={influencerStats?.active}
               setStatus={setStatus}
               title="Active"
               setPage={setPage}
@@ -128,7 +134,7 @@ function InfluencerPage() {
             <NavItemSet
               eventKey="link-3"
               status={1}
-              badge={influencerStats?.inactive }
+              badge={influencerStats?.inactive}
               setStatus={setStatus}
               title="Inactive"
               setPage={setPage}
@@ -147,18 +153,27 @@ function InfluencerPage() {
           <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
               {!status ? (
-                <InfluencersList lastPostElementRef={lastPostElementRef} status={status}/>
+                <InfluencersList
+                  lastPostElementRef={lastPostElementRef}
+                  status={status}
+                />
               ) : null}
               <p className="text-danger">{endUser}</p>
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">
               {status === 2 ? (
-                <InfluencersList lastPostElementRef={lastPostElementRef} status={status}/>
+                <InfluencersList
+                  lastPostElementRef={lastPostElementRef}
+                  status={status}
+                />
               ) : null}
             </Tab.Pane>
             <Tab.Pane eventKey="link-3">
               {status === 1 ? (
-                <InfluencersList lastPostElementRef={lastPostElementRef} status={status} />
+                <InfluencersList
+                  lastPostElementRef={lastPostElementRef}
+                  status={status}
+                />
               ) : null}
             </Tab.Pane>
           </Tab.Content>
@@ -197,7 +212,9 @@ function InfluencerPage() {
               <Form.Control
                 type="text"
                 // value={name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 placeholder="Enter Name"
               />
             </Form.Group>
@@ -207,7 +224,9 @@ function InfluencerPage() {
               <select
                 class="form-control"
                 // value={source}
-                onChange={(e) => setFormData({...formData, source: e.target.value})}
+                onChange={(e) =>
+                  setFormData({ ...formData, source: e.target.value })
+                }
               >
                 <option>Enter Source</option>
                 <option value="facebook">Facebook</option>
@@ -224,7 +243,7 @@ function InfluencerPage() {
                   type="text"
                   // value={code}
                   onChange={(e) => {
-                    setFormData({...formData, code: e.target.value});
+                    setFormData({ ...formData, code: e.target.value });
                     dispatch(getInfluencerExistCode(e.target.value));
                   }}
                   placeholder="Enter Code"
@@ -240,7 +259,9 @@ function InfluencerPage() {
                 <Form.Control
                   type="text"
                   // value={promo}
-                  onChange={(e) => setFormData({...formData, promo: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, promo: e.target.value })
+                  }
                   placeholder="Enter Promo %"
                 />
               </Form.Group>

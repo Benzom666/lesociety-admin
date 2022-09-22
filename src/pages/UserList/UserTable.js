@@ -64,7 +64,6 @@ function UserTable({ lastPostElementRef, endUser, status }) {
     dispatch((rowSelected = {}));
   };
   const checkboxHandler = (e) => {
-    console.log(e.target.checked, e.target.value);
     let selectedRow = rowSelected;
     if (e.target.checked) {
       selectedRow = [...selectedRow, e.target.value];

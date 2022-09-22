@@ -29,9 +29,7 @@ function UserList() {
     })
     dispatch(getUserList("", 1));
     dispatch(getUserStatusCounter());
-    dispatch(
-      getDefaultMsgList("taglineAndDesc")
-    )
+    dispatch(getDefaultMsgList("taglineAndDesc"));
   }, []);
   const observer = useRef();
   const lastPostElementRef = useCallback(node => {

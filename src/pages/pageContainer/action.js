@@ -1,7 +1,7 @@
 import moment from "moment";
 import Utils from "../../utility";
 
-export const getUserList = (status, offSet) => {
+export const getUserList = (status = "", offSet = 1) => {
   // alert(status);
   return (dispatch, getState) => {
     dispatch({
@@ -14,11 +14,8 @@ export const getUserList = (status, offSet) => {
       getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?user_name=${search}&location=&status=${
-        status ? status : ""
-      }&assetOnly=&per_page=${per_page}&current_page=1`,
+      `?user_name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
-        console.log(respData?.data?.data?.total_pages, "333");
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: {
@@ -33,6 +30,12 @@ export const getUserList = (status, offSet) => {
       (error) => {
         let { data } = error;
         Utils.showAlert(2, data?.message);
+        dispatch({
+          type: "SET_LOADING",
+          payload: {
+            loading: false,
+          },
+        });
       }
     );
   };
@@ -277,7 +280,7 @@ export const influencerCreate = (formData) => {
   };
 };
 // influencer update status
-export const influencerUpdateStatus = (status, email, active) => {
+export const influencerUpdateStatus = (status, email, active, currentStatus) => {
   return (dispatch) => {
     const dataToSend = {
       status,
@@ -289,6 +292,9 @@ export const influencerUpdateStatus = (status, email, active) => {
       dataToSend,
       (respData) => {
         Utils.showAlert(1, "Influencer status updated.");
+        dispatch({type: Utils.ActionName.GET_INFLUENCER, payload: {influencerList : []}});
+        dispatch(getInfluencer(currentStatus));
+        dispatch(getInfluencerStats());
       },
       (error) => {
         let { data } = error;
@@ -492,7 +498,6 @@ export const getAllDates = (status, offSet, active = "") => {
         status ? status : ""
       }&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
-        console.log("respDatarespData", respData);
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: {
@@ -735,7 +740,7 @@ export const createCountry = () => {
   };
 };
 // get country
-export const deleteInfluencer = (email) => {
+export const deleteInfluencer = (email, status) => {
   console.log("email", email);
   return (dispatch) => {
     Utils.api.deleteApiCall(
@@ -743,6 +748,9 @@ export const deleteInfluencer = (email) => {
       { data: { email: email } },
       (respData) => {
         Utils.showAlert(1, "Influence Delete successfully!");
+        dispatch(getInfluencer(status));
+        dispatch(getInfluencerStats());
+        
       },
       (error) => {
         let { data } = error;

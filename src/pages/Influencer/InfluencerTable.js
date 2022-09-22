@@ -130,11 +130,10 @@ const InfluencersTable = ({ lastPostElementRef, status }) => {
                       >
                         <Dropdown.Item
                           eventKey="1"
-                          onClick={() => {
+                          onClick={ async () => {
                             dispatch(
-                              influencerUpdateStatus(2, influencer?.email, true)
+                              influencerUpdateStatus(2, influencer?.email, true, status)
                             );
-                            dispatch(getInfluencer());
                           }}
                         >
                           Active
@@ -146,10 +145,9 @@ const InfluencersTable = ({ lastPostElementRef, status }) => {
                               influencerUpdateStatus(
                                 3,
                                 influencer?.email,
-                                false
+                                false, status
                               )
                             );
-                            dispatch(getInfluencer());
                           }}
                         >
                           Inactive
@@ -164,8 +162,7 @@ const InfluencersTable = ({ lastPostElementRef, status }) => {
                         <Dropdown.Item
                           eventKey="req"
                           onClick={async () => {
-                            dispatch(deleteInfluencer(influencer?.email));
-                            dispatch(getInfluencer());
+                            dispatch(deleteInfluencer(influencer?.email, status));
                           }}
                         >
                           Delete
