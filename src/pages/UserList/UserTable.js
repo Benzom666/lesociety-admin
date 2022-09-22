@@ -50,7 +50,6 @@ function UserTable({ lastPostElementRef, endUser, status }) {
   const toggleShowA = () => setShowA(!showA);
 
   const searchHandler = _.debounce((e) => {
-    console.log(e.target.value);
     let payload = { search: e.target.value, userlist: [] };
     dispatch({
       type: Utils.ActionName.USER_LIST,

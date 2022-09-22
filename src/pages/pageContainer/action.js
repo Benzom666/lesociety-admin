@@ -110,7 +110,6 @@ export const getAllRequest = (username) => {
       Utils.endPoints.getRequest,
       ``,
       (respData) => {
-        console.log("GET_REQUEST", respData);
         dispatch({
           type: Utils.ActionName.GET_REQUEST,
           payload: {
@@ -178,7 +177,6 @@ export const getInfluencerEmailExists = (email) => {
         });
       },
       (error) => {
-        console.log(error?.data?.data[0].message);
         dispatch({
           type: Utils.ActionName.GET_EXIST_MAIL,
           payload: {

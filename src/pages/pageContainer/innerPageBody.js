@@ -122,7 +122,6 @@ const PageContainer = (props) => {
     ],
   };
   const { count = 0, percent = 0, sign = "" } = dashboardStats;
-  console.log(count, percent, sign, dashboardStats);
   return (
     <div className="inner-page">
       <PageHeader title="Dashboard" />

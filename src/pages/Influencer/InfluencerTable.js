@@ -88,10 +88,8 @@ const InfluencersTable = ({ lastPostElementRef, status }) => {
                       <input
                         id="user-checkbox"
                         type="checkbox"
-                        // onChange={checkboxHandler}
                         value={influencer.email}
                         name="user-checkbox"
-                        // checked={rowSelected.includes(user.email)}
                       />
                     </td>
                     <td>{influencer?.name}</td>
@@ -130,7 +128,7 @@ const InfluencersTable = ({ lastPostElementRef, status }) => {
                       >
                         <Dropdown.Item
                           eventKey="1"
-                          onClick={ async () => {
+                          onClick={() => {
                             dispatch(
                               influencerUpdateStatus(2, influencer?.email, true, status)
                             );
@@ -161,7 +159,7 @@ const InfluencersTable = ({ lastPostElementRef, status }) => {
                         />
                         <Dropdown.Item
                           eventKey="req"
-                          onClick={async () => {
+                          onClick={() => {
                             dispatch(deleteInfluencer(influencer?.email, status));
                           }}
                         >

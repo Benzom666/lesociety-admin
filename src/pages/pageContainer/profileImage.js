@@ -3,7 +3,6 @@ import { Image } from "react-bootstrap";
 
 const ProfileImages = props => {
   const {img, image_verified, un_verified_images} = props
-  console.log("image_verified === true && un_verified_images != undefined", image_verified ,  un_verified_images )
   return (
       <div className="userProfileImage">
         {image_verified === true && un_verified_images != undefined && un_verified_images[0]
