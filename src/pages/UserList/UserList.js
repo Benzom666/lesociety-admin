@@ -71,7 +71,7 @@ function UserList() {
               status={2}
               badge={usersAdminStatus?.verified_users }
               setStatus={setStatus}
-              title="Total Users"
+              title="Verified Users"
               setPage={setPage}
               payload={{ tab: 1, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
