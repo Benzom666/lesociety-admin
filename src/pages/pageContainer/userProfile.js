@@ -60,10 +60,10 @@ const PageContainer = props => {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
-                    <Dropdown.Item href="#/action-1" onClick={() => {
+                    <Dropdown.Item role="button" onClick={() => {
                     dispatch(postUpdateUserStatus(2, userProfileData.email))}}>Verify</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2" onClick={handleShow}>Request a Change</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" onClick={() => {
+                    <Dropdown.Item role="button" onClick={handleShow}>Request a Change</Dropdown.Item>
+                    <Dropdown.Item role="button" onClick={() => {
                       dispatch(postUpdateUserStatus(3, userProfileData.email))
                     }}>Block</Dropdown.Item>
                   </Dropdown.Menu>

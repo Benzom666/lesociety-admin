@@ -58,7 +58,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
     dispatch(getUserList(status));
   }, 1500);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", id, rowSelected));
+    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "6323e3ae8c8a4613fdf79256"));
     setShow(false);
     dispatch((rowSelected = {}));
   };
@@ -90,41 +90,6 @@ function UserTable({ lastPostElementRef, endUser, status }) {
   };
   return (
     <div>
-      {/* <InputGroup className="">
-        <Form.Control
-          placeholder="Search"
-          type="text"
-          id="search"
-          name="search"
-          //value={search}
-          onChange={searchHandler}
-        />
-        <DropdownButton
-          variant="outline-secondary"
-          title={`${per_page} Per Page`}
-          id="input-group-dropdown-2"
-          align="end"
-          onSelect={(e) => {
-            dispatch({
-              type: Utils.ActionName.USER_LIST,
-              payload: { per_page: e },
-            });
-            if (tab === 1) {
-              dispatch(getUserList("", 1));
-            } else if (tab === 2) {
-              dispatch(getUserList(2, 1));
-            } else {
-              dispatch(getUserList(1, 1));
-            }
-          }}
-        >
-          <Dropdown.Item eventKey="10">10</Dropdown.Item>
-          <Dropdown.Item eventKey="20">20</Dropdown.Item>
-          <Dropdown.Item eventKey="25">25</Dropdown.Item>
-          <Dropdown.Item eventKey="50">50</Dropdown.Item>
-          <Dropdown.Item eventKey="100">100</Dropdown.Item>
-        </DropdownButton>
-      </InputGroup> */}
       <SearchDropdownSet
         per_page={per_page}
         dispatch={dispatch}
@@ -232,8 +197,8 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                           <Dropdown.Item
                             eventKey="1"
                             onClick={() => {
-                              dispatch(postUpdateUserStatus(2, user.email));
-                              dispatch(getUserList());
+                              dispatch(postUpdateUserStatus(2, user.email, "user-list", status));
+                              // dispatch(getUserList());
                             }}
                           >
                             Verify

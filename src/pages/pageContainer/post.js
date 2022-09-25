@@ -25,7 +25,7 @@ function PostList() {
     useSelector((state) => state.userListReducer);
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
-  const [emailSelected, setEmailSelected] = useState();
+  const [emailSelected, setEmailSelected] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedUser, setSelectedUser] = useState(false);
@@ -48,8 +48,10 @@ function PostList() {
     dispatch(getDateStats());
   }, []);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("postMessage", id, emailSelected));
+    // console.log(emailSelected);
+    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, '632536d25ae67a0a536c8c91', status));
     setShow(false);
+    setEmailSelected([]);
   };
   const observer = useRef();
   const lastPostElementRef = useCallback((node) => {
@@ -75,9 +77,13 @@ function PostList() {
   const UserPostList =
     Array.isArray(datesList) && datesList.length ? (
       datesList.map((value, index) => {
-        const checkedUser = () => {
-          setSelectedUser(!selectedUser);
-          selectedUser == true && setEmailSelected(value?.user_data[0]?.email);
+        const checkedUser = (event) => {
+          console.log(event.target.checked, event.target.value);
+          if(event.target.checked){
+            setEmailSelected([...emailSelected, event.target.value]);
+          } else {
+            emailSelected.splice(emailSelected.indexOf(event.target.value), 1); 
+          }
         };
         return (
           <Card
@@ -89,7 +95,7 @@ function PostList() {
               <Form.Check
                 className="checkboxUI"
                 type="checkbox"
-                value={selectedUser}
+                value={value?.user_data[0]?.email}
                 onClick={checkedUser}
               />
               <Card.Link
@@ -184,16 +190,6 @@ function PostList() {
               getFunc={getAllDates}
             />
             <NavItemSet
-              eventKey="link-3"
-              status={3}
-              badge={datesStats?.deactivated_dates}
-              setStatus={setStatus}
-              title="Deactivated"
-              setPage={setPage}
-              payload={{ tab: 3, search: "", datesList: [] }}
-              getFunc={getAllDates}
-            />
-            <NavItemSet
               eventKey="link-4"
               status={6}
               badge={datesStats?.warned_dates}
@@ -211,6 +207,16 @@ function PostList() {
               title="Resubmitted"
               setPage={setPage}
               payload={{ tab: 7, search: "", datesList: [] }}
+              getFunc={getAllDates}
+            />
+            <NavItemSet
+              eventKey="link-3"
+              status={3}
+              badge={datesStats?.deactivated_dates}
+              setStatus={setStatus}
+              title="Blocked"
+              setPage={setPage}
+              payload={{ tab: 3, search: "", datesList: [] }}
               getFunc={getAllDates}
             />
           </Nav>
@@ -242,18 +248,6 @@ function PostList() {
                 <div className="userPostListBox">{UserPostList}</div>
               ) : null}
             </Tab.Pane>
-            <Tab.Pane eventKey="link-3">
-              <SearchDropdownSet
-                per_page={per_page}
-                searchHandler={searchHandler}
-                status={status}
-                getFunc={getAllDates}
-                payload={paylaod1}
-              />
-              {status === 3 ? (
-                <div className="userPostListBox">{UserPostList}</div>
-              ) : null}
-            </Tab.Pane>
             <Tab.Pane eventKey="link-4">
               <SearchDropdownSet
                 per_page={per_page}
@@ -278,11 +272,22 @@ function PostList() {
                 <div className="userPostListBox">{UserPostList}</div>
               ) : null}
             </Tab.Pane>
+            <Tab.Pane eventKey="link-3">
+              <SearchDropdownSet
+                per_page={per_page}
+                searchHandler={searchHandler}
+                status={status}
+                getFunc={getAllDates}
+                payload={paylaod1}
+              />
+              {status === 3 ? (
+                <div className="userPostListBox">{UserPostList}</div>
+              ) : null}
+            </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-        {selectedUser && (
+        {emailSelected.length ?  (
           <Toast show={showA} onClose={toggleShowA} className="requestPopup">
-            <Toast.Header></Toast.Header>
             <Toast.Body className="d-flex align-items-center w-100">
               <Form.Check type="checkbox" label="people" />
               <Button className="requestBtn" onClick={handleShow}>
@@ -298,7 +303,7 @@ function PostList() {
               </Button>
             </Toast.Body>
           </Toast>
-        )}
+        ) : null}
       </div>
       <DefaultMsg
         setid={setId}

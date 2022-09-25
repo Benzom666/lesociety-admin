@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 // import Login from "../screens/login";
 import Dashboard from "../pages/dashboard/index.js";
 import Login from "../pages/auth/login.js";
@@ -14,6 +14,10 @@ import UserProfile from "../pages/pageContainer/userProfile";
 import UserList from "../pages/UserList/UserList";
 import InfluencerPage from "../pages/Influencer/Influencer.js";
 function Router() {
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
+    <BrowserRouter><Navigate to="/" /></BrowserRouter>;
+  }
   return (
     <BrowserRouter>
       <Routes>

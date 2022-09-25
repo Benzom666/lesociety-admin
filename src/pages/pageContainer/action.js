@@ -278,7 +278,12 @@ export const influencerCreate = (formData) => {
   };
 };
 // influencer update status
-export const influencerUpdateStatus = (status, email, active, currentStatus) => {
+export const influencerUpdateStatus = (
+  status,
+  email,
+  active,
+  currentStatus
+) => {
   return (dispatch) => {
     const dataToSend = {
       status,
@@ -290,7 +295,10 @@ export const influencerUpdateStatus = (status, email, active, currentStatus) => 
       dataToSend,
       (respData) => {
         Utils.showAlert(1, "Influencer status updated.");
-        dispatch({type: Utils.ActionName.GET_INFLUENCER, payload: {influencerList : []}});
+        dispatch({
+          type: Utils.ActionName.GET_INFLUENCER,
+          payload: { influencerList: [] },
+        });
         dispatch(getInfluencer(currentStatus));
         dispatch(getInfluencerStats());
       },
@@ -343,19 +351,27 @@ export const postSetRequest = () => {
   };
 };
 // post send default msg
-export const postSendDefaulMsg = (messageType, message_id, user_email_list) => {
+export const postSendDefaulMsg = (
+  messageType,
+  message_id,
+  user_email_list,
+  post_ids,
+  currentStatus
+) => {
   return (dispatch) => {
     // const { password } = values;
     const dataToSend = {
       messageType,
       message_id,
       user_email_list,
+      post_ids,
     };
     Utils.api.postApiCall(
       Utils.endPoints.sendDefaultMsg,
       dataToSend,
       (respData) => {
         Utils.showAlert(1, "Request mail sent to users");
+        dispatch(getAllDates(currentStatus, 1, ""));
       },
       (error) => {
         let { data } = error;
@@ -384,7 +400,7 @@ export const postVerfiyUser = (email) => {
   };
 };
 // post update user status
-export const postUpdateUserStatus = (status, emails) => {
+export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
   return (dispatch) => {
     const dataToSend = {
       status,
@@ -395,7 +411,16 @@ export const postUpdateUserStatus = (status, emails) => {
       dataToSend,
       (respData) => {
         console.log("respData==>saaa", respData);
+        Utils.showAlert(2, respData?.message);
         // Utils.showAlert(1, "Tagline and description updated successfully!")
+        if (source === "user-list") {
+          dispatch({
+            type: Utils.ActionName.GET_ALL_DATES,
+            payload: { userlist: [] },
+          });
+          dispatch(getUserStatusCounter());
+          dispatch(getUserList(currentStatus));
+        }
       },
       (error) => {
         let { data } = error;
@@ -671,7 +696,10 @@ export const getDashboardStats = (start_date = "", end_date = "") => {
       },
       (error) => {
         let { data } = error;
-        Utils.showAlert(2, data?.message);
+        Utils.showAlert(
+          2,
+          typeof data?.message === "string" ? data?.message : undefined
+        );
       }
     );
   };
@@ -693,7 +721,10 @@ export const getDashboardStatsNew = (status, start_date, end_date) => {
       },
       (error) => {
         let { data } = error;
-        Utils.showAlert(2, data?.message);
+        Utils.showAlert(
+          2,
+          typeof data?.message === "string" ? data?.message : undefined
+        );
       }
     );
   };
@@ -713,7 +744,10 @@ export const getDashboardStatsDeactive = (status, start_date) => {
       },
       (error) => {
         let { data } = error;
-        Utils.showAlert(2, data?.message);
+        Utils.showAlert(
+          2,
+          typeof data?.message === "string" ? data?.message : undefined
+        );
       }
     );
   };
@@ -748,7 +782,6 @@ export const deleteInfluencer = (email, status) => {
         Utils.showAlert(1, "Influence Delete successfully!");
         dispatch(getInfluencer(status));
         dispatch(getInfluencerStats());
-        
       },
       (error) => {
         let { data } = error;

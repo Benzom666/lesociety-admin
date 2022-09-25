@@ -122,6 +122,7 @@ const PageContainer = (props) => {
     ],
   };
   const { count = 0, percent = 0, sign = "" } = dashboardStats;
+  console.log(rStartDate);
   return (
     <div className="inner-page">
       <PageHeader title="Dashboard" />
@@ -509,7 +510,7 @@ const PageContainer = (props) => {
                 {/* <Card.Link onClick={() => {
                   dispatch(getGeoStats("", "", "city"))}}> City </Card.Link> */}
 
-                <Dropdown align="end" style={{marginLeft: "16px"}}>
+                <Dropdown align="end" style={{marginLeft: "16px", cursor: "pointer"}}>
                   <Dropdown.Toggle
                     id="dropdown-button-dark-example1"
                     variant="secondary"

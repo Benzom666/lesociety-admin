@@ -36,7 +36,6 @@ const postApiCall = async (
   successCallback,
   errorCallback
 ) => {
-  const token = localStorage.getItem("accessToken");
 await  Utils.constants.axios
     .post(endPoint, params)
     .then((response) => {
