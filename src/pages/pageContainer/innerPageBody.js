@@ -23,6 +23,7 @@ import Utils from "../../utility";
 Chart.register(CategoryScale);
 
 const PageContainer = (props) => {
+  const [locationType, setLocationType] = useState("country");
   const {
     registerCompFemaleList,
     registerCompMaleList,
@@ -386,7 +387,7 @@ const PageContainer = (props) => {
                       )}
                     </>
                   ) : (
-                    '0 %'
+                    "0 %"
                   )}
                 </Card.Text>
               </Card.Body>
@@ -500,17 +501,21 @@ const PageContainer = (props) => {
               <Card.Header>
                 <Card.Title> Geo </Card.Title>
                 <Card.Link
+                  role="button"
                   onClick={() => {
                     dispatch(getGeoStats());
+                    setLocationType("country");
                   }}
                 >
-                  {" "}
-                  Country{"  "}
+                  Country
                 </Card.Link>
                 {/* <Card.Link onClick={() => {
                   dispatch(getGeoStats("", "", "city"))}}> City </Card.Link> */}
 
-                <Dropdown align="end" style={{marginLeft: "16px", cursor: "pointer"}}>
+                <Dropdown
+                  align="end"
+                  style={{ marginLeft: "16px", cursor: "pointer" }}
+                >
                   <Dropdown.Toggle
                     id="dropdown-button-dark-example1"
                     variant="secondary"
@@ -545,7 +550,10 @@ const PageContainer = (props) => {
                             md="6"
                             className="mb-4 progressBarBox"
                             onClick={() => {
-                              dispatch(getGeoStats(value?.location, "", "city"));
+                              dispatch(
+                                getGeoStats(value?.location, "", "city")
+                              );
+                              setLocationType('city');
                             }}
                           >
                             <h6>

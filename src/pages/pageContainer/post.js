@@ -26,6 +26,7 @@ function PostList() {
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
   const [emailSelected, setEmailSelected] = useState([]);
+  const [postIdSelected, setPostIdSelected] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedUser, setSelectedUser] = useState(false);
@@ -49,9 +50,10 @@ function PostList() {
   }, []);
   const msgSubmit = () => {
     // console.log(emailSelected);
-    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, '632536d25ae67a0a536c8c91', status));
+    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, getAllDates));
     setShow(false);
     setEmailSelected([]);
+    setPostIdSelected([]);
   };
   const observer = useRef();
   const lastPostElementRef = useCallback((node) => {
@@ -78,11 +80,15 @@ function PostList() {
     Array.isArray(datesList) && datesList.length ? (
       datesList.map((value, index) => {
         const checkedUser = (event) => {
-          console.log(event.target.checked, event.target.value);
+          console.log(event.target.checked, event.target.value, event.target.id);
           if(event.target.checked){
             setEmailSelected([...emailSelected, event.target.value]);
+            setPostIdSelected([...postIdSelected, event.target.id]);
           } else {
-            emailSelected.splice(emailSelected.indexOf(event.target.value), 1); 
+            emailSelected.splice(emailSelected.indexOf(event.target.value), 1);
+            setEmailSelected(emailSelected); 
+            postIdSelected.splice(postIdSelected.indexOf(event.target.value), 1);
+            setPostIdSelected(postIdSelected); 
           }
         };
         return (
@@ -96,7 +102,9 @@ function PostList() {
                 className="checkboxUI"
                 type="checkbox"
                 value={value?.user_data[0]?.email}
+                id={value?._id}
                 onClick={checkedUser}
+                checked={postIdSelected.includes(value?._id)}
               />
               <Card.Link
                 className="showDetail"

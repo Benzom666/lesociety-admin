@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Form,
-  InputGroup,
   DropdownButton,
   Dropdown,
   Button,
   Toast,
-  Spinner,
   Table,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +21,7 @@ import {
 import Utils from "../../utility";
 import ProfileImage from "../../assets/images/profleIamge.svg";
 import { DefaultMsg } from "../pageContainer/DefaultMsg";
-import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
+import { SearchDropdownSet } from "../pageContainer/Component";
 
 function UserTable({ lastPostElementRef, endUser, status }) {
   const dispatch = useDispatch();
@@ -58,9 +56,9 @@ function UserTable({ lastPostElementRef, endUser, status }) {
     dispatch(getUserList(status));
   }, 1500);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "6323e3ae8c8a4613fdf79256"));
+    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status, getUserList));
     setShow(false);
-    dispatch((rowSelected = {}));
+    // dispatch((rowSelected = []));
   };
   const checkboxHandler = (e) => {
     let selectedRow = rowSelected;
@@ -208,6 +206,10 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                             onClick={() => {
                               setShow(true);
                               setUserEmail(user?.email);
+                              dispatch({
+                                type: Utils.ActionName.USER_LIST,
+                                payload: {rowSelected: [user?.email]},
+                              });
                             }}
                           >
                             Request a Change
@@ -215,8 +217,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                           <Dropdown.Item
                             eventKey="3"
                             onClick={() => {
-                              dispatch(postUpdateUserStatus(3, user.email));
-                              dispatch(getUserList());
+                              dispatch(postUpdateUserStatus(3, user.email, 'user-list', status));
                             }}
                           >
                             Block

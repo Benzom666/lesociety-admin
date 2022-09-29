@@ -356,7 +356,8 @@ export const postSendDefaulMsg = (
   message_id,
   user_email_list,
   post_ids,
-  currentStatus
+  currentStatus,
+  updateFunc
 ) => {
   return (dispatch) => {
     // const { password } = values;
@@ -371,7 +372,11 @@ export const postSendDefaulMsg = (
       dataToSend,
       (respData) => {
         Utils.showAlert(1, "Request mail sent to users");
-        dispatch(getAllDates(currentStatus, 1, ""));
+        dispatch({
+          type: Utils.ActionName.GET_ALL_DATES,
+          payload: {rowSelected : []}
+        });
+        if(updateFunc) dispatch(updateFunc(currentStatus, 1, ""));
       },
       (error) => {
         let { data } = error;
@@ -383,12 +388,9 @@ export const postSendDefaulMsg = (
 // post verfiy user
 export const postVerfiyUser = (email) => {
   return (dispatch) => {
-    const dataToSend = {
-      email,
-    };
     Utils.api.postApiCall(
       Utils.endPoints.userVerify,
-      dataToSend,
+      {email},
       (respData) => {
         Utils.showAlert(1, "Tagline and description updated successfully!");
       },

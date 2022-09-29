@@ -23,7 +23,7 @@ function PostList(props) {
   const handleClose = () => setShow(false);
 
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", id, userEmail));
+    dispatch(postSendDefaulMsg("taglineAndDesc", id, userEmail, "6323e3ae8c8a4613fdf79256", status, getUserList));
     setShow(false);
   };
   const observer = useRef();
@@ -124,7 +124,7 @@ function PostList(props) {
                   className={"verifyBtn"}
                   onClick={() => {
                     dispatch(postVerfiyUser(post.email));
-                    dispatch(getUserList());
+                    // dispatch(getUserList());
                   }}
                 >
                   verify

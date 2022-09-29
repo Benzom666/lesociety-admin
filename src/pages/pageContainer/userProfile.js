@@ -7,7 +7,7 @@ import ProfileImages from './profileImage'
 import { useDispatch, useSelector } from "react-redux";
 import { TbDots } from "react-icons/tb";
 import { useParams } from 'react-router-dom';
-import {  getUserProfile, getDefaultMsgList, postVerfiyUser, postUpdateUserStatus, postSendDefaulMsg } from './action.js';
+import {  getUserProfile, getDefaultMsgList, postUpdateUserStatus, postSendDefaulMsg } from './action.js';
 import { DefaultMsg } from "./DefaultMsg";
 import moment from 'moment';
  
