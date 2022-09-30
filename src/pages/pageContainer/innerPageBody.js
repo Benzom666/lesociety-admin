@@ -373,7 +373,7 @@ const PageContainer = (props) => {
                 </Card.Subtitle>
                 <Card.Text>
                   {dashboardStatsDeactive.length &&
-                  dashboardStatsDeactive[0]?.percent ? (
+                    dashboardStatsDeactive[0]?.percent ? (
                     <>
                       {" "}
                       ` ${dashboardStatsDeactive[0]?.sign} $
@@ -545,28 +545,33 @@ const PageContainer = (props) => {
                 <Row className="w-100">
                   {geoStats.length > 0
                     ? geoStats.map((value, index) => {
-                        return (
-                          <Col
-                            md="6"
-                            className="mb-4 progressBarBox"
-                            onClick={() => {
+                      return (
+                        <Col
+                          md="6"
+                          className="mb-4 progressBarBox"
+                          style={{ cursor: locationType === "city" ? 'not-allowed' : 'pointer' }}
+                          role='button'
+                          onClick={() => {
+                            if (locationType === "country") {
                               dispatch(
                                 getGeoStats(value?.location, "", "city")
                               );
                               setLocationType('city');
-                            }}
-                          >
-                            <h6>
-                              {" "}
-                              {value?.location
-                                ? value?.location
-                                : "Country Name"}{" "}
-                              <span>{value?.totalCount}%</span>{" "}
-                            </h6>
-                            <ProgressBar now={value?.totalCount} />
-                          </Col>
-                        );
-                      })
+                            }
+                          }
+                          }
+                        >
+                          <h6>
+                            {" "}
+                            {value?.location
+                              ? value?.location
+                              : "Country Name"}{" "}
+                            <span>{value?.totalCount}%</span>{" "}
+                          </h6>
+                          <ProgressBar now={value?.totalCount} />
+                        </Col>
+                      );
+                    })
                     : "Record Not Found."}
                 </Row>
               </Card.Body>
