@@ -342,7 +342,7 @@ export const postSetRequest = () => {
     Utils.api.postApiCall(
       Utils.endPoints.postSetRequest,
       dataToSend,
-      (respData) => {},
+      (respData) => { },
       (error) => {
         let { data } = error;
         Utils.showAlert(2, data?.message);
@@ -374,9 +374,9 @@ export const postSendDefaulMsg = (
         Utils.showAlert(1, "Request mail sent to users");
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
-          payload: {rowSelected : []}
+          payload: { rowSelected: [] }
         });
-        if(updateFunc) dispatch(updateFunc(currentStatus, 1, ""));
+        if (updateFunc) dispatch(updateFunc(currentStatus, 1, ""));
       },
       (error) => {
         let { data } = error;
@@ -390,7 +390,7 @@ export const postVerfiyUser = (email) => {
   return (dispatch) => {
     Utils.api.postApiCall(
       Utils.endPoints.userVerify,
-      {email},
+      { email },
       (respData) => {
         Utils.showAlert(1, "Tagline and description updated successfully!");
       },
@@ -519,8 +519,7 @@ export const getAllDates = (status, offSet, active = "") => {
       getState().userListReducer;
     Utils.api.getApiCall(
       Utils.endPoints.getAllDate,
-      `?user_name=${search}&status=${
-        status ? status : ""
+      `?user_name=${search}&status=${status ? status : ""
       }&per_page=${per_page}&current_page=${offSet}`,
       (respData) => {
         dispatch({
@@ -683,11 +682,11 @@ export const getDateStats = (status, active) => {
   };
 };
 // get dashboard total user stats
-export const getDashboardStats = (start_date = "", end_date = "") => {
+export const getDashboardStats = (status, start_date = "", end_date = "") => {
   return (dispatch) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats, // '' ,{start_date, end_date, status: []},
-      `?status=&status=&start_date=${start_date}&end_date=${end_date}`,
+      `?status=${status}&start_date=${start_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARD_STATS,
@@ -695,6 +694,7 @@ export const getDashboardStats = (start_date = "", end_date = "") => {
             dashboardStats: respData?.data?.data[0],
           },
         });
+        Utils.showAlert(1, "Total users data fetched successfully");
       },
       (error) => {
         let { data } = error;
@@ -706,13 +706,11 @@ export const getDashboardStats = (start_date = "", end_date = "") => {
     );
   };
 };
-export const getDashboardStatsNew = (status, start_date, end_date) => {
+export const getDashboardStatsNew = (status, start_date = "", end_date = "") => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats,
-      `?status=${status}&status=${status}&start_date=${start_date ? start_date : ""}&end_date=${
-        end_date ? end_date : ""
-      }`,
+      `?status=${status}&start_date=${start_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARDNEW_STATS,
@@ -720,6 +718,7 @@ export const getDashboardStatsNew = (status, start_date, end_date) => {
             dashboardStatsNew: respData?.data?.data,
           },
         });
+        Utils.showAlert(1, "New users data fetched successfully");
       },
       (error) => {
         let { data } = error;
@@ -731,11 +730,11 @@ export const getDashboardStatsNew = (status, start_date, end_date) => {
     );
   };
 };
-export const getDashboardStatsDeactive = (status, start_date) => {
+export const getDashboardStatsDeactive = (status, start_date = "", end_date = "") => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats,
-      `?status=${status}&status=${status}&start_date=${start_date ? start_date : ""}`,
+      `?status=${status}&start_date=${start_date}&end_date=${end_date}`,
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DASHBOARDDEACTIVATE_STATS,
@@ -743,6 +742,7 @@ export const getDashboardStatsDeactive = (status, start_date) => {
             dashboardStatsDeactive: respData?.data?.data,
           },
         });
+        Utils.showAlert(1, "Deactivate users data fetched successfully");
       },
       (error) => {
         let { data } = error;

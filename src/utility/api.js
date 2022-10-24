@@ -104,7 +104,7 @@ const getApiCall = async (
     .catch((error) => {
       if (error.response?.data?.message === "Failed to authenticate token!") {
         localStorage.removeItem("accessToken");
-        document.location.reload(true); 
+        document.location.reload(); 
         // navigate("/");
       }
       if (error.code === "ECONNABORTED") {

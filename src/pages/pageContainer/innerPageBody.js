@@ -123,7 +123,9 @@ const PageContainer = (props) => {
     ],
   };
   const { count = 0, percent = 0, sign = "" } = dashboardStats;
-  console.log(rStartDate);
+  const dashboardStatsFunc = (func, status, timeframe, type) => {
+    dispatch(func(status, moment().subtract(timeframe, type).utc().format(), moment().utc().format()));
+  }
   return (
     <div className="inner-page">
       <PageHeader title="Dashboard" />
@@ -143,50 +145,22 @@ const PageContainer = (props) => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStats(
-                            moment().subtract(1, "d").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 1, "d")}
                     >
                       Past Day
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStats(
-                            moment().subtract(7, "d").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 7, "d")}
                     >
                       Past Week
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStats(
-                            moment().subtract(1, "months").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 1, "months")}
                     >
                       Past Month
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStats(
-                            moment().subtract(1, "years").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 1, "years")}
                     >
                       Past Year
                     </Dropdown.Item>
@@ -199,7 +173,7 @@ const PageContainer = (props) => {
                   {percent ? (
                     <>
                       {" "}
-                      `${sign} ${percent} %`
+                      {sign} {percent}
                       {sign === "+" ? (
                         <img src="/images/upArrow.svg" />
                       ) : sign === "-" ? (
@@ -229,54 +203,22 @@ const PageContainer = (props) => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsNew(
-                            5,
-                            moment().subtract(1, "d").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 1, "d")}
                     >
                       Past Day
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsNew(
-                            5,
-                            moment().subtract(7, "d").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 7, "d")}
                     >
                       Past Week
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsNew(
-                            5,
-                            moment().subtract(1, "months").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 1, "months")}
                     >
                       Past Month
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsNew(
-                            5,
-                            moment().subtract(1, "years").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 1, "years")}
                     >
                       Past Year
                     </Dropdown.Item>
@@ -290,8 +232,8 @@ const PageContainer = (props) => {
                 </Card.Subtitle>
                 {dashboardStatsNew.length && dashboardStatsNew[0]?.percent ? (
                   <Card.Text>
-                    ` ${dashboardStatsNew[0]?.sign} $
-                    {dashboardStatsNew[0]?.percent}%`{" "}
+                    {dashboardStatsNew[0]?.sign}
+                    {dashboardStatsNew[0]?.percent}%{" "}
                     {dashboardStatsNew[0]?.sign === "-" ? (
                       <img src="/images/downArrow.svg" />
                     ) : dashboardStatsNew[0]?.sign === "+" ? (
@@ -320,54 +262,22 @@ const PageContainer = (props) => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsDeactive(
-                            4,
-                            moment().subtract(1, "d").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 1, "d")}
                     >
                       Past Day
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsDeactive(
-                            4,
-                            moment().subtract(7, "d").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 7, "d")}
                     >
                       Past Week
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsDeactive(
-                            4,
-                            moment().subtract(1, "months").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 1, "months")}
                     >
                       Past Month
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => {
-                        dispatch(
-                          getDashboardStatsDeactive(
-                            4,
-                            moment().subtract(1, "years").format(),
-                            moment().format()
-                          )
-                        );
-                      }}
+                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 1, "years")}
                     >
                       Past Year
                     </Dropdown.Item>
@@ -383,9 +293,9 @@ const PageContainer = (props) => {
                   {dashboardStatsDeactive.length &&
                     dashboardStatsDeactive[0]?.percent ? (
                     <>
-                      {" "}
-                      ` ${dashboardStatsDeactive[0]?.sign} $
-                      {dashboardStatsDeactive[0]?.percent} %`
+
+                      {dashboardStatsDeactive[0]?.sign}
+                      {dashboardStatsDeactive[0]?.percent} %
                       {dashboardStatsDeactive[0]?.sign === "-" ? (
                         <img src="/images/downArrow.svg" />
                       ) : dashboardStatsDeactive[0]?.sign === "+" ? (
