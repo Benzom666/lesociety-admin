@@ -179,7 +179,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                       }
                     </td>
                     <td>
-                      {user?.email_verified && user.status != 2 ? (
+                      {user?.email_verified && user.status == 1 ? (
                         <DropdownButton
                           variant="outline-secondary"
                           title={

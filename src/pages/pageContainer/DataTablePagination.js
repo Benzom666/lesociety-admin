@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Nav, Tab, Form, Card, Button } from "react-bootstrap";
 import VerifyProfileImages from "./profileImage";
-import { getUserList, postVerfiyUser, postSendDefaulMsg } from "./action.js";
+import { getUserList, postUpdateUserStatus, postSendDefaulMsg, getDefaultMsgList } from "./action.js";
 import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import { DefaultMsg } from "./DefaultMsg";
 import { NavItemSet } from "./Component";
@@ -123,11 +123,13 @@ function PostList(props) {
                 <Button
                   className={"verifyBtn"}
                   onClick={() => {
-                    dispatch(postVerfiyUser(post.email));
+                    // dispatch(postVerfiyUser(post.email));
                     // dispatch(getUserList());
+                    dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
+                    dispatch(getDefaultMsgList("taglineAndDesc"));
                   }}
                 >
-                  verify
+                  verifyuu
                 </Button>
               </>
             )}

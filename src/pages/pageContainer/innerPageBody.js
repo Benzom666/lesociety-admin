@@ -199,7 +199,7 @@ const PageContainer = (props) => {
                   {percent ? (
                     <>
                       {" "}
-                      `${sign} ${percent} `
+                      `${sign} ${percent} %`
                       {sign === "+" ? (
                         <img src="/images/upArrow.svg" />
                       ) : sign === "-" ? (
@@ -233,7 +233,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsNew(
                             5,
-                            moment().subtract(1, "d").format()
+                            moment().subtract(1, "d").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -245,7 +246,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsNew(
                             5,
-                            moment().subtract(7, "d").format()
+                            moment().subtract(7, "d").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -257,7 +259,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsNew(
                             5,
-                            moment().subtract(1, "months").format()
+                            moment().subtract(1, "months").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -269,7 +272,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsNew(
                             5,
-                            moment().subtract(1, "years").format()
+                            moment().subtract(1, "years").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -287,7 +291,7 @@ const PageContainer = (props) => {
                 {dashboardStatsNew.length && dashboardStatsNew[0]?.percent ? (
                   <Card.Text>
                     ` ${dashboardStatsNew[0]?.sign} $
-                    {dashboardStatsNew[0]?.percent}`{" "}
+                    {dashboardStatsNew[0]?.percent}%`{" "}
                     {dashboardStatsNew[0]?.sign === "-" ? (
                       <img src="/images/downArrow.svg" />
                     ) : dashboardStatsNew[0]?.sign === "+" ? (
@@ -320,7 +324,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsDeactive(
                             4,
-                            moment().subtract(1, "d").format()
+                            moment().subtract(1, "d").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -332,7 +337,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsDeactive(
                             4,
-                            moment().subtract(7, "d").format()
+                            moment().subtract(7, "d").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -344,7 +350,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsDeactive(
                             4,
-                            moment().subtract(1, "months").format()
+                            moment().subtract(1, "months").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -356,7 +363,8 @@ const PageContainer = (props) => {
                         dispatch(
                           getDashboardStatsDeactive(
                             4,
-                            moment().subtract(1, "years").format()
+                            moment().subtract(1, "years").format(),
+                            moment().format()
                           )
                         );
                       }}
@@ -377,7 +385,7 @@ const PageContainer = (props) => {
                     <>
                       {" "}
                       ` ${dashboardStatsDeactive[0]?.sign} $
-                      {dashboardStatsDeactive[0]?.percent} `
+                      {dashboardStatsDeactive[0]?.percent} %`
                       {dashboardStatsDeactive[0]?.sign === "-" ? (
                         <img src="/images/downArrow.svg" />
                       ) : dashboardStatsDeactive[0]?.sign === "+" ? (

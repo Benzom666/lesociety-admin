@@ -44,16 +44,21 @@ function PostList() {
       type: Utils.ActionName.USER_LIST,
       payload: { tab: 1, search: "", per_page: 10, datesList: [] },
     })
-    dispatch(getAllDates("", 1, ""));
+    dispatch(getAllDates(status, 1, ""));
     dispatch(getDefaultMsgList("postMessage"));
     dispatch(getDateStats());
   }, []);
-  const msgSubmit = () => {
+  const  msgSubmit = () => {
     // console.log(emailSelected);
     dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, getAllDates));
     setShow(false);
     setEmailSelected([]);
     setPostIdSelected([]);
+    dispatch(getDefaultMsgList("postMessage"));
+    dispatch(getDateStats());dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { tab: 1, search: "", per_page: 10, datesList: [] },
+    })
   };
   const observer = useRef();
   const lastPostElementRef = useCallback((node) => {
@@ -104,7 +109,8 @@ function PostList() {
                 value={value?.user_data[0]?.email}
                 id={value?._id}
                 onClick={checkedUser}
-                checked={postIdSelected.includes(value?._id)}
+//                 checked={postIdSelected.includes(value?._id)}
+                disabled={status === 6}
               />
               <Card.Link
                 className="showDetail"

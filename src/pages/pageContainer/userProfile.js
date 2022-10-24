@@ -53,7 +53,7 @@ const PageContainer = props => {
                   <Button className="requestBtn" onClick={handleShow}>Request</Button>
                   <Button className="verifyBtn"
                     onClick={() => dispatch(postUpdateUserStatus(2, userProfileData?.email))}
-                  >Verify</Button>
+                  >Verifyyy</Button>
                   <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                       <TbDots />

@@ -7,7 +7,7 @@ import axios from "axios";
  */
 export const checkUserValidation = (data) => {
   if (data) {
-  
+
     const { code } = data,
       { sessionExpired, unauthorized, accessDenied } =
         Utils.constants.api_error_code;
@@ -36,7 +36,7 @@ const postApiCall = async (
   successCallback,
   errorCallback
 ) => {
-await  Utils.constants.axios
+  await Utils.constants.axios
     .post(endPoint, params)
     .then((response) => {
       successCallback(response);
@@ -53,10 +53,10 @@ await  Utils.constants.axios
         let data = error.response.data;
         if (checkUserValidation(data)) {
           //if user session expired
-         
-          logOutApiCall(error).then((res)=>{
+
+          logOutApiCall(error).then((res) => {
             successCallback(res)
-          }).catch((err)=>{
+          }).catch((err) => {
             errorCallback(err.response);
           });
         } else {
@@ -85,24 +85,28 @@ const getApiCall = async (
   params = "",
   successCallback,
   errorCallback,
-  data ={}
+  data = {}
 ) => {
-  const axiosFunc =  axios.create({
+  const axiosFunc = axios.create({
     timeout: 100000,
     baseURL: "https://staging-api.secrettime.com/api/v1/",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
-//      Content-Type: 'application/x-www-form-urlencoded'
-      
+      //      Content-Type: 'application/x-www-form-urlencoded'
+
     },
   })
- await axiosFunc
+  await axiosFunc
     .get(Utils.constants.apiUrl + endPoint + params, data)
     .then((response) => {
       successCallback(response);
     })
     .catch((error) => {
-      
+      if (error.response?.data?.message === "Failed to authenticate token!") {
+        localStorage.removeItem("accessToken");
+        document.location.reload(true); 
+        // navigate("/");
+      }
       if (error.code === "ECONNABORTED") {
         let payload = {
           data: {
@@ -114,12 +118,13 @@ const getApiCall = async (
         let data = error.response.data;
         if (checkUserValidation(data)) {
           //if user session expired
-          logOutApiCall(error).then((res)=>{
+          logOutApiCall(error).then((res) => {
             successCallback(res)
-          }).catch((err)=>{
+          }).catch((err) => {
             errorCallback(err.response);
           });
         } else {
+
           errorCallback(error.response);
         }
       } else if (!error.response) {
@@ -148,7 +153,7 @@ const deleteApiCall = async (
   successCallback,
   errorCallback
 ) => {
-await Utils.constants.axios
+  await Utils.constants.axios
     .delete(endPoint, params)
     .then((response) => {
       successCallback(response);
@@ -164,9 +169,9 @@ await Utils.constants.axios
       } else if (error.response) {
         let data = error.response.data;
         if (checkUserValidation(data)) {
-          logOutApiCall(error).then((res)=>{
+          logOutApiCall(error).then((res) => {
             successCallback(res)
-          }).catch((err)=>{
+          }).catch((err) => {
             errorCallback(err.response);
           });
         } else {
@@ -215,9 +220,9 @@ const patchApiCall = (
         let data = error.response.data;
         if (checkUserValidation(data)) {
           //if user session expired
-          logOutApiCall(error).then((res)=>{
+          logOutApiCall(error).then((res) => {
             successCallback(res)
-          }).catch((err)=>{
+          }).catch((err) => {
             errorCallback(err.response);
           });
         } else {
@@ -248,7 +253,7 @@ const putApiCall = async (
   successCallback,
   errorCallback
 ) => {
- await Utils.constants.axios
+  await Utils.constants.axios
     .put(endPoint, params)
     .then((response) => {
       successCallback(response);
@@ -265,9 +270,9 @@ const putApiCall = async (
         let data = error.response.data;
         if (checkUserValidation(data)) {
           //if user session expired
-          logOutApiCall(error).then((res)=>{
+          logOutApiCall(error).then((res) => {
             successCallback(res)
-          }).catch((err)=>{
+          }).catch((err) => {
             errorCallback(err.response);
           });
         } else {
@@ -296,30 +301,30 @@ const logOutApiCall = async (error) => {
   }
   const originalRequest = error.config
   Utils.constants.getAccessToken();
-     let data={
-              refresh_token: localStorage.getItem("refreshToken"),
-              phone_code: localStorage.getItem("countryCode"),
-              phone_number:`${localStorage.getItem("phone")}`,
-              os_type: 3,
-              phone_id: localStorage.getItem('phoneId'),
-              user_role: 3,
-       }
-      const accessTokenResposnse = await Utils.constants.axios
-      .put(Utils.endPoints.refreshToken,data)
-      .then((response) => {
-            return response;      
-      })
-      localStorage.setItem("accessToken", accessTokenResposnse.data.access_token);
-      localStorage.setItem("refreshToken", accessTokenResposnse.data.refresh_token);
-      originalRequest.headers["LiviaApp-Token"] =
-      accessTokenResposnse.data.access_token;
-      return axios(originalRequest)
-  };
+  let data = {
+    refresh_token: localStorage.getItem("refreshToken"),
+    phone_code: localStorage.getItem("countryCode"),
+    phone_number: `${localStorage.getItem("phone")}`,
+    os_type: 3,
+    phone_id: localStorage.getItem('phoneId'),
+    user_role: 3,
+  }
+  const accessTokenResposnse = await Utils.constants.axios
+    .put(Utils.endPoints.refreshToken, data)
+    .then((response) => {
+      return response;
+    })
+  localStorage.setItem("accessToken", accessTokenResposnse.data.access_token);
+  localStorage.setItem("refreshToken", accessTokenResposnse.data.refresh_token);
+  originalRequest.headers["LiviaApp-Token"] =
+    accessTokenResposnse.data.access_token;
+  return axios(originalRequest)
+};
 
 /**
  * export all function
  */
- const api= {
+const api = {
   putApiCall,
   getApiCall,
   postApiCall,
