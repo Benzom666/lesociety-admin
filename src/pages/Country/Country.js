@@ -22,7 +22,7 @@ import { NavItemSet } from "../pageContainer/Component";
 
 function CountryPage() {
   const dispatch = useDispatch();
-  const [endUser, setEndUser] = useState();
+  const [endUser, setEndUser] = useState('');
 
   useEffect(() => {
     dispatch({

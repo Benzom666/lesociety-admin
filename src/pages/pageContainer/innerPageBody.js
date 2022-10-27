@@ -54,7 +54,7 @@ const PageContainer = (props) => {
     labels:
       !!registerCompFemaleList &&
       registerCompFemaleList.map((value) => [
-        moment(value?.created_at).format("DD/MM"),
+        moment.utc(value?.created_at).format("DD/MM"),
       ]),
     datasets: [
       {
@@ -89,7 +89,7 @@ const PageContainer = (props) => {
     labels:
       !!registerUnCompFemaleList &&
       registerUnCompFemaleList.map((value) => [
-        moment(value?.created_at).format("DD/MM"),
+        moment.utc(value?.created_at).format("DD/MM"),
       ]),
     datasets: [
       {
