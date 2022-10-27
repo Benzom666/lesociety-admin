@@ -141,7 +141,7 @@ export const getInfluencer = (status = "", offSet = 1, active = "") => {
       search,
     } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getInfluencer,
+      Utils.endPoints.getCountry,
       `?name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
       (respData) => {
         dispatch({
@@ -161,6 +161,36 @@ export const getInfluencer = (status = "", offSet = 1, active = "") => {
     );
   };
 };
+
+// get country list
+export const getCountryList = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "SET_LOADING",
+      payload: {
+        loading: true,
+      },
+    });
+    Utils.api.getApiCall(
+      Utils.endPoints.getCountry, '',
+      // `?name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_COUNTRY,
+          payload: {
+            countryList: respData?.data?.data, 
+            loading: false,
+          },
+        });
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+
 // get influencer email exists
 export const getInfluencerEmailExists = (email) => {
   return (dispatch, getState) => {
@@ -682,7 +712,7 @@ export const getDateStats = (status, active) => {
   };
 };
 // get dashboard total user stats
-export const getDashboardStats = (status, start_date = "", end_date = "") => {
+export const getDashboardStats = (status="", start_date = "", end_date = "") => {
   return (dispatch) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats, // '' ,{start_date, end_date, status: []},
@@ -706,7 +736,7 @@ export const getDashboardStats = (status, start_date = "", end_date = "") => {
     );
   };
 };
-export const getDashboardStatsNew = (status, start_date = "", end_date = "") => {
+export const getDashboardStatsNew = (status="", start_date = "", end_date = "") => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats,
@@ -730,7 +760,7 @@ export const getDashboardStatsNew = (status, start_date = "", end_date = "") => 
     );
   };
 };
-export const getDashboardStatsDeactive = (status, start_date = "", end_date = "") => {
+export const getDashboardStatsDeactive = (status="", start_date = "", end_date = "") => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.datedashboardstats,
@@ -755,16 +785,14 @@ export const getDashboardStatsDeactive = (status, start_date = "", end_date = ""
   };
 };
 // create country
-export const createCountry = () => {
+export const createCountry = (dataToSend) => {
   return (dispatch) => {
-    const dataToSend = {
-      // email, name, source, code, promo
-    };
     Utils.api.postApiCall(
       Utils.endPoints.postCountry,
       dataToSend,
       (respData) => {
-        Utils.showAlert(1, "Influence created successfully!");
+        dispatch(getCountryList());
+        Utils.showAlert(1, "Country created successfully!");
       },
       (error) => {
         let { data } = error;
@@ -773,7 +801,7 @@ export const createCountry = () => {
     );
   };
 };
-// get country
+// delete influencer
 export const deleteInfluencer = (email, status) => {
   console.log("email", email);
   return (dispatch) => {
@@ -784,6 +812,42 @@ export const deleteInfluencer = (email, status) => {
         Utils.showAlert(1, "Influence Delete successfully!");
         dispatch(getInfluencer(status));
         dispatch(getInfluencerStats());
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+
+// delete country
+export const deleteCountry = (name) => {
+  return (dispatch) => {
+    Utils.api.deleteApiCall(
+      Utils.endPoints.deleteCountry,
+      { data: { name } },
+      (respData) => {
+        Utils.showAlert(1, "Country removed successfully!");
+        dispatch(getCountryList());
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+
+// post country
+export const updateCountryName = (formData) => {
+  return (dispatch) => {
+    Utils.api.putApiCall(
+      Utils.endPoints.deleteCountry,
+      { ...formData },
+      (respData) => {
+        Utils.showAlert(1, "Country name updated successfully!");
+        dispatch(getCountryList());
       },
       (error) => {
         let { data } = error;

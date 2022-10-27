@@ -40,6 +40,7 @@ const initialState = {
   unRstartDate: registerUnVefifiedBackDate,
   unRendDate: new Date(),
   loading: false,
+  countryList: [],
 };
 console.log("existEmailexistEmail", initialState.existEmail);
 export const userListReducer = (state = initialState, action) => {
@@ -140,6 +141,11 @@ export const userListReducer = (state = initialState, action) => {
         ...action.payload,
       };
     case `${Utils.ActionName.GET_REGUNCOMPMALE}`:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case `${Utils.ActionName.GET_COUNTRY}`:
       return {
         ...state,
         ...action.payload,

@@ -13,6 +13,8 @@ import VerifyPhoto from "../pages/pageContainer/verifyPhoto.js";
 import UserProfile from "../pages/pageContainer/userProfile";
 import UserList from "../pages/UserList/UserList";
 import InfluencerPage from "../pages/Influencer/Influencer.js";
+import CountryList from "../pages/Country";
+
 function Router() {
   const token = localStorage.getItem("accessToken");
   if (!token) {
@@ -78,14 +80,14 @@ function Router() {
             </RequireAuth>
           }
         />
-        {/* <Route
+        <Route
           path={"/country"}
           element={
             <RequireAuth>
-              <InfluencerPage />
+              <CountryList />
             </RequireAuth>
           }
-        /> */}
+        />
         <Route path={"/post"} element={<PostList />} />
         <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path={"/forgot-password"} element={<ForgotPassword />} />

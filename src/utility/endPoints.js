@@ -26,6 +26,8 @@ const endPoint = {
   deleteInf: "influencer",
   influencerPut : "influencer",
   datestats: "date/stats",
-  datedashboardstats: "dashboard/total-users"
+  datedashboardstats: "dashboard/total-users",
+  deleteCountry: "country"
+
 };
 export default endPoint;
