@@ -796,7 +796,7 @@ export const createCountry = (dataToSend) => {
       },
       (error) => {
         let { data } = error;
-        Utils.showAlert(2, data?.message);
+        Utils.showAlert(2, data?.data?.name || data?.message);
       }
     );
   };
@@ -851,7 +851,7 @@ export const updateCountryName = (formData) => {
       },
       (error) => {
         let { data } = error;
-        Utils.showAlert(2, data?.message);
+        Utils.showAlert(2, data?.data?.name || data?.message);
       }
     );
   };
