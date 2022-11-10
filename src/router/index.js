@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate  } from "react-router-dom";
 // import Login from "../screens/login";
 import Dashboard from "../pages/dashboard/index.js";
 import Login from "../pages/auth/login.js";
@@ -14,12 +14,16 @@ import UserProfile from "../pages/pageContainer/userProfile";
 import UserList from "../pages/UserList/UserList";
 import InfluencerPage from "../pages/Influencer/Influencer.js";
 import CountryList from "../pages/Country";
+import DocumentVerificationPage from "../pages/DocumentVerification";
 
 function Router() {
-  const token = localStorage.getItem("accessToken");
-  if (!token) {
-    <BrowserRouter><Navigate to="/" /></BrowserRouter>;
-  }
+  // const navigate = useNavigate();
+  // const token = localStorage.getItem("accessToken");
+  // if (!token // && window.location.pathname !== "/"
+  // ) {
+  //   console.log(token);
+  //   <BrowserRouter><Navigate to="/" replace={true}/></BrowserRouter>;
+  // }
   return (
     <BrowserRouter>
       <Routes>
@@ -85,6 +89,14 @@ function Router() {
           element={
             <RequireAuth>
               <CountryList />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path={"/document-verification"}
+          element={
+            <RequireAuth>
+              <DocumentVerificationPage />
             </RequireAuth>
           }
         />

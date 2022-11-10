@@ -20,10 +20,12 @@ import {
 } from "./action";
 import moment from "moment";
 import Utils from "../../utility";
+import { set } from "lodash";
 Chart.register(CategoryScale);
 
 const PageContainer = (props) => {
   const [locationType, setLocationType] = useState("country");
+  const [gender, setGender] = useState("");
   const {
     registerCompFemaleList,
     registerCompMaleList,
@@ -423,6 +425,7 @@ const PageContainer = (props) => {
                   onClick={() => {
                     dispatch(getGeoStats());
                     setLocationType("country");
+                    setGender("");
                   }}
                 >
                   Country
@@ -445,13 +448,15 @@ const PageContainer = (props) => {
                     <Dropdown.Item
                       onClick={() => {
                         dispatch(getGeoStats("", "female", "country"));
+                        setGender("female");
                       }}
                     >
-                      Female Date Location
+                      Female Geolocation
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
                         dispatch(getGeoStats("", "male", "country"));
+                        setGender("male");
                       }}
                     >
                       Male Geolocation
@@ -467,15 +472,16 @@ const PageContainer = (props) => {
                         <Col
                           md="6"
                           className="mb-4 progressBarBox"
-                          style={{ cursor: locationType === "city" ? 'not-allowed' : 'pointer' }}
-                          role='button'
+                          style={{ cursor: locationType === "city" ? 'text' : 'pointer' }}
+                          role= {locationType === "country" ?  'button' : ""}
                           onClick={() => {
                             if (locationType === "country") {
                               dispatch(
-                                getGeoStats(value?.location, "", "city")
+                                getGeoStats(value?.location, gender, "city")
                               );
                               setLocationType('city');
-                            }
+                            }  
+
                           }
                           }
                         >
