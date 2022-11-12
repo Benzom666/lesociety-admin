@@ -533,10 +533,6 @@ const PageContainer = (props) => {
                           <Col
                             md="6"
                             className="mb-4 progressBarBox"
-                            style={{
-                              cursor:
-                              geoData.locationType === "city" ? "text" : "pointer",
-                            }}
                             role={geoData.locationType === "country" ? "button" : ""}
                             onClick={() => {
                               if (geoData.locationType === "country") {

@@ -338,6 +338,9 @@
 					justify-content: space-between;
 					color: $lightGrey;
 					margin-bottom: 8px;
+          &:hover{
+            color: #f24462;
+          }
 					span{
 						font-family: "Gilroy-Medium";
 						color: #979797;
