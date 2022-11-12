@@ -24,8 +24,11 @@ import { set } from "lodash";
 Chart.register(CategoryScale);
 
 const PageContainer = (props) => {
-  const [locationType, setLocationType] = useState("country");
-  const [gender, setGender] = useState("");
+  const [geoData, setGeoData] = useState({
+    place: "",
+    gender: "",
+    locationType: "country",
+  });
   const {
     registerCompFemaleList,
     registerCompMaleList,
@@ -50,7 +53,7 @@ const PageContainer = (props) => {
     dispatch(getGeoStats());
     dispatch(getDashboardStats());
     dispatch(getDashboardStatsNew(5));
-    dispatch(getDashboardStatsDeactive(4));
+    dispatch(getDashboardStatsDeactive(3));
   }, []);
   const data = {
     labels:
@@ -126,8 +129,18 @@ const PageContainer = (props) => {
   };
   const { count = 0, percent = 0, sign = "" } = dashboardStats;
   const dashboardStatsFunc = (func, status, timeframe, type) => {
-    dispatch(func(status, moment().subtract(timeframe, type).utc().format(), moment().utc().format()));
-  }
+    dispatch(
+      func(
+        status,
+        moment().subtract(timeframe, type).utc().format(),
+        moment().utc().format()
+      )
+    );
+  };
+  const getGeoLocationData = (place, gender, locationType) => {
+    dispatch(getGeoStats(place, gender, locationType));
+    setGeoData({ place, gender, locationType });
+  };
   return (
     <div className="inner-page">
       <PageHeader title="Dashboard" />
@@ -147,22 +160,30 @@ const PageContainer = (props) => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 1, "d")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStats, "", 1, "d")
+                      }
                     >
                       Past Day
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 7, "d")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStats, "", 7, "d")
+                      }
                     >
                       Past Week
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 1, "months")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStats, "", 1, "months")
+                      }
                     >
                       Past Month
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStats, "", 1, "years")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStats, "", 1, "years")
+                      }
                     >
                       Past Year
                     </Dropdown.Item>
@@ -175,7 +196,7 @@ const PageContainer = (props) => {
                   {percent ? (
                     <>
                       {" "}
-                      {sign} {percent}
+                      {sign} {percent}%{" "}
                       {sign === "+" ? (
                         <img src="/images/upArrow.svg" />
                       ) : sign === "-" ? (
@@ -205,22 +226,30 @@ const PageContainer = (props) => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 1, "d")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStatsNew, 5, 1, "d")
+                      }
                     >
                       Past Day
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 7, "d")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStatsNew, 5, 7, "d")
+                      }
                     >
                       Past Week
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 1, "months")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStatsNew, 5, 1, "months")
+                      }
                     >
                       Past Month
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsNew, 5, 1, "years")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStatsNew, 5, 1, "years")
+                      }
                     >
                       Past Year
                     </Dropdown.Item>
@@ -234,8 +263,8 @@ const PageContainer = (props) => {
                 </Card.Subtitle>
                 {dashboardStatsNew.length && dashboardStatsNew[0]?.percent ? (
                   <Card.Text>
-                    {dashboardStatsNew[0]?.sign}
-                    {dashboardStatsNew[0]?.percent}%{" "}
+                    {dashboardStatsNew[0]?.sign} {dashboardStatsNew[0]?.percent}
+                    %{" "}
                     {dashboardStatsNew[0]?.sign === "-" ? (
                       <img src="/images/downArrow.svg" />
                     ) : dashboardStatsNew[0]?.sign === "+" ? (
@@ -253,7 +282,7 @@ const PageContainer = (props) => {
           <Col md="4" sm="12">
             <Card className="gridCard">
               <Card.Header>
-                <Card.Title>Deactivated Users</Card.Title>
+                <Card.Title>Blocked Users</Card.Title>
                 <Dropdown align="end">
                   <Dropdown.Toggle
                     id="dropdown-button-dark-example1"
@@ -264,22 +293,40 @@ const PageContainer = (props) => {
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 1, "d")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStatsDeactive, 3, 1, "d")
+                      }
                     >
                       Past Day
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 7, "d")}
+                      onClick={() =>
+                        dashboardStatsFunc(getDashboardStatsDeactive, 3, 7, "d")
+                      }
                     >
                       Past Week
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 1, "months")}
+                      onClick={() =>
+                        dashboardStatsFunc(
+                          getDashboardStatsDeactive,
+                          3,
+                          1,
+                          "months"
+                        )
+                      }
                     >
                       Past Month
                     </Dropdown.Item>
                     <Dropdown.Item
-                      onClick={() => dashboardStatsFunc(getDashboardStatsDeactive, 4, 1, "years")}
+                      onClick={() =>
+                        dashboardStatsFunc(
+                          getDashboardStatsDeactive,
+                          3,
+                          1,
+                          "years"
+                        )
+                      }
                     >
                       Past Year
                     </Dropdown.Item>
@@ -293,11 +340,10 @@ const PageContainer = (props) => {
                 </Card.Subtitle>
                 <Card.Text>
                   {dashboardStatsDeactive.length &&
-                    dashboardStatsDeactive[0]?.percent ? (
+                  dashboardStatsDeactive[0]?.percent ? (
                     <>
-
-                      {dashboardStatsDeactive[0]?.sign}
-                      {dashboardStatsDeactive[0]?.percent} %
+                      {dashboardStatsDeactive[0]?.sign}{" "}
+                      {dashboardStatsDeactive[0]?.percent}%{" "}
                       {dashboardStatsDeactive[0]?.sign === "-" ? (
                         <img src="/images/downArrow.svg" />
                       ) : dashboardStatsDeactive[0]?.sign === "+" ? (
@@ -423,9 +469,7 @@ const PageContainer = (props) => {
                 <Card.Link
                   role="button"
                   onClick={() => {
-                    dispatch(getGeoStats());
-                    setLocationType("country");
-                    setGender("");
+                    getGeoLocationData("", "", "country");
                   }}
                 >
                   Country
@@ -447,19 +491,36 @@ const PageContainer = (props) => {
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(getGeoStats("", "female", "country"));
-                        setGender("female");
+                        getGeoLocationData(
+                          geoData.place,
+                          "female",
+                          geoData.locationType
+                        );
                       }}
                     >
-                      Female Geolocation
+                      Female
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        dispatch(getGeoStats("", "male", "country"));
-                        setGender("male");
+                        getGeoLocationData(
+                          geoData.place,
+                          "male",
+                          geoData.locationType
+                        );
                       }}
                     >
-                      Male Geolocation
+                      Male
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        getGeoLocationData(
+                          geoData.place,
+                          "",
+                          geoData.locationType
+                        );
+                      }}
+                    >
+                      Both
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -468,34 +529,36 @@ const PageContainer = (props) => {
                 <Row className="w-100">
                   {geoStats.length > 0
                     ? geoStats.map((value, index) => {
-                      return (
-                        <Col
-                          md="6"
-                          className="mb-4 progressBarBox"
-                          style={{ cursor: locationType === "city" ? 'text' : 'pointer' }}
-                          role= {locationType === "country" ?  'button' : ""}
-                          onClick={() => {
-                            if (locationType === "country") {
-                              dispatch(
-                                getGeoStats(value?.location, gender, "city")
-                              );
-                              setLocationType('city');
-                            }  
-
-                          }
-                          }
-                        >
-                          <h6>
-                            {" "}
-                            {value?.location
-                              ? value?.location
-                              : "Country Name"}{" "}
-                            <span>{value?.totalCount}%</span>{" "}
-                          </h6>
-                          <ProgressBar now={value?.totalCount} />
-                        </Col>
-                      );
-                    })
+                        return (
+                          <Col
+                            md="6"
+                            className="mb-4 progressBarBox"
+                            style={{
+                              cursor:
+                              geoData.locationType === "city" ? "text" : "pointer",
+                            }}
+                            role={geoData.locationType === "country" ? "button" : ""}
+                            onClick={() => {
+                              if (geoData.locationType === "country") {
+                                getGeoLocationData(
+                                  value?.location,
+                                  geoData.gender,
+                                  "city"
+                                );
+                              }
+                            }}
+                          >
+                            <h6>
+                              {" "}
+                              {value?.location
+                                ? value?.location
+                                : "Country Name"}{" "}
+                              <span>{value?.totalCount}%</span>{" "}
+                            </h6>
+                            <ProgressBar now={value?.totalCount} />
+                          </Col>
+                        );
+                      })
                     : "Record Not Found."}
                 </Row>
               </Card.Body>
