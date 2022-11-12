@@ -172,6 +172,10 @@ function PostList() {
     if(isAPISuccess) {
       setPostIdSelected([]);
       setEmailSelected([]);
+      dispatch({
+        type: Utils.ActionName.USER_LIST,
+        payload: { isAPISuccess: false },
+      });
     }
   }, [isAPISuccess])
   return (

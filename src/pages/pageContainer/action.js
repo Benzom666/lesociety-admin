@@ -450,7 +450,6 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
       Utils.endPoints.updateUserStatus,
       dataToSend,
       (respData) => {
-        console.log("respData==>saaa", respData);
         Utils.showAlert(1, respData?.data.message);
         // Utils.showAlert(1, "Tagline and description updated successfully!")
         if (source === "user-list") {
@@ -488,7 +487,6 @@ export const updateDocumentVerification = (email, status, len) => {
             per_page: len
           },
         });
-        console.log("respData==>saaa", respData);
         Utils.showAlert(1, respData?.data.message);
         getUserList(status, 1)
       },
@@ -511,14 +509,13 @@ export const postUpdateDateStatus = (status, ids, currentStatus) => {
       Utils.endPoints.updateDateStatus,
       dataToSend,
       (respData) => {
-        console.log("respData==>saaa", respData);
-        Utils.showAlert(1, "Post Blocked successfully!");
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: { datesList: [], isAPISuccess: true },
         });
         dispatch(getDateStats());
         dispatch(getAllDates(currentStatus));
+        Utils.showAlert(1, "Post Blocked successfully!");
       },
       (error) => {
         let { data } = error;
@@ -720,7 +717,6 @@ export const getCountry = (status, active) => {
       Utils.endPoints.getCountry,
       ``,
       (respData) => {
-        console.log("respData==>LLsss", respData);
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: {
@@ -848,7 +844,6 @@ export const createCountry = (dataToSend) => {
 };
 // delete influencer
 export const deleteInfluencer = (email, status) => {
-  console.log("email", email);
   return (dispatch) => {
     Utils.api.deleteApiCall(
       Utils.endPoints.deleteInf,
