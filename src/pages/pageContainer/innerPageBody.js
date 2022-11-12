@@ -544,11 +544,9 @@ const PageContainer = (props) => {
                               }
                             }}
                           >
-                            <h6>
+                            <h6  className= {(geoData.locationType === "country") ? "location-country" : ""}>
                               {" "}
-                              {value?.location
-                                ? value?.location
-                                : "Country Name"}{" "}
+                              {value?.location}{" "}
                               <span>{value?.totalCount}%</span>{" "}
                             </h6>
                             <ProgressBar now={value?.totalCount} />
