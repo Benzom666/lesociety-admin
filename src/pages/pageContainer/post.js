@@ -51,13 +51,6 @@ function PostList() {
     // console.log(emailSelected);
     dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, getAllDates));
     setShow(false);
-    setEmailSelected([]);
-    setPostIdSelected([]);
-    dispatch(getDefaultMsgList("postMessage"));
-    dispatch(getDateStats());dispatch({
-      type: Utils.ActionName.USER_LIST,
-      payload: { tab: 1, search: "", per_page: 10, datesList: [] },
-    })
   };
   const observer = useRef();
   const lastPostElementRef = useCallback((node) => {

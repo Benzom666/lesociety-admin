@@ -401,12 +401,20 @@ export const postSendDefaulMsg = (
       Utils.endPoints.sendDefaultMsg,
       dataToSend,
       (respData) => {
-        Utils.showAlert(1, "Request mail sent to users");
         dispatch({
           type: Utils.ActionName.GET_ALL_DATES,
           payload: { rowSelected: [] }
         });
+        if(messageType === "postMessage"){
+          dispatch({
+            type: Utils.ActionName.USER_LIST,
+            payload: { tab: 1, search: "", per_page: 10, datesList: [], isAPISuccess: true },
+          })
+          dispatch(getDefaultMsgList("postMessage"));
+        }
+        dispatch(getDateStats());
         if (updateFunc) dispatch(updateFunc(currentStatus, 1, ""));
+        Utils.showAlert(1, "Request mail sent to users");
       },
       (error) => {
         let { data } = error;
