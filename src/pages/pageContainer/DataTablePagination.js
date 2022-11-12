@@ -105,7 +105,7 @@ function PostList(props) {
             </Card.Link>
           </div>
           <div>
-            {post?.status == 2 ? (
+            {post?.status === 2 ? (
               <Button className={"verifyBtn verified-user-card"} disabled>
                 verified
               </Button>
@@ -129,7 +129,7 @@ function PostList(props) {
                     dispatch(getDefaultMsgList("taglineAndDesc"));
                   }}
                 >
-                  verifyuu
+                  Verify
                 </Button>
               </>
             )}
@@ -169,8 +169,8 @@ function PostList(props) {
           />
           <NavItemSet
             eventKey="link-5"
-            status={1}
-            badge={usersAdminStatus?.pending_users}
+            status={6}
+            badge={usersAdminStatus?.requested_by_admin}
             setStatus={setStatus}
             title="Updated Details(Requested by admin)"
             setPage={setPage}
@@ -193,7 +193,7 @@ function PostList(props) {
           </Tab.Pane>
           <Tab.Pane eventKey="link-5">
             <VerifyPhotoCards
-              UserPostList={status === 1 ? UserPostList : []}
+              UserPostList={status === 6 ? UserPostList : []}
               status={status}
             />
           </Tab.Pane>

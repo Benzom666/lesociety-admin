@@ -41,6 +41,7 @@ const initialState = {
   unRendDate: new Date(),
   loading: false,
   countryList: [],
+  isAPISucceess: false
 };
 console.log("existEmailexistEmail", initialState.existEmail);
 export const userListReducer = (state = initialState, action) => {

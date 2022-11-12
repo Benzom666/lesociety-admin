@@ -493,7 +493,7 @@ export const updateDocumentVerification = (email, status, len) => {
 };
 
 // post update date status
-export const postUpdateDateStatus = (status, ids) => {
+export const postUpdateDateStatus = (status, ids, currentStatus) => {
   return (dispatch) => {
     const dataToSend = {
       status,
@@ -505,6 +505,12 @@ export const postUpdateDateStatus = (status, ids) => {
       (respData) => {
         console.log("respData==>saaa", respData);
         Utils.showAlert(1, "Post Blocked successfully!");
+        dispatch({
+          type: Utils.ActionName.GET_ALL_DATES,
+          payload: { datesList: [], isAPISuccess: true },
+        });
+        dispatch(getDateStats());
+        dispatch(getAllDates(currentStatus));
       },
       (error) => {
         let { data } = error;
@@ -568,7 +574,7 @@ export const getPendingUser = () => {
   };
 };
 // get influencer
-export const getAllDates = (status, offSet, active = "") => {
+export const getAllDates = (status, offSet = 1, active = "") => {
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",

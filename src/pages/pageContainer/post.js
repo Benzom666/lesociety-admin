@@ -21,7 +21,7 @@ import { NavItemSet, SearchDropdownSet } from "./Component";
 
 function PostList() {
   const dispatch = useDispatch();
-  const { per_page, datesList, defaultMsg, datesCont, datesStats, loading } =
+  const { per_page, datesList, defaultMsg, datesCont, datesStats, loading, isAPISuccess } =
     useSelector((state) => state.userListReducer);
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState();
@@ -29,7 +29,6 @@ function PostList() {
   const [postIdSelected, setPostIdSelected] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedUser, setSelectedUser] = useState(false);
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
   const [isActive, setIsActive] = useState(true);
@@ -176,6 +175,12 @@ function PostList() {
       <div className="text-danger">No dates found.</div>
     );
   const paylaod1 = { datesList: [] };
+  useEffect(() => {
+    if(isAPISuccess) {
+      setPostIdSelected([]);
+      setEmailSelected([]);
+    }
+  }, [isAPISuccess])
   return (
     <div className="dashboardUi">
       <SideBar />
@@ -310,7 +315,7 @@ function PostList() {
               <Button
                 className="verifyBtn"
                 onClick={() => {
-                  dispatch(postUpdateDateStatus());
+                  dispatch(postUpdateDateStatus(3, postIdSelected, status));
                 }}
               >
                 Block
