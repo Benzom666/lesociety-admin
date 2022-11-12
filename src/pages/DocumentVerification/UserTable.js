@@ -17,6 +17,7 @@ import {
   getUserProfile,
   postSendDefaulMsg,
   postUpdateUserStatus,
+  updateDocumentVerification
 } from "../pageContainer/action";
 import Utils from "../../utility";
 import ProfileImage from "../../assets/images/profleIamge.svg";
@@ -58,34 +59,8 @@ function UserTable({ lastPostElementRef, endUser, status }) {
   const msgSubmit = () => {
     dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status, getUserList));
     setShow(false);
-    // dispatch((rowSelected = []));
   };
-  const checkboxHandler = (e) => {
-    let selectedRow = rowSelected;
-    if (e.target.checked) {
-      selectedRow = [...selectedRow, e.target.value];
-    } else {
-      selectedRow.splice(selectedRow.indexOf(e.target.value), 1);
-      let allCheckId = document.getElementById("all-check");
-      allCheckId.checked = false;
-    }
-    dispatch({
-      type: Utils.ActionName.USER_LIST,
-      payload: { rowSelected: selectedRow },
-    });
-  };
-  const allCheckboxHandler = (e) => {
-    let allEmail = [];
-    if (e.target.checked) {
-      allEmail = userlist
-        .filter((user) => user.email_verified && user.status === 1)
-        .map((item) => item.email);
-    }
-    dispatch({
-      type: Utils.ActionName.USER_LIST,
-      payload: { rowSelected: allEmail },
-    });
-  };
+  
   return (
     <div>
       <SearchDropdownSet
@@ -99,13 +74,14 @@ function UserTable({ lastPostElementRef, endUser, status }) {
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>
+            {/* <th>
               <input
                 type="checkbox"
                 onChange={(e) => allCheckboxHandler(e)}
                 id="all-check"
               />
-            </th>
+            </th> */}
+            <th />
             <th>User Name</th>
             <th>Gender</th>
             <th>Email</th>
@@ -118,7 +94,6 @@ function UserTable({ lastPostElementRef, endUser, status }) {
             ? userlist.map((user, index) => {
               const selfieArr = user?.selfie?.split("/");
               const docsArr = user?.document?.split("/");
-              console.log(user?.document, docsArr, selfieArr, user?.selfie);
                 return (
                   <tr
                     key={user.id}
@@ -126,18 +101,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                       userlist.length === index + 1 ? lastPostElementRef : null
                     }
                   >
-                    <td>
-                      {user?.email_verified && user.status === 1 ? (
-                        <input
-                          id="user-checkbox"
-                          type="checkbox"
-                          onChange={checkboxHandler}
-                          value={user.email}
-                          name="user-checkbox"
-                          checked={rowSelected.includes(user.email)}
-                        />
-                      ) : null}
-                    </td>
+                    <td />
                     <td>
                       <div className="userNameImage" key={index}>
                         <Link
@@ -157,10 +121,10 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                     </td>
                     <td>{user?.gender}</td>
                     <td>{user?.email}</td>
-                    <td>{user?.selfie ? <a href={user?.selfie} target="_blank">{selfieArr[selfieArr.length - 1]}</a> : '--'}</td>
-                    <td>{user?.document ? <a href={user?.document} target="_blank">{docsArr[docsArr.length - 1]}</a> : "--"}</td>
+                    <td>{user?.selfie ? <a style={{color: "white"}} href={user?.selfie} target="_blank">view image</a> : '--'}</td>
+                    <td>{user?.document ? <a style={{color: "white"}} href={user?.document} target="_blank">view document</a> : '--' }</td>
                     <td>
-                      {user?.selfie && user.document ? (
+                      {!user?.documents_verified ? (
                         <DropdownButton
                           variant="outline-secondary"
                           title={
@@ -176,13 +140,13 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                           <Dropdown.Item
                             eventKey="1"
                             onClick={() => {
-                              dispatch(postUpdateUserStatus(2, user.email, "user-list", status));
+                              dispatch(updateDocumentVerification( user.email, status, userlist.length));
                               // dispatch(getUserList());
                             }}
                           >
                             Verify
                           </Dropdown.Item>
-                          <Dropdown.Item
+                          {/* <Dropdown.Item
                             eventKey="req"
                             onClick={() => {
                               setShow(true);
@@ -194,15 +158,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                             }}
                           >
                             Request a Change
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            eventKey="3"
-                            onClick={() => {
-                              dispatch(postUpdateUserStatus(3, user.email, 'user-list', status));
-                            }}
-                          >
-                            Block
-                          </Dropdown.Item>
+                          </Dropdown.Item> */}
                         </DropdownButton>
                       ) : (
                         ""

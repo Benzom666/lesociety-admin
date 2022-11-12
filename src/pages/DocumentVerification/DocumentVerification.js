@@ -24,6 +24,10 @@ function DocumentVerificationPage() {
     (state) => state.userListReducer
   );
   useEffect(() => {
+    dispatch({
+      type: Utils.ActionName.USER_LIST,
+      payload: { tab: 1, search: "", per_page: 10, userlist: [] }
+    });
     dispatch(getUserList("", 1));
   }, []);
 
@@ -75,43 +79,6 @@ function DocumentVerificationPage() {
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-
-        {/* <Modal
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          show={show}
-          onHide={handleModal}
-          className="requestModal influencerModal"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title> New Document  </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={createInflu}>
-
-              <Form.Group className="mb-3" controlId="formGridAddress1">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  value={formData.name}
-                  placeholder="Enter Country Name"
-                />
-              </Form.Group>
-
-              <Button
-                variant="primary"
-                type="submit"
-                className="InfluencerSubmitBtn"
-              >
-                Submit
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal> */}
       </div>
     </div>
   );

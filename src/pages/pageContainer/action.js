@@ -461,6 +461,37 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
     );
   };
 };
+
+// update selfie and documents
+export const updateDocumentVerification = (email, status, len) => {
+  return (dispatch) => {
+    
+    const dataToSend = {
+      email
+    };
+    Utils.api.putApiCall(
+      Utils.endPoints.verifyDocuments,
+      dataToSend,
+      (respData) => {
+        dispatch({
+          type: "SET_LOADING",
+          payload: {
+            userlist: [],
+            per_page: len
+          },
+        });
+        console.log("respData==>saaa", respData);
+        Utils.showAlert(1, respData?.data.message);
+        getUserList(status, 1)
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+
 // post update date status
 export const postUpdateDateStatus = (status, ids) => {
   return (dispatch) => {
