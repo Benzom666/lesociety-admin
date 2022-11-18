@@ -77,7 +77,6 @@ function PostList() {
     Array.isArray(datesList) && datesList.length ? (
       datesList.map((value, index) => {
         const checkedUser = (event) => {
-          console.log(event.target.checked, event.target.value, event.target.id);
           if(event.target.checked){
             setEmailSelected([...emailSelected, event.target.value]);
             setPostIdSelected([...postIdSelected, event.target.id]);
@@ -170,6 +169,7 @@ function PostList() {
   const paylaod1 = { datesList: [] };
   useEffect(() => {
     if(isAPISuccess) {
+      alert("working");
       setPostIdSelected([]);
       setEmailSelected([]);
       dispatch({

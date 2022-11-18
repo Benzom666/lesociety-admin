@@ -172,7 +172,17 @@ function PostList(props) {
             status={6}
             badge={usersAdminStatus?.requested_by_admin}
             setStatus={setStatus}
-            title="Updated Details(Requested by admin)"
+            title="Details(Requested by admin)"
+            setPage={setPage}
+            payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
+            getFunc={getUserList}
+          />
+          <NavItemSet
+            eventKey="link-6"
+            status={5}
+            badge={usersAdminStatus?.updated_details}
+            setStatus={setStatus}
+            title="Updated Details"
             setPage={setPage}
             payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
             getFunc={getUserList}
@@ -194,6 +204,12 @@ function PostList(props) {
           <Tab.Pane eventKey="link-5">
             <VerifyPhotoCards
               UserPostList={status === 6 ? UserPostList : []}
+              status={status}
+            />
+          </Tab.Pane>
+          <Tab.Pane eventKey="link-6">
+            <VerifyPhotoCards
+              UserPostList={status === 5 ? UserPostList : []}
               status={status}
             />
           </Tab.Pane>

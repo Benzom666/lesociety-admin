@@ -124,7 +124,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                     <td>{user?.selfie ? <a style={{color: "white"}} href={user?.selfie} target="_blank">view image</a> : '--'}</td>
                     <td>{user?.document ? <a style={{color: "white"}} href={user?.document} target="_blank">view document</a> : '--' }</td>
                     <td>
-                      {!user?.documents_verified ? (
+                      {user?.documents_verified ? (
                         <DropdownButton
                           variant="outline-secondary"
                           title={
