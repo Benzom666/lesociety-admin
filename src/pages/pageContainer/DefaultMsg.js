@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap";
 
 export const DefaultMsg = (props) => {
-  const { defaultMsg, setid, setMsg, show, handleClose, msgSubmit } = props
+  const { defaultMsg, setId, setMsg, show, handleClose, msgSubmit } = props
   return (
     <Modal
       show={show}
@@ -28,7 +28,7 @@ export const DefaultMsg = (props) => {
                 <Form.Check type="radio" id={index} name="requestmsg" value={value}
                   onChange={(e) => {
                     setMsg(e.target.value)
-                    setid(index)
+                    setId(index)
                   }} label={value} />
               </ListGroup.Item>
             )

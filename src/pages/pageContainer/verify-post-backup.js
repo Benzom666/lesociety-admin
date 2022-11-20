@@ -6,11 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Nav, Tab, Badge, Form, Card, Button } from "react-bootstrap";
 import Utils from "../../utility/index.js";
 import {
-  getDefaultMsgList,
   getUserList,
-  getUserStatusCounter,
-  postSendDefaulMsg,
-  postSetRequest,
   postVerfiyUser,
 } from "./action.js";
 
@@ -21,7 +17,7 @@ export default function DataTablePagination(props) {
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 4;
   const dispatch = useDispatch();
-  const { usersAdminStatus, userlist, defaultMsg } = useSelector(
+  const { usersAdminStatus } = useSelector(
     (state) => state.userListReducer
   );
   const [isActive, setIsActive] = useState(false);
@@ -57,7 +53,7 @@ export default function DataTablePagination(props) {
                 dispatch(getUserList());
               }}
             >
-              Total Usersss
+              Total Users
               <Badge pill bg="secondary">
                 {usersAdminStatus?.total_users}
               </Badge>
@@ -176,7 +172,6 @@ export default function DataTablePagination(props) {
                         className={"verifyBtn"}
                         onClick={() => {
                           dispatch(postVerfiyUser(post.email));
-                          dispatch(getUserList());
                         }}
                       >
                         verify
@@ -252,7 +247,6 @@ export default function DataTablePagination(props) {
                       className={"verifyBtn"}
                       onClick={() => {
                         dispatch(postVerfiyUser(post.email));
-                        dispatch(getUserList());
                       }}
                     >
                       verify
@@ -330,7 +324,6 @@ export default function DataTablePagination(props) {
                         className={"verifyBtn"}
                         onClick={() => {
                           dispatch(postVerfiyUser(post.email));
-                          dispatch(getUserList());
                         }}
                       >
                         verify

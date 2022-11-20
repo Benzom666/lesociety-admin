@@ -155,7 +155,7 @@ const PageContainer = props => {
           </Col>
         </Row>
       </div>
-      <DefaultMsg setid={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show={show} msg={msg} setMsg={setMsg} msgSubmit={msgSubmit} handleClose={handleClose} />
+      <DefaultMsg setId={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show={show} msg={msg} setMsg={setMsg} msgSubmit={msgSubmit} handleClose={handleClose} />
     </div>
   )
 }

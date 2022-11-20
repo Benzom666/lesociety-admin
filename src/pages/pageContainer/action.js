@@ -1,8 +1,9 @@
 import moment from "moment";
 import Utils from "../../utility";
 
-export const getUserList = (status = "", offSet = 1) => {
+export const getUserList = (status = "", offSet = 1, updatedDetails) => {
   // alert(status);
+  
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",
@@ -12,9 +13,15 @@ export const getUserList = (status = "", offSet = 1) => {
     });
     const { per_page, current_page, search, userlist } =
       getState().userListReducer;
+      let pathname =  `?user_name=${search}&status=${status}&per_page=${per_page}
+      &current_page=${offSet}`;
+      if(status === 10) {
+        pathname = `?user_name=${search}&updated_details=true&per_page=${per_page}&current_page=${offSet}`;
+      }
+
     Utils.api.getApiCall(
       Utils.endPoints.user,
-      `?user_name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}`,
+      pathname,
       (respData) => {
         dispatch({
           type: Utils.ActionName.USER_LIST,
@@ -83,7 +90,7 @@ export const getUserProfile = (username) => {
   };
 };
 // user status counter
-export const getUserStatusCounter = (username) => {
+export const getUserStatusCounter = () => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.userStatusCounter,
@@ -104,7 +111,7 @@ export const getUserStatusCounter = (username) => {
   };
 };
 // get all request
-export const getAllRequest = (username) => {
+export const getAllRequest = () => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.getRequest,
@@ -405,7 +412,7 @@ export const postSendDefaulMsg = (
           type: Utils.ActionName.GET_ALL_DATES,
           payload: { rowSelected: [] }
         });
-        if(messageType === "postMessage"){
+        if(updateFunc){
           dispatch({
             type: Utils.ActionName.USER_LIST,
             payload: { tab: 1, search: "", per_page: 10, datesList: [], isAPISuccess: true },
@@ -424,13 +431,19 @@ export const postSendDefaulMsg = (
   };
 };
 // post verfiy user
-export const postVerfiyUser = (email) => {
+export const postVerfiyUser = (email, currentStatus) => {
   return (dispatch) => {
     Utils.api.postApiCall(
       Utils.endPoints.userVerify,
       { email },
       (respData) => {
         Utils.showAlert(1, "Tagline and description updated successfully!");
+        dispatch({
+          type: Utils.ActionName.USER_LIST,
+          payload: { tab: 1, search: "", per_page: 10, userList: [], isAPISuccess: true },
+        })
+        dispatch(getUserStatusCounter());
+          dispatch(getUserList(currentStatus));
       },
       (error) => {
         let { data } = error;

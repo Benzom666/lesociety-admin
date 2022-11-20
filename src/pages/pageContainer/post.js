@@ -322,7 +322,7 @@ function PostList() {
         ) : null}
       </div>
       <DefaultMsg
-        setid={setId}
+        setId={setId}
         defaultMsg={defaultMsg[0]?.postMessage}
         show={show}
         msg={msg}

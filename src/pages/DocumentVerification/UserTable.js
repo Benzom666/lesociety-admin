@@ -57,7 +57,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
     dispatch(getUserList(status));
   }, 1500);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status, getUserList));
+    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status));
     setShow(false);
   };
   
@@ -190,7 +190,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
         </Toast>
       ) : null}
       <DefaultMsg
-        setid={setId}
+        setId={setId}
         defaultMsg={defaultMsg[0]?.taglineAndDesc}
         show={show}
         msg={msg}

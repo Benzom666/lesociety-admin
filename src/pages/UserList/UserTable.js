@@ -253,7 +253,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
         </Toast>
       ) : null}
       <DefaultMsg
-        setid={setId}
+        setId={setId}
         defaultMsg={defaultMsg[0]?.taglineAndDesc}
         show={show}
         msg={msg}

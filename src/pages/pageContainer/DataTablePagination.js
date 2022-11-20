@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Nav, Tab, Form, Card, Button } from "react-bootstrap";
+import { Nav, Tab, Form, Card, Button, Toast } from "react-bootstrap";
 import VerifyProfileImages from "./profileImage";
-import { getUserList, postUpdateUserStatus, postSendDefaulMsg, getDefaultMsgList } from "./action.js";
+import { getUserList, postUpdateUserStatus, postSendDefaulMsg, getDefaultMsgList, postVerfiyUser } from "./action.js";
 import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import { DefaultMsg } from "./DefaultMsg";
 import { NavItemSet } from "./Component";
@@ -12,8 +12,10 @@ function PostList(props) {
   const dispatch = useDispatch();
   const { usersAdminStatus, userlist, defaultMsg, pagination, loading } =
     useSelector((state) => state.userListReducer);
+  const [emailSelected, setEmailSelected] = useState([]);
+  const [postIdSelected, setPostIdSelected] = useState([]);
+  const [showA, setShowA] = useState(true);
   const [id, setId] = useState();
-  const [userEmail, setUserEmail] = useState();
   const [isActive, setIsActive] = useState(false);
   const [show, setShow] = useState();
   const [msg, setMsg] = useState();
@@ -21,10 +23,14 @@ function PostList(props) {
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState(5);
   const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const toggleShowA = () => setShowA(!showA);
 
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", id, userEmail, "6323e3ae8c8a4613fdf79256", status, getUserList));
+    dispatch(postSendDefaulMsg("taglineAndDesc", id, emailSelected, "6323e3ae8c8a4613fdf79256", status, getUserList));
     setShow(false);
+    setEmailSelected([]);
+    setPostIdSelected([]);
   };
   const observer = useRef();
   const lastPostElementRef = useCallback((node) => {
@@ -40,7 +46,23 @@ function PostList(props) {
     });
     if (node) observer.current.observe(node);
   });
+  const checkedUser = (event) => {
+    if(event.target.checked){
+      setEmailSelected([...emailSelected, event.target.value]);
+      setPostIdSelected([...postIdSelected, event.target.id]);
+    } else {
+      emailSelected.splice(emailSelected.indexOf(event.target.value), 1);
+      setEmailSelected(emailSelected); 
+      postIdSelected.splice(postIdSelected.indexOf(event.target.id
+        ), 1);
+      setPostIdSelected(postIdSelected); 
+    }
+  }
+  const verifyUpdatedDetails = (email) => {
+    dispatch(postVerfiyUser(email, status))
+  }
   const UserPostList = userlist.map((post, index) => {
+    console.log(post);
     return (
       <Card
         className={"text-white verifyPhotoCard"}
@@ -48,7 +70,7 @@ function PostList(props) {
         ref={userlist.length === index + 1 ? lastPostElementRef : null}
       >
         <div className="cardActionBox">
-          <Form.Check className="checkboxUI" type="checkbox" />
+          <Form.Check className="checkboxUI" type="checkbox" onClick={checkedUser} id={post?._id} value={post?.email} />
         </div>
         <div className="userProfileDetail">
           {cardId === undefined || cardId != post?._id ? (
@@ -68,17 +90,17 @@ function PostList(props) {
                 image_verified={post?.image_verified}
               />
             ))}
-          {isActive === true ||
+          {isActive ||
             (cardId === post?._id && (
               <Card.Body>
                 <Card.Text className="y-scroll">
-                  {post?.tag_desc_verified === true &&
+                  {post?.tag_desc_verified &&
                   post?.un_verified_description.length > 0
                     ? post?.un_verified_description
                     : post?.description}
                 </Card.Text>
                 <Card.Title className="y-scroll">
-                  {post?.tag_desc_verified === true &&
+                  {post?.tag_desc_verified &&
                   post?.un_verified_tagline.length > 0
                     ? post?.un_verified_tagline
                     : post?.tagline}
@@ -105,7 +127,13 @@ function PostList(props) {
             </Card.Link>
           </div>
           <div>
-            {post?.status === 2 ? (
+            {
+            status === 10 ? (
+              <Button className={"verifyBtn"} onClick={() => verifyUpdatedDetails(post?.email)}>
+                Verify
+              </Button>
+            ) :
+            post?.status === 2 ? (
               <Button className={"verifyBtn verified-user-card"} disabled>
                 verified
               </Button>
@@ -114,8 +142,8 @@ function PostList(props) {
                 <Button
                   className="requestBtn"
                   onClick={() => {
+                    setEmailSelected([post?.email]);
                     setShow(true);
-                    setUserEmail(post?.email);
                   }}
                 >
                   Request
@@ -123,8 +151,6 @@ function PostList(props) {
                 <Button
                   className={"verifyBtn"}
                   onClick={() => {
-                    // dispatch(postVerfiyUser(post.email));
-                    // dispatch(getUserList());
                     dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
                     dispatch(getDefaultMsgList("taglineAndDesc"));
                   }}
@@ -168,21 +194,21 @@ function PostList(props) {
 
           />
           <NavItemSet
-            eventKey="link-5"
-            status={6}
-            badge={usersAdminStatus?.requested_by_admin}
+            eventKey="link-6"
+            status={10}
+            badge={usersAdminStatus?.updated_details}
             setStatus={setStatus}
-            title="Details(Requested by admin)"
+            title="Updated Details"
             setPage={setPage}
             payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
             getFunc={getUserList}
           />
           <NavItemSet
-            eventKey="link-6"
-            status={5}
-            badge={usersAdminStatus?.updated_details}
+            eventKey="link-5"
+            status={6}
+            badge={usersAdminStatus?.requested_by_admin}
             setStatus={setStatus}
-            title="Updated Details"
+            title="Details(Requested by admin)"
             setPage={setPage}
             payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
             getFunc={getUserList}
@@ -209,14 +235,32 @@ function PostList(props) {
           </Tab.Pane>
           <Tab.Pane eventKey="link-6">
             <VerifyPhotoCards
-              UserPostList={status === 5 ? UserPostList : []}
+              UserPostList={status === 10 ? UserPostList : []}
               status={status}
             />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
+      {emailSelected.length ?  (
+          <Toast show={showA} onClose={toggleShowA} className="requestPopup">
+            <Toast.Body className="d-flex align-items-center w-100">
+              <Form.Check type="checkbox" label="people" />
+              <Button className="requestBtn" onClick={handleShow}>
+                Request
+              </Button>
+              <Button
+                className="verifyBtn"
+                onClick={() => {
+                  dispatch(postUpdateUserStatus(3, postIdSelected, status));
+                }}
+              >
+                Block
+              </Button>
+            </Toast.Body>
+          </Toast>
+        ) : null}
       <DefaultMsg
-        setid={setId}
+        setId={setId}
         defaultMsg={defaultMsg[0]?.taglineAndDesc}
         show={show}
         msg={msg}
