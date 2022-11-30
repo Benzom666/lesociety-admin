@@ -23,7 +23,7 @@ import ProfileImage from "../../assets/images/profleIamge.svg";
 import { DefaultMsg } from "../pageContainer/DefaultMsg";
 import { SearchDropdownSet } from "../pageContainer/Component";
 
-function UserTable({ lastPostElementRef, endUser, status }) {
+function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
   const dispatch = useDispatch();
   const {
     userlist,
@@ -100,11 +100,11 @@ function UserTable({ lastPostElementRef, endUser, status }) {
         <thead>
           <tr>
             <th>
-              <input
+              {!noAction && <input
                 type="checkbox"
                 onChange={(e) => allCheckboxHandler(e)}
                 id="all-check"
-              />
+              />}
             </th>
             <th>User Name</th>
             <th>Gender</th>
@@ -125,7 +125,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                     }
                   >
                     <td>
-                      {user?.email_verified && user.status === 1 ? (
+                      {user?.email_verified && user.status === 1 && !noAction ? (
                         <input
                           id="user-checkbox"
                           type="checkbox"
@@ -179,7 +179,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                       }
                     </td>
                     <td>
-                      {user?.email_verified && user.status == 1 ? (
+                      {user?.email_verified && user.status == 1 && !noAction ? (
                         <DropdownButton
                           variant="outline-secondary"
                           title={

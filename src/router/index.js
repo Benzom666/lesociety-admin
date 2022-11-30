@@ -17,13 +17,6 @@ import CountryList from "../pages/Country";
 import DocumentVerificationPage from "../pages/DocumentVerification";
 
 function Router() {
-  // const navigate = useNavigate();
-  // const token = localStorage.getItem("accessToken");
-  // if (!token // && window.location.pathname !== "/"
-  // ) {
-  //   console.log(token);
-  //   <BrowserRouter><Navigate to="/" replace={true}/></BrowserRouter>;
-  // }
   return (
     <BrowserRouter>
       <Routes>

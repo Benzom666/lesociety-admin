@@ -60,7 +60,8 @@ export const NavItemSet = ({
   setPage,
   payload,
   getFunc,
-  active=""
+  active="",
+  noAction=false
 }) => {
   const dispatch = useDispatch();
   return (

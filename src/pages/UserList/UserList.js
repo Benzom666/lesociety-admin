@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { Nav, Tab, Badge } from "react-bootstrap";
+import { Nav, Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import SideBar from "../sideBar/sidebar.js";
@@ -57,7 +57,7 @@ function UserList() {
               eventKey="link-1"
               dispatch={dispatch}
               status=""
-              badge={usersAdminStatus?.total_users }
+              badge={usersAdminStatus?.total_users}
               setStatus={setStatus}
               title="Total Users"
               setPage={setPage}
@@ -67,7 +67,7 @@ function UserList() {
             <NavItemSet
               eventKey="link-2"
               status={2}
-              badge={usersAdminStatus?.verified_users }
+              badge={usersAdminStatus?.verified_users}
               setStatus={setStatus}
               title="Verified Users"
               setPage={setPage}
@@ -77,9 +77,29 @@ function UserList() {
             <NavItemSet
               eventKey="link-3"
               status={1}
-              badge={usersAdminStatus?.pending_users }
+              badge={usersAdminStatus?.pending_users}
               setStatus={setStatus}
               title="Pending Verification"
+              setPage={setPage}
+              payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
+              getFunc={getUserList}
+            />
+            <NavItemSet
+              eventKey="link-4"
+              status={6}
+              badge={usersAdminStatus?.requested_by_admin}
+              setStatus={setStatus}
+              title="Details(Requested by admin)"
+              setPage={setPage}
+              payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
+              getFunc={getUserList}
+            />
+            <NavItemSet
+              eventKey="link-5"
+              status={10}
+              badge={usersAdminStatus?.updated_details}
+              setStatus={setStatus}
+              title="Updated Details"
               setPage={setPage}
               payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
@@ -91,6 +111,8 @@ function UserList() {
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">{status === 2 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
             <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-4">{status === 6 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} noAction={true}/> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-5">{status === 10 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       <p className="text-danger">{endUser}</p>

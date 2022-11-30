@@ -47,15 +47,15 @@ function PostList(props) {
     if (node) observer.current.observe(node);
   });
   const checkedUser = (event) => {
-    if(event.target.checked){
+    if (event.target.checked) {
       setEmailSelected([...emailSelected, event.target.value]);
       setPostIdSelected([...postIdSelected, event.target.id]);
     } else {
       emailSelected.splice(emailSelected.indexOf(event.target.value), 1);
-      setEmailSelected(emailSelected); 
+      setEmailSelected(emailSelected);
       postIdSelected.splice(postIdSelected.indexOf(event.target.id
-        ), 1);
-      setPostIdSelected(postIdSelected); 
+      ), 1);
+      setPostIdSelected(postIdSelected);
     }
   }
   const verifyUpdatedDetails = (email) => {
@@ -70,7 +70,10 @@ function PostList(props) {
         ref={userlist.length === index + 1 ? lastPostElementRef : null}
       >
         <div className="cardActionBox">
-          <Form.Check className="checkboxUI" type="checkbox" onClick={checkedUser} id={post?._id} value={post?.email} />
+          {status !== 6 ? 
+          <Form.Check className="checkboxUI" type="checkbox"
+           onClick={checkedUser} id={post?._id} value={post?.email} />
+          : null}
         </div>
         <div className="userProfileDetail">
           {cardId === undefined || cardId != post?._id ? (
@@ -95,13 +98,13 @@ function PostList(props) {
               <Card.Body>
                 <Card.Text className="y-scroll">
                   {post?.tag_desc_verified &&
-                  post?.un_verified_description.length > 0
+                    post?.un_verified_description.length > 0
                     ? post?.un_verified_description
                     : post?.description}
                 </Card.Text>
                 <Card.Title className="y-scroll">
                   {post?.tag_desc_verified &&
-                  post?.un_verified_tagline.length > 0
+                    post?.un_verified_tagline.length > 0
                     ? post?.un_verified_tagline
                     : post?.tagline}
                 </Card.Title>
@@ -127,38 +130,38 @@ function PostList(props) {
             </Card.Link>
           </div>
           <div>
-            {
-            status === 10 ? (
-              <Button className={"verifyBtn"} onClick={() => verifyUpdatedDetails(post?.email)}>
-                Verify
-              </Button>
-            ) :
-            post?.status === 2 ? (
-              <Button className={"verifyBtn verified-user-card"} disabled>
-                verified
-              </Button>
-            ) : (
-              <>
-                <Button
-                  className="requestBtn"
-                  onClick={() => {
-                    setEmailSelected([post?.email]);
-                    setShow(true);
-                  }}
-                >
-                  Request
-                </Button>
-                <Button
-                  className={"verifyBtn"}
-                  onClick={() => {
-                    dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
-                    dispatch(getDefaultMsgList("taglineAndDesc"));
-                  }}
-                >
+            {status !== 6 &&
+              (status === 10 ? (
+                <Button className={"verifyBtn"} onClick={() => verifyUpdatedDetails(post?.email)}>
                   Verify
                 </Button>
-              </>
-            )}
+              ) :
+                post?.status === 2 ? (
+                  <Button className={"verifyBtn verified-user-card"} disabled>
+                    verified
+                  </Button>
+                ) : (
+                    <>
+                      <Button
+                        className="requestBtn"
+                        onClick={() => {
+                          setEmailSelected([post?.email]);
+                          setShow(true);
+                        }}
+                      >
+                        Request
+                      </Button>
+                      <Button
+                        className={"verifyBtn"}
+                        onClick={() => {
+                          dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
+                          dispatch(getDefaultMsgList("taglineAndDesc"));
+                        }}
+                      >
+                        Verify
+                      </Button>
+                    </>
+                  ))}
           </div>
         </div>
         <Card.Footer>
@@ -194,21 +197,22 @@ function PostList(props) {
 
           />
           <NavItemSet
-            eventKey="link-6"
-            status={10}
-            badge={usersAdminStatus?.updated_details}
-            setStatus={setStatus}
-            title="Updated Details"
-            setPage={setPage}
-            payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
-            getFunc={getUserList}
-          />
-          <NavItemSet
             eventKey="link-5"
             status={6}
             badge={usersAdminStatus?.requested_by_admin}
             setStatus={setStatus}
             title="Details(Requested by admin)"
+            setPage={setPage}
+            payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
+            getFunc={getUserList}
+            noAction={true}
+          />
+          <NavItemSet
+            eventKey="link-6"
+            status={10}
+            badge={usersAdminStatus?.updated_details}
+            setStatus={setStatus}
+            title="Updated Details"
             setPage={setPage}
             payload={{ tab: 4, search: "", per_page: 10, userlist: [] }}
             getFunc={getUserList}
@@ -231,6 +235,7 @@ function PostList(props) {
             <VerifyPhotoCards
               UserPostList={status === 6 ? UserPostList : []}
               status={status}
+              noAction={true}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="link-6">
@@ -241,24 +246,24 @@ function PostList(props) {
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
-      {emailSelected.length ?  (
-          <Toast show={showA} onClose={toggleShowA} className="requestPopup">
-            <Toast.Body className="d-flex align-items-center w-100">
-              <Form.Check type="checkbox" label="people" />
-              <Button className="requestBtn" onClick={handleShow}>
-                Request
-              </Button>
-              <Button
-                className="verifyBtn"
-                onClick={() => {
-                  dispatch(postUpdateUserStatus(3, postIdSelected, status));
-                }}
-              >
-                Block
-              </Button>
-            </Toast.Body>
-          </Toast>
-        ) : null}
+      {emailSelected.length ? (
+        <Toast show={showA} onClose={toggleShowA} className="requestPopup">
+          <Toast.Body className="d-flex align-items-center w-100">
+            <Form.Check type="checkbox" label="people" />
+            <Button className="requestBtn" onClick={handleShow}>
+              Request
+            </Button>
+            <Button
+              className="verifyBtn"
+              onClick={() => {
+                dispatch(postUpdateUserStatus(3, postIdSelected, status));
+              }}
+            >
+              Block
+            </Button>
+          </Toast.Body>
+        </Toast>
+      ) : null}
       <DefaultMsg
         setId={setId}
         defaultMsg={defaultMsg[0]?.taglineAndDesc}

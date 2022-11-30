@@ -6,7 +6,7 @@ import Utils from "../../utility/index.js";
 import { getUserList } from "./action.js";
 import { SearchDropdownSet } from "./Component";
 
-function VerifyPhotoCards({ UserPostList, status }) {
+function VerifyPhotoCards({ UserPostList, status, noAction = false }) {
   const dispatch = useDispatch();
   const { per_page } = useSelector(
     (state) => state.userListReducer
