@@ -7,7 +7,8 @@ import {
 } from "react-bootstrap";
 
 export const DefaultMsg = (props) => {
-  const { defaultMsg, setId, setMsg, show, handleClose, msgSubmit } = props
+  const { defaultMsg = [{}], setId, setMsg, show, handleClose, msgSubmit } = props
+  const messageType = Object.keys(defaultMsg[0]);
   return (
     <Modal
       show={show}
@@ -22,19 +23,21 @@ export const DefaultMsg = (props) => {
       </Modal.Header>
       <Modal.Body>
         <ListGroup>
-          {!!defaultMsg && defaultMsg.map((value, index) => {
+          {messageType[0] ?  
+           messageType.map((type, index) => {
             return (
               <ListGroup.Item key={index}>
-                <Form.Check type="radio" id={index} name="requestmsg" value={value}
+                <Form.Check type="radio" id={index} name="requestmsg" value={type}
                   onChange={(e) => {
                     setMsg(e.target.value)
                     setId(index)
-                  }} label={value} />
+                  }} label={defaultMsg[0]?.[type]} />
               </ListGroup.Item>
             )
-          })}
+          })
+        : ""}
         </ListGroup>
-        <Button className="verifyBtn" onClick={msgSubmit} type="button">Submit</Button>
+        <Button className="verifyBtn" onClick={() => msgSubmit()} type="button">Submit</Button>
       </Modal.Body>
     </Modal>
   )

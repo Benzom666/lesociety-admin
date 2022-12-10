@@ -38,7 +38,6 @@ function UserTable({ lastPostElementRef, endUser, status }) {
   } = useSelector((state) => state.userListReducer);
 
   const [show, setShow] = useState(false);
-  const [userEmail, setUserEmail] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -57,7 +56,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
     dispatch(getUserList(status));
   }, 1500);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status));
+    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status, "user"));
     setShow(false);
   };
   
@@ -191,7 +190,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
       ) : null}
       <DefaultMsg
         setId={setId}
-        defaultMsg={defaultMsg[0]?.taglineAndDesc}
+        defaultMsg={defaultMsg}
         show={show}
         msg={msg}
         setMsg={setMsg}

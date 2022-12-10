@@ -27,7 +27,7 @@ function PostList(props) {
   const toggleShowA = () => setShowA(!showA);
 
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", id, emailSelected, "6323e3ae8c8a4613fdf79256", status, getUserList));
+    dispatch(postSendDefaulMsg("taglineAndDesc", id, emailSelected, "6323e3ae8c8a4613fdf79256", status, "user"));
     setShow(false);
     setEmailSelected([]);
     setPostIdSelected([]);

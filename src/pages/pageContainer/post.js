@@ -48,8 +48,7 @@ function PostList() {
     dispatch(getDateStats());
   }, []);
   const  msgSubmit = () => {
-    // console.log(emailSelected);
-    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, getAllDates));
+    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, "dates"));
     setShow(false);
   };
   const observer = useRef();

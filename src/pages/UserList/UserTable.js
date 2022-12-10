@@ -41,7 +41,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [msg, setMsg] = useState();
+  const [msgType, setMsgType] = useState("");
   const [id, setId] = useState();
 
   const [showA, setShowA] = useState(true);
@@ -56,7 +56,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
     dispatch(getUserList(status));
   }, 1500);
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", 0, rowSelected, "", status, getUserList));
+    dispatch(postSendDefaulMsg(msgType, 0, rowSelected, "", status, "user"));
     setShow(false);
     // dispatch((rowSelected = []));
   };
@@ -166,14 +166,13 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                     <td>
                       {
                         <span className="greenTxt">
-                          {user?.email_verified == true && user.status == 1 && (
-                            <p className="text-warning">Pending</p>
-                          )}
-                          {user?.email_verified == true && user.status == 2 && (
-                            <p className="greenTxt">Verified</p>
-                          )}
-                          {user?.email_verified == true && user.status == 3 && (
-                            <p className="redTxt">Block</p>
+                          {user?.email_verified &&
+                          (
+                            user.request_change_fired ? <p className="redTxt">Requested</p> 
+                            : user.status == 1 ? <p className="text-warning">Pending</p> 
+                            : user.status == 2 ? <p className="greenTxt">Verified</p>
+                            : user.status == 3 ? <p className="redTxt">Block</p>
+                            : ""
                           )}
                         </span>
                       }
@@ -254,10 +253,9 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
       ) : null}
       <DefaultMsg
         setId={setId}
-        defaultMsg={defaultMsg[0]?.taglineAndDesc}
+        defaultMsg={defaultMsg}
         show={show}
-        msg={msg}
-        setMsg={setMsg}
+        setMsg={setMsgType}
         msgSubmit={msgSubmit}
         handleClose={handleClose}
       />

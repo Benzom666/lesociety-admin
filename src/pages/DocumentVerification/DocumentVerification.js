@@ -18,9 +18,9 @@ import { NavItemSet } from "../pageContainer/Component";
 function DocumentVerificationPage() {
   const dispatch = useDispatch();
   const [endUser, setEndUser] = useState('');
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(11);
   const [page, setPage] = useState(2);
-  const { pagination, tab, search, usersAdminStatus, loading } = useSelector(
+  const { pagination, search, usersAdminStatus, loading } = useSelector(
     (state) => state.userListReducer
   );
   useEffect(() => {
@@ -28,7 +28,7 @@ function DocumentVerificationPage() {
       type: Utils.ActionName.USER_LIST,
       payload: { tab: 1, search: "", per_page: 10, userlist: [] }
     });
-    dispatch(getUserList("", 1));
+    dispatch(getUserList(11, 1));
   }, []);
 
 
@@ -75,7 +75,7 @@ function DocumentVerificationPage() {
           </Nav>
           <Tab.Content className="influencersContent">
             <Tab.Pane eventKey="link-1">
-            {!status ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}
+            {status === 11 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>

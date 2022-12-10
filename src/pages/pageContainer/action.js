@@ -11,12 +11,15 @@ export const getUserList = (status = "", offSet = 1, updatedDetails) => {
         loading: true,
       },
     });
-    const { per_page, current_page, search, userlist } =
+    const { per_page, search, userlist } =
       getState().userListReducer;
       let pathname =  `?user_name=${search}&status=${status}&per_page=${per_page}
       &current_page=${offSet}`;
       if(status === 10) {
         pathname = `?user_name=${search}&updated_details=true&per_page=${per_page}&current_page=${offSet}`;
+      }
+      if(status === 11) {
+        pathname = `?user_name=${search}&document_uploaded=true&per_page=${per_page}&current_page=${offSet}`;
       }
 
     Utils.api.getApiCall(
@@ -52,7 +55,7 @@ export const getDefaultMsgList = (msgType) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.getDefaultMsgList,
-      `?messageType=${msgType}`,
+      msgType ? `?messageType=${msgType}` : "",
       (respData) => {
         dispatch({
           type: Utils.ActionName.GET_DEFAULT_MSG,
@@ -394,7 +397,7 @@ export const postSendDefaulMsg = (
   user_email_list,
   post_ids,
   currentStatus,
-  updateFunc
+  source
 ) => {
   return (dispatch) => {
     // const { password } = values;
@@ -412,15 +415,22 @@ export const postSendDefaulMsg = (
           type: Utils.ActionName.GET_ALL_DATES,
           payload: { rowSelected: [] }
         });
-        if(updateFunc){
+        if(source === "user"){
           dispatch({
             type: Utils.ActionName.USER_LIST,
-            payload: { tab: 1, search: "", per_page: 10, datesList: [], isAPISuccess: true },
-          })
-          dispatch(getDefaultMsgList("postMessage"));
+            payload: { tab: 1, search: "", per_page: 10, userlist: [],  isAPISuccess: true },
+          });
+          dispatch(getUserStatusCounter());
+          dispatch(getUserList(currentStatus, 1, ""));
         }
-        dispatch(getDateStats());
-        if (updateFunc) dispatch(updateFunc(currentStatus, 1, ""));
+        if(source === "dates"){
+          dispatch({
+            type: Utils.ActionName.USER_LIST,
+            payload: { tab: 1, search: "", per_page: 10, datesList: [],  isAPISuccess: true },
+          });
+          dispatch(getDateStats());
+          dispatch(getAllDates(currentStatus, 1, ""));
+        }
         Utils.showAlert(1, "Request mail sent to users");
       },
       (error) => {
@@ -440,7 +450,7 @@ export const postVerfiyUser = (email, currentStatus) => {
         Utils.showAlert(1, "Tagline and description updated successfully!");
         dispatch({
           type: Utils.ActionName.USER_LIST,
-          payload: { tab: 1, search: "", per_page: 10, userList: [], isAPISuccess: true },
+          payload: { tab: 1, search: "", per_page: 10, userlist: [], isAPISuccess: true },
         })
         dispatch(getUserStatusCounter());
           dispatch(getUserList(currentStatus));

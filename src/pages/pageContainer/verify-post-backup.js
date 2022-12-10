@@ -249,7 +249,7 @@ export default function DataTablePagination(props) {
                         dispatch(postVerfiyUser(post.email));
                       }}
                     >
-                      verify
+                      Verify
                     </Button>
                   )}
                 </div>
