@@ -24,7 +24,7 @@ function PostList() {
   const { per_page, datesList, defaultMsg, datesCont, datesStats, loading, isAPISuccess } =
     useSelector((state) => state.userListReducer);
   const [show, setShow] = useState(false);
-  const [msg, setMsg] = useState();
+  const [msgType, setMsgType] = useState("");
   const [emailSelected, setEmailSelected] = useState([]);
   const [postIdSelected, setPostIdSelected] = useState([]);
   const handleClose = () => setShow(false);
@@ -44,11 +44,11 @@ function PostList() {
       payload: { tab: 1, search: "", per_page: 10, datesList: [] },
     })
     dispatch(getAllDates(status, 1, ""));
-    dispatch(getDefaultMsgList("postMessage"));
+    dispatch(getDefaultMsgList("userRequestType"));
     dispatch(getDateStats());
   }, []);
   const  msgSubmit = () => {
-    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, "dates"));
+    dispatch(postSendDefaulMsg(msgType, id, emailSelected, postIdSelected, status, "dates"));
     setShow(false);
   };
   const observer = useRef();
@@ -72,20 +72,21 @@ function PostList() {
     });
     dispatch(getAllDates(status, 1, ""));
   }, 1000);
+  const checkedUser = (event) => {
+    if(event.target.checked){
+      setEmailSelected([...emailSelected, event.target.value]);
+      setPostIdSelected([...postIdSelected, event.target.id]);
+    } else {
+      emailSelected.splice(emailSelected.indexOf(event.target.value), 1);
+      setEmailSelected(emailSelected); 
+      postIdSelected.splice(postIdSelected.indexOf(event.target.value), 1);
+      setPostIdSelected(postIdSelected); 
+    }
+    console.log(emailSelected)
+  };
   const UserPostList =
     Array.isArray(datesList) && datesList.length ? (
       datesList.map((value, index) => {
-        const checkedUser = (event) => {
-          if(event.target.checked){
-            setEmailSelected([...emailSelected, event.target.value]);
-            setPostIdSelected([...postIdSelected, event.target.id]);
-          } else {
-            emailSelected.splice(emailSelected.indexOf(event.target.value), 1);
-            setEmailSelected(emailSelected); 
-            postIdSelected.splice(postIdSelected.indexOf(event.target.value), 1);
-            setPostIdSelected(postIdSelected); 
-          }
-        };
         return (
           <Card
             className="bg-dark text-white"
@@ -301,7 +302,7 @@ function PostList() {
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-        {emailSelected.length ?  (
+        {emailSelected.length && (
           <Toast show={showA} onClose={toggleShowA} className="requestPopup">
             <Toast.Body className="d-flex align-items-center w-100">
               <Form.Check type="checkbox" label="people" />
@@ -318,14 +319,13 @@ function PostList() {
               </Button>
             </Toast.Body>
           </Toast>
-        ) : null}
+        )}
       </div>
       <DefaultMsg
         setId={setId}
-        defaultMsg={defaultMsg[0]?.postMessage}
+        defaultMsg={defaultMsg}
         show={show}
-        msg={msg}
-        setMsg={setMsg}
+        setMsg={setMsgType}
         msgSubmit={msgSubmit}
         handleClose={handleClose}
       />

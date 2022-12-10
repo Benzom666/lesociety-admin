@@ -23,7 +23,7 @@ const PostList = React.memo(function (props) {
     });
     dispatch(getUserList(5, 1));
     dispatch(getUserStatusCounter());
-    dispatch(getDefaultMsgList("taglineAndDesc"));
+    dispatch(getDefaultMsgList("userRequestType"));
   }, []);
 
   return (

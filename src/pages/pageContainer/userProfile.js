@@ -18,7 +18,7 @@ const PageContainer = props => {
     (state) => state.userListReducer
   );
   const [show, setShow] = useState(false);
-  const [msg, setMsg] = useState();
+  const [msgType, setMsgType] = useState("");
   const [id, setId] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -26,11 +26,11 @@ const PageContainer = props => {
     dispatch(
       getUserProfile(username)
     )
-    dispatch(getDefaultMsgList("taglineAndDesc"))
+    dispatch(getDefaultMsgList("userRequestType"))
   }, [])
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg("taglineAndDesc", id, userProfileData?.email)
+      postSendDefaulMsg(msgType, id, userProfileData?.email)
     )
     setShow(false)
   }
@@ -155,7 +155,14 @@ const PageContainer = props => {
           </Col>
         </Row>
       </div>
-      <DefaultMsg setId={setId} defaultMsg={defaultMsg[0]?.taglineAndDesc} show={show} msg={msg} setMsg={setMsg} msgSubmit={msgSubmit} handleClose={handleClose} />
+      <DefaultMsg
+        setId={setId}
+        defaultMsg={defaultMsg}
+        show={show}
+        setMsg={setMsgType}
+        msgSubmit={msgSubmit}
+        handleClose={handleClose}
+      />
     </div>
   )
 }

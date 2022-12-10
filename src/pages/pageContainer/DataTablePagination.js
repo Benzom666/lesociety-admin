@@ -18,7 +18,7 @@ function PostList(props) {
   const [id, setId] = useState();
   const [isActive, setIsActive] = useState(false);
   const [show, setShow] = useState();
-  const [msg, setMsg] = useState();
+  const [msgType, setMsgType] = useState("");
   const [cardId, setCardId] = useState();
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState(5);
@@ -27,7 +27,7 @@ function PostList(props) {
   const toggleShowA = () => setShowA(!showA);
 
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg("taglineAndDesc", id, emailSelected, "6323e3ae8c8a4613fdf79256", status, "user"));
+    dispatch(postSendDefaulMsg(msgType, id, emailSelected, "6323e3ae8c8a4613fdf79256", status, "user"));
     setShow(false);
     setEmailSelected([]);
     setPostIdSelected([]);
@@ -155,7 +155,7 @@ function PostList(props) {
                         className={"verifyBtn"}
                         onClick={() => {
                           dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
-                          dispatch(getDefaultMsgList("taglineAndDesc"));
+                          dispatch(getDefaultMsgList("userRequestType"));
                         }}
                       >
                         Verify
@@ -249,7 +249,7 @@ function PostList(props) {
       {emailSelected.length ? (
         <Toast show={showA} onClose={toggleShowA} className="requestPopup">
           <Toast.Body className="d-flex align-items-center w-100">
-            <Form.Check type="checkbox" label="people" />
+            {/* <Form.Check type="checkbox" label="people" /> */}
             <Button className="requestBtn" onClick={handleShow}>
               Request
             </Button>
@@ -266,10 +266,9 @@ function PostList(props) {
       ) : null}
       <DefaultMsg
         setId={setId}
-        defaultMsg={defaultMsg[0]?.taglineAndDesc}
+        defaultMsg={defaultMsg}
         show={show}
-        msg={msg}
-        setMsg={setMsg}
+        setMsg={setMsgType}
         msgSubmit={msgSubmit}
         handleClose={handleClose}
       />

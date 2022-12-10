@@ -7,8 +7,10 @@ import {
 } from "react-bootstrap";
 
 export const DefaultMsg = (props) => {
-  const { defaultMsg = [{}], setId, setMsg, show, handleClose, msgSubmit } = props
-  const messageType = Object.keys(defaultMsg[0]);
+  const { defaultMsg = [], setId, setMsg, show, handleClose, msgSubmit } = props
+  console.log(defaultMsg);
+  let messageType = []
+  if(defaultMsg[0] ) messageType = Object.keys(defaultMsg[0]);
   return (
     <Modal
       show={show}
