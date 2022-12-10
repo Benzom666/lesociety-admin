@@ -30,7 +30,6 @@ const showAlert = (type, message = commonErr) => {
         const id = toast.error(message, {
           onClose: () => {
             toastList.clear();
-            // alert("working");
           }
         });
         toastList.add(id);

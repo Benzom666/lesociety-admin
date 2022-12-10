@@ -169,7 +169,6 @@ function PostList() {
   const paylaod1 = { datesList: [] };
   useEffect(() => {
     if(isAPISuccess) {
-      alert("working");
       setPostIdSelected([]);
       setEmailSelected([]);
       dispatch({

@@ -2,7 +2,6 @@ import moment from "moment";
 import Utils from "../../utility";
 
 export const getUserList = (status = "", offSet = 1, updatedDetails) => {
-  // alert(status);
   
   return (dispatch, getState) => {
     dispatch({

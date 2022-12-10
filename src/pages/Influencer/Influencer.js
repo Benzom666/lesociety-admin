@@ -84,7 +84,6 @@ function InfluencerPage() {
     handleModal();
   };
   const emailChangeHandler = _.debounce((e) => {
-    // alert("input working");
     setFormData({ ...formData, email: e.target.value });
     dispatch(getInfluencerEmailExists(e.target.value));
   }, 1500);
