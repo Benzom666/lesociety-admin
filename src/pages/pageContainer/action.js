@@ -446,7 +446,7 @@ export const postVerfiyUser = (email, currentStatus) => {
       Utils.endPoints.userVerify,
       { email },
       (respData) => {
-        Utils.showAlert(1, "Tagline and description updated successfully!");
+        Utils.showAlert(1, respData.message);
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: { tab: 1, search: "", per_page: 10, userlist: [], isAPISuccess: true },

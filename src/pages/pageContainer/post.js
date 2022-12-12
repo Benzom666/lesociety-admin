@@ -33,7 +33,7 @@ function PostList() {
   const toggleShowA = () => setShowA(!showA);
   const [isActive, setIsActive] = useState(true);
   const [saveId, setSaveId] = useState();
-  const [id, setId] = useState();
+  const [id, setId] = useState(0);
   const [endUser, setEndUser] = useState();
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
@@ -48,7 +48,7 @@ function PostList() {
     dispatch(getDateStats());
   }, []);
   const  msgSubmit = () => {
-    dispatch(postSendDefaulMsg(msgType, id, emailSelected, postIdSelected, status, "dates"));
+    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, "dates"));
     setShow(false);
   };
   const observer = useRef();
@@ -301,7 +301,7 @@ function PostList() {
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-        {emailSelected.length && (
+        {emailSelected.length ? (
           <Toast show={showA} onClose={toggleShowA} className="requestPopup">
             <Toast.Body className="d-flex align-items-center w-100">
               <Form.Check type="checkbox" label="people" />
@@ -318,7 +318,7 @@ function PostList() {
               </Button>
             </Toast.Body>
           </Toast>
-        )}
+        ): null}
       </div>
       <DefaultMsg
         setId={setId}
