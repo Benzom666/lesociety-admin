@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { getUserProfile, getDefaultMsgList, postUpdateUserStatus, postSendDefaulMsg } from './action.js';
 import { DefaultMsg } from "./DefaultMsg";
 import moment from 'moment';
+import _ from 'lodash';
 
 const PageContainer = props => {
   const dispatch = useDispatch();
@@ -34,25 +35,43 @@ const PageContainer = props => {
     )
     setShow(false)
   }
+  console.log(userProfileData);
+  let isFullyVerified = true;
+  if(!_.isEmpty(userProfileData)) {
+    isFullyVerified = !userProfileData.un_verified_images.length
+    && userProfileData.un_verified_tagline === ""
+    && userProfileData.un_verified_description === ""
+  }
+  const verifyHandler = () => {
+    if(!isFullyVerified) {
+      dispatch(postUpdateUserStatus(2, userProfileData?.email))
+    } else dispatch(postUpdateUserStatus(2, userProfileData?.email));
+    
+  }
   return (
     <div className='dashboardUi'>
       <SideBar />
       <div className="inner-page userProfile-page">
         <PageHeader title="Users profile" />
         <div className='userProfileDetail'>
-          <ProfileImages img={!!userProfileData && userProfileData?.images} />
+          <ProfileImages 
+            img={!!userProfileData && userProfileData?.images} 
+            imageVerified={userProfileData?.image_verified}
+            unVerifiedImages={userProfileData?.un_verified_images}
+          />
           <Card body className="userProfileName">
             <Card.Title>{userProfileData?.user_name}</Card.Title>
-            <Card.Subtitle className="mb-2 ">{userProfileData?.tagline}</Card.Subtitle>
+            <Card.Subtitle className="mb-2 ">{userProfileData.un_verified_tagline === "" ? 
+            userProfileData?.tagline : userProfileData.un_verified_tagline}</Card.Subtitle>
           </Card>
           {userProfileData?.email_verified ? <div className='userProfilebtn'>
             {
-              userProfileData?.status === 2 ?
+              userProfileData?.status === 2 && isFullyVerified ?
                 <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verified</button> :
                 <>
                   <Button className="requestBtn" onClick={handleShow}>Request</Button>
                   <Button className="verifyBtn"
-                    onClick={() => dispatch(postUpdateUserStatus(2, userProfileData?.email))}
+                    onClick={verifyHandler}
                   >Verify</Button>
                   <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -79,7 +98,8 @@ const PageContainer = props => {
             <Card body className="profileCardBox">
               <Card.Title> More about {userProfileData?.user_name}</Card.Title>
               <Card.Text>
-                {userProfileData?.description}
+                {userProfileData.un_verified_description === "" ? 
+                userProfileData?.description : userProfileData.un_verified_description}
               </Card.Text>
             </Card>
 

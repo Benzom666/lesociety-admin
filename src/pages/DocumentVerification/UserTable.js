@@ -8,7 +8,6 @@ import {
   Table,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import _ from "lodash";
 import { Link } from "react-router-dom";
 
@@ -123,7 +122,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                     <td>{user?.selfie ? <a style={{color: "white"}} href={user?.selfie} target="_blank">view image</a> : '--'}</td>
                     <td>{user?.document ? <a style={{color: "white"}} href={user?.document} target="_blank">view document</a> : '--' }</td>
                     <td>
-                      {user?.documents_verified ? (
+                      {!user?.documents_verified ? (
                         <DropdownButton
                           variant="outline-secondary"
                           title={
@@ -145,19 +144,6 @@ function UserTable({ lastPostElementRef, endUser, status }) {
                           >
                             Verify
                           </Dropdown.Item>
-                          {/* <Dropdown.Item
-                            eventKey="req"
-                            onClick={() => {
-                              setShow(true);
-                              setUserEmail(user?.email);
-                              dispatch({
-                                type: Utils.ActionName.USER_LIST,
-                                payload: {rowSelected: [user?.email]},
-                              });
-                            }}
-                          >
-                            Request a Change
-                          </Dropdown.Item> */}
                         </DropdownButton>
                       ) : (
                         ""
