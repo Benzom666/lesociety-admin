@@ -112,7 +112,7 @@ const PageContainer = props => {
 
                 <ListGroup.Item>
                   <h6>{userProfileData?.max_education}</h6>
-                  <p> Education Completed </p>
+                  <p> Education Completed</p>
                 </ListGroup.Item>
 
                 <ListGroup.Item>

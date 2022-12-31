@@ -70,17 +70,17 @@ function PostList(props) {
         ref={userlist.length === index + 1 ? lastPostElementRef : null}
       >
         <div className="cardActionBox">
-          {status !== 6 ? 
-          <Form.Check className="checkboxUI" type="checkbox"
-           onClick={checkedUser} id={post?._id} value={post?.email} />
-          : null}
+          {status !== 6 ?
+            <Form.Check className="checkboxUI" type="checkbox"
+              onClick={checkedUser} id={post?._id} value={post?.email} />
+            : null}
         </div>
         <div className="userProfileDetail">
           {cardId === undefined || cardId != post?._id ? (
             <VerifyProfileImages
               img={post?.images}
-              un_verified_images={post?.un_verified_images}
-              image_verified={post?.image_verified}
+              unVerifiedImages={post?.un_verified_images}
+              imageVerified={post?.image_verified}
             />
           ) : (
             ""
@@ -89,22 +89,22 @@ function PostList(props) {
             (cardId === post?._id && (
               <VerifyProfileImages
                 img={post?.images}
-                un_verified_images={post?.un_verified_images}
-                image_verified={post?.image_verified}
+                unVerifiedImages={post?.un_verified_images}
+                imageVerified={post?.image_verified}
               />
             ))}
           {isActive ||
             (cardId === post?._id && (
               <Card.Body>
                 <Card.Text className="y-scroll">
-                  {post?.tag_desc_verified &&
-                    post?.un_verified_description.length > 0
+                  {!post?.tag_desc_verified &&
+                    post?.un_verified_description?.length
                     ? post?.un_verified_description
                     : post?.description}
                 </Card.Text>
                 <Card.Title className="y-scroll">
-                  {post?.tag_desc_verified &&
-                    post?.un_verified_tagline.length > 0
+                  {!post?.tag_desc_verified &&
+                    post?.un_verified_tagline?.length
                     ? post?.un_verified_tagline
                     : post?.tagline}
                 </Card.Title>
@@ -141,27 +141,27 @@ function PostList(props) {
                     verified
                   </Button>
                 ) : (
-                    <>
-                      <Button
-                        className="requestBtn"
-                        onClick={() => {
-                          setEmailSelected([post?.email]);
-                          setShow(true);
-                        }}
-                      >
-                        Request
-                      </Button>
-                      <Button
-                        className={"verifyBtn"}
-                        onClick={() => {
-                          dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
-                          dispatch(getDefaultMsgList("userRequestType"));
-                        }}
-                      >
-                        Verify
-                      </Button>
-                    </>
-                  ))}
+                  <>
+                    <Button
+                      className="requestBtn"
+                      onClick={() => {
+                        setEmailSelected([post?.email]);
+                        setShow(true);
+                      }}
+                    >
+                      Request
+                    </Button>
+                    <Button
+                      className={"verifyBtn"}
+                      onClick={() => {
+                        dispatch(postUpdateUserStatus(2, post.email, "user-list", status));
+                        dispatch(getDefaultMsgList("userRequestType"));
+                      }}
+                    >
+                      Verify
+                    </Button>
+                  </>
+                ))}
           </div>
         </div>
         <Card.Footer>
