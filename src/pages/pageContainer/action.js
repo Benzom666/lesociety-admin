@@ -446,16 +446,20 @@ export const postVerfiyUser = (email, currentStatus) => {
       Utils.endPoints.userVerify,
       { email },
       (respData) => {
+        console.log(respData.message)
         Utils.showAlert(1, respData.message);
         dispatch({
           type: Utils.ActionName.USER_LIST,
           payload: { tab: 1, search: "", per_page: 10, userlist: [], isAPISuccess: true },
         })
-        dispatch(getUserStatusCounter());
+        if(currentStatus) {
+          dispatch(getUserStatusCounter());
           dispatch(getUserList(currentStatus));
+        }
       },
       (error) => {
         let { data } = error;
+        console.log(data?.message);
         Utils.showAlert(2, data?.message);
       }
     );
@@ -473,6 +477,7 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
       dataToSend,
       (respData) => {
         Utils.showAlert(1, respData?.data.message);
+        console.log(respData?.data.message);
         // Utils.showAlert(1, "Tagline and description updated successfully!")
         if (source === "user-list") {
           dispatch({
@@ -484,6 +489,7 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
         }
       },
       (error) => {
+        console.log(error.data)
         let { data } = error;
         Utils.showAlert(2, data?.message);
       }

@@ -7,7 +7,7 @@ import ProfileImages from './profileImage'
 import { useDispatch, useSelector } from "react-redux";
 import { TbDots } from "react-icons/tb";
 import { useParams } from 'react-router-dom';
-import { getUserProfile, getDefaultMsgList, postUpdateUserStatus, postSendDefaulMsg } from './action.js';
+import { getUserProfile, getDefaultMsgList, postUpdateUserStatus, postSendDefaulMsg, postVerfiyUser } from './action.js';
 import { DefaultMsg } from "./DefaultMsg";
 import moment from 'moment';
 import _ from 'lodash';
@@ -18,6 +18,9 @@ const PageContainer = props => {
   const { userProfileData, defaultMsg } = useSelector(
     (state) => state.userListReducer
   );
+  console.log(userProfileData);
+  const { email, un_verified_images, un_verified_tagline, un_verified_description,
+    user_name, images, tagline, description, image_verified, status, email_verified} = userProfileData;
   const [show, setShow] = useState(false);
   const [msgType, setMsgType] = useState("");
   const [id, setId] = useState();
@@ -31,21 +34,20 @@ const PageContainer = props => {
   }, [])
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg(msgType, id, userProfileData?.email)
-    )
-    setShow(false)
+      postSendDefaulMsg(msgType, id, email)
+    );
+    setShow(false);
   }
-  console.log(userProfileData);
   let isFullyVerified = true;
   if(!_.isEmpty(userProfileData)) {
-    isFullyVerified = !userProfileData.un_verified_images.length
-    && userProfileData.un_verified_tagline === ""
-    && userProfileData.un_verified_description === ""
+    isFullyVerified = !un_verified_images.length
+    && !un_verified_tagline?.length
+    && !un_verified_description?.length
   }
   const verifyHandler = () => {
     if(!isFullyVerified) {
-      dispatch(postUpdateUserStatus(2, userProfileData?.email))
-    } else dispatch(postUpdateUserStatus(2, userProfileData?.email));
+      dispatch(postVerfiyUser(email))
+    } else dispatch(postUpdateUserStatus(2, email));
     
   }
   return (
@@ -55,18 +57,18 @@ const PageContainer = props => {
         <PageHeader title="Users profile" />
         <div className='userProfileDetail'>
           <ProfileImages 
-            img={!!userProfileData && userProfileData?.images} 
-            imageVerified={userProfileData?.image_verified}
-            unVerifiedImages={userProfileData?.un_verified_images}
+            img={!!userProfileData && images} 
+            imageVerified={image_verified}
+            unVerifiedImages={un_verified_images}
           />
           <Card body className="userProfileName">
-            <Card.Title>{userProfileData?.user_name}</Card.Title>
-            <Card.Subtitle className="mb-2 ">{userProfileData.un_verified_tagline === "" ? 
-            userProfileData?.tagline : userProfileData.un_verified_tagline}</Card.Subtitle>
+            <Card.Title>{user_name}</Card.Title>
+            <Card.Subtitle className="mb-2 ">{!un_verified_tagline?.length ? 
+            tagline : un_verified_tagline}</Card.Subtitle>
           </Card>
-          {userProfileData?.email_verified ? <div className='userProfilebtn'>
+          {email_verified ? <div className='userProfilebtn'>
             {
-              userProfileData?.status === 2 && isFullyVerified ?
+              status === 2 && isFullyVerified ?
                 <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verified</button> :
                 <>
                   <Button className="requestBtn" onClick={handleShow}>Request</Button>
@@ -77,29 +79,26 @@ const PageContainer = props => {
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                       <TbDots />
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu variant="dark">
                       <Dropdown.Item role="button" onClick={() => {
-                        dispatch(postUpdateUserStatus(2, userProfileData.email))
+                        dispatch(postUpdateUserStatus(2, email))
                       }}>Verify</Dropdown.Item>
                       <Dropdown.Item role="button" onClick={handleShow}>Request a Change</Dropdown.Item>
                       <Dropdown.Item role="button" onClick={() => {
-                        dispatch(postUpdateUserStatus(3, userProfileData.email))
+                        dispatch(postUpdateUserStatus(3, email))
                       }}>Block</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </>
             }
-
           </div> : ''}
         </div>
         <Row>
           <Col md="9" sm="8" className='pl-0' >
             <Card body className="profileCardBox">
-              <Card.Title> More about {userProfileData?.user_name}</Card.Title>
+              <Card.Title> More about {user_name}</Card.Title>
               <Card.Text>
-                {userProfileData.un_verified_description === "" ? 
-                userProfileData?.description : userProfileData.un_verified_description}
+                {un_verified_description?.length ?  un_verified_description : description}
               </Card.Text>
             </Card>
 
