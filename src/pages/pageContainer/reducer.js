@@ -40,7 +40,8 @@ const initialState = {
   unRendDate: new Date(),
   loading: false,
   countryList: [],
-  isAPISucceess: false
+  isAPISucceess: false,
+  allCountryList: []
 };
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -148,6 +149,11 @@ export const userListReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case `${Utils.ActionName.GET_ALL_COUNTRY}`:
+      return {
+        ...state,
+        allCountryList: action.payload,
       };
     default:
       return { ...state };

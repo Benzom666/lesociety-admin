@@ -21,6 +21,7 @@ const actionName = {
   GET_REGUNCOMPMALE: "GET_REGUNCOMPMALE",
   GET_TOKEN: "GET_TOKEN",
   GET_COUNTRY: "GET_COUNTRY",
+  GET_ALL_COUNTRY: "GET_ALL_COUNTRY",
 };
 
 export default actionName;

@@ -19,6 +19,7 @@ import PageHeader from "../pageContainer/header";
 import CountryList from "./CountryList";
 import Utils from "../../utility/index.js";
 import { NavItemSet } from "../pageContainer/Component";
+import {AllCountryList} from "./AllCountry";
 
 function CountryPage() {
   const dispatch = useDispatch();
@@ -42,13 +43,13 @@ function CountryPage() {
     setFormData({ name: "" });
   };
   const handleModal = () => {
+    console.log(show);
     if (show) clearState();
     setShow(!show);
   };
   const createInflu = (e) => {
     e.preventDefault();
-    console.log(formData);
-    if(type === "edit"){
+    if (type === "edit") {
       dispatch(updateCountryName(formData));
     } else {
       dispatch(createCountry(formData));
@@ -56,7 +57,6 @@ function CountryPage() {
     }
     handleModal();
   };
-
   return (
     <div className="dashboardUi">
       <SideBar />
@@ -111,14 +111,20 @@ function CountryPage() {
 
               <Form.Group className="mb-3" controlId="formGridAddress1">
                 <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select aria-label="Country list dropdown" 
+                  className="form-control"
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
-                  }
-                  value={formData.name}
-                  placeholder="Enter Country Name"
-                />
+                    
+                  }>
+                  <option>Click here to select country</option>
+                  {Array.isArray(AllCountryList) ? 
+                  AllCountryList.map(country => {
+                    console.log(country);
+                    return <option value={country?.toLowerCase()}>{country}</option>
+                  })
+                  : null}
+                </Form.Select>
               </Form.Group>
 
               <Button

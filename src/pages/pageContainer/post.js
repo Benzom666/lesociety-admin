@@ -45,7 +45,7 @@ function PostList() {
       payload: { tab: 1, search: "", per_page: 10, datesList: [] },
     })
     dispatch(getAllDates(status, 1, ""));
-    dispatch(getDefaultMsgList("userRequestType"));
+    dispatch(getDefaultMsgList("postMessage"));
     dispatch(getDateStats());
   }, []);
   const  msgSubmit = () => {
