@@ -1,5 +1,4 @@
 import Utils from "../../utility";
-import moment from "moment";
 
 const registerBackDate = new Date();
 registerBackDate.setDate(registerBackDate.getDate() - 7);
@@ -43,7 +42,6 @@ const initialState = {
   countryList: [],
   isAPISucceess: false
 };
-console.log("existEmailexistEmail", initialState.existEmail);
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {
     case Utils.ActionName.USER_LIST:

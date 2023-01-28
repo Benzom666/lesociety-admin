@@ -320,6 +320,10 @@
       padding: 25px 0 0 25px;
       flex-wrap: wrap;
       transition: all 0.5s ease-in;
+      .warned-date{
+        margin: 10px 0;
+        color: #f24462 !important;
+      }
       .card {
         width: calc(25% - 25px);
         margin-right: 25px;

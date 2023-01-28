@@ -12,6 +12,7 @@ import {
 import Utils from "../../utility/index.js";
 import PageHeader from "../pageContainer/header";
 import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
+import { Navigate } from "react-router-dom";
 
 function UserList() {
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ function UserList() {
     });
     if(node) observer.current.observe(node);
   });
+  
+  const token = localStorage.getItem("accessToken");
+  if(!token) {
+    return <Navigate to="/" replace={true} />;
+  }
   return (
     <div className="dashboardUi">
       <SideBar />

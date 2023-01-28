@@ -166,7 +166,7 @@ function UserTable({ lastPostElementRef, endUser, status }) {
             <Button
               className="verifyBtn"
               onClick={() =>
-                dispatch(postUpdateUserStatus(2, !!rowSelected && rowSelected))
+                dispatch(postUpdateUserStatus(2, !!rowSelected && rowSelected,"user-list" ,status))
               }
             >
               Verify

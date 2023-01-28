@@ -6,7 +6,7 @@ import PageHeader from '../pageContainer/header'
 import ProfileImages from './profileImage'
 import { useDispatch, useSelector } from "react-redux";
 import { TbDots } from "react-icons/tb";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getUserProfile, getDefaultMsgList, postUpdateUserStatus, postSendDefaulMsg, postVerfiyUser } from './action.js';
 import { DefaultMsg } from "./DefaultMsg";
 import moment from 'moment';
@@ -18,7 +18,6 @@ const PageContainer = props => {
   const { userProfileData, defaultMsg } = useSelector(
     (state) => state.userListReducer
   );
-  console.log(userProfileData);
   const { email, un_verified_images, un_verified_tagline, un_verified_description,
     user_name, images, tagline, description, image_verified, status, email_verified} = userProfileData;
   const [show, setShow] = useState(false);
@@ -49,6 +48,11 @@ const PageContainer = props => {
       dispatch(postVerfiyUser(email))
     } else dispatch(postUpdateUserStatus(2, email));
     
+  }
+  const navigate = useNavigate();
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
+    return navigate("/");
   }
   return (
     <div className='dashboardUi'>

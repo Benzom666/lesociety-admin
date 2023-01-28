@@ -10,6 +10,7 @@ import {
   getUserStatusCounter,
 } from "./action.js";
 import DataTablePagination from "./DataTablePagination.js";
+import { Navigate } from "react-router-dom";
 
 const PostList = React.memo(function (props) {
   const dispatch = useDispatch();
@@ -25,7 +26,10 @@ const PostList = React.memo(function (props) {
     dispatch(getUserStatusCounter());
     dispatch(getDefaultMsgList("userRequestType"));
   }, []);
-
+  const token = localStorage.getItem("accessToken");
+  if(!token) {
+    return <Navigate to="/" replace={true} />;
+  }
   return (
     <div className="dashboardUi">
       <SideBar />

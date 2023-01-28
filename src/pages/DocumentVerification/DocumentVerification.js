@@ -14,6 +14,7 @@ import PageHeader from "../pageContainer/header";
 import UserTable from "./UserTable";
 import Utils from "../../utility/index.js";
 import { NavItemSet } from "../pageContainer/Component";
+import { Navigate } from "react-router-dom";
 
 function DocumentVerificationPage() {
   const dispatch = useDispatch();
@@ -47,6 +48,10 @@ function DocumentVerificationPage() {
     });
     if(node) observer.current.observe(node);
   });
+  const token = localStorage.getItem("accessToken");
+  if(!token) {
+    return <Navigate to="/" replace={true} />;
+  }
   return (
     <div className="dashboardUi">
       <SideBar />

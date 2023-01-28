@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Nav, Tab, Form, Card, Toast, Button } from "react-bootstrap";
 import _ from "lodash";
+import moment from "moment";
 
 import SideBar from "../sideBar/sidebar.js";
 import LocationIcon from "../../assets/images/location.svg";
@@ -157,6 +158,8 @@ function PostList() {
                 <div className="y-scroll post-cont-spacing">
                   <h3> {value?.middle_class_dates} </h3>
                   <p>{value?.date_details}</p>
+                  {value?.warning_sent_date  && status === 6? 
+                  <p className="warned-date">Warned date:  {moment(value?.warning_sent_date).format("DD/MM/YYYY")}</p> : ""}
                 </div>
               </Card.Body>
             )}

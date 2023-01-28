@@ -7,15 +7,15 @@ import axios from "axios";
  */
 export const checkUserValidation = (data) => {
   if (data) {
-
-    const { code } = data,
+    const { status } = data,
       { sessionExpired, unauthorized, accessDenied } =
         Utils.constants.api_error_code;
-    if (code) {
+
+    if (status) {
       return (
-        code === sessionExpired ||
-        code === unauthorized ||
-        code === accessDenied
+        status === sessionExpired ||
+        status === unauthorized ||
+        status === accessDenied
       );
     }
     return false;
@@ -102,7 +102,7 @@ const getApiCall = async (
       successCallback(response);
     })
     .catch((error) => {
-      if (error.response?.data?.message === "Failed to authenticate token!") {
+      if (error.response?.data?.status == 401) {
         localStorage.removeItem("accessToken");
         // document.location.reload(true); 
         // navigate("/");

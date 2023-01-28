@@ -2,10 +2,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const commonErr = "OOPS! something went wrong!";
+const commonSucessMessage = "Action executed successfully";
 const toastList = new Set();
 const MAXIMUM_TOAST = 1;
 
-const showAlert = (type, message = commonErr) => {
+const showAlert = (type, message = type === 1 ?  commonSucessMessage : commonErr) => {
   if (!toast.error) {
     toast.configure({
       autoClose: 2000,

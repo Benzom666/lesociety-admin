@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate  } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 // import Login from "../screens/login";
 import Dashboard from "../pages/dashboard/index.js";
 import Login from "../pages/auth/login.js";
@@ -31,9 +31,9 @@ function Router() {
         <Route
           path={"/dashboard"}
           element={
-            // <RequireAuth>
-            <Dashboard />
-            // </RequireAuth>
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
           }
         />
         <Route
@@ -94,12 +94,7 @@ function Router() {
           }
         />
         <Route path={"/post"} element={<PostList />} />
-        <Route path={"/reset-Password"} element={<ResetPassword />} />
-        <Route path={"/forgot-password"} element={<ForgotPassword />} />
-        <Route path={"/"} element={<Login />} />
-        <Route path={"/dashboard"} element={<Dashboard />} />
         <Route path={"/all-influencers"} element={<InfluencerPage />} />
-        <Route path={"/reset-Password"} element={<ResetPassword />} />
         <Route path="*" element={<>Not found</>} />
       </Routes>
     </BrowserRouter>

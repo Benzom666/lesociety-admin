@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 
 import {
   getUserList,
+  postVerfiyUser,
   getUserProfile,
   postSendDefaulMsg,
   postUpdateUserStatus,
@@ -27,13 +28,9 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
   const dispatch = useDispatch();
   const {
     userlist,
-    pagination,
-    tab,
-    search,
     per_page,
     defaultMsg,
     rowSelected,
-    emails,
   } = useSelector((state) => state.userListReducer);
 
   const [show, setShow] = useState(false);
@@ -117,118 +114,141 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
         <tbody>
           {Array.isArray(userlist) && userlist.length
             ? userlist.map((user, index) => {
-                return (
-                  <tr
-                    key={user.id}
-                    ref={
-                      userlist.length === index + 1 ? lastPostElementRef : null
+              return (
+                <tr
+                  key={user.id}
+                  ref={
+                    userlist.length === index + 1 ? lastPostElementRef : null
+                  }
+                >
+                  <td>
+                    {user?.email_verified && user.status === 1 && !noAction ? (
+                      <input
+                        id="user-checkbox"
+                        type="checkbox"
+                        onChange={checkboxHandler}
+                        value={user.email}
+                        name="user-checkbox"
+                        checked={rowSelected.includes(user.email)}
+                      />
+                    ) : null}
+                  </td>
+                  <td>
+                    <div className="userNameImage" key={index}>
+                      <Link
+                        to={"/profile/" + user.user_name}
+                        onClick={(e) => {
+                          dispatch(getUserProfile(user.user_name));
+                        }}
+                      >
+                        <img
+                          src={user.images[0] || ProfileImage}
+                          alt="RyanUser"
+                          border="0"
+                        />{" "}
+                        <p> {user.user_name} </p>
+                      </Link>
+                    </div>
+                  </td>
+                  <td>{user?.gender}</td>
+                  <td>{moment(user?.created_at).format("DD.MM.YYYY")}</td>
+                  <td>{user?.email}</td>
+                  <td>
+                    {user?.email_verified ? (
+                      <p className="greenTxt">Verified </p>
+                    ) : (
+                      <p className="redTxt">Pending</p>
+                    )}
+                  </td>
+                  <td>
+                    {
+                      <span className="greenTxt">
+                        {user?.email_verified &&
+                          (
+                            user.request_change_fired ? <p className="redTxt">Requested</p>
+                              : user.status == 1 ? <p className="text-warning">Pending</p>
+                                : user.status == 2 ? <p className="greenTxt">Verified</p>
+                                  : user.status == 3 ? <p className="redTxt">Block</p>
+                                    : ""
+                          )}
+                      </span>
                     }
-                  >
-                    <td>
-                      {user?.email_verified && user.status === 1 && !noAction ? (
-                        <input
-                          id="user-checkbox"
-                          type="checkbox"
-                          onChange={checkboxHandler}
-                          value={user.email}
-                          name="user-checkbox"
-                          checked={rowSelected.includes(user.email)}
-                        />
-                      ) : null}
-                    </td>
-                    <td>
-                      <div className="userNameImage" key={index}>
-                        <Link
-                          to={"/profile/" + user.user_name}
-                          onClick={(e) => {
-                            dispatch(getUserProfile(user.user_name));
+                  </td>
+                  <td>
+                    {user?.email_verified && user.status == 1 && !noAction ? (
+                      <DropdownButton
+                        variant="outline-secondary"
+                        title={
+                          <img
+                            src="https://i.ibb.co/jwq9z0R/moreIcon.png"
+                            alt="moreIcon"
+                            border="0"
+                          />
+                        }
+                        id="input-group-dropdown-2"
+                        align="end"
+                      >
+                        <Dropdown.Item
+                          eventKey="1"
+                          onClick={() => {
+                            dispatch(postUpdateUserStatus(2, user.email, "user-list", status));
+                            // dispatch(getUserList());
                           }}
                         >
-                          <img
-                            src={user.images[0] || ProfileImage}
-                            alt="RyanUser"
-                            border="0"
-                          />{" "}
-                          <p> {user.user_name} </p>
-                        </Link>
-                      </div>
-                    </td>
-                    <td>{user?.gender}</td>
-                    <td>{moment(user?.created_at).format("DD.MM.YYYY")}</td>
-                    <td>{user?.email}</td>
-                    <td>
-                      {user?.email_verified ? (
-                        <p className="greenTxt">Verified </p>
-                      ) : (
-                        <p className="redTxt">Pending</p>
-                      )}
-                    </td>
-                    <td>
-                      {
-                        <span className="greenTxt">
-                          {user?.email_verified &&
-                          (
-                            user.request_change_fired ? <p className="redTxt">Requested</p> 
-                            : user.status == 1 ? <p className="text-warning">Pending</p> 
-                            : user.status == 2 ? <p className="greenTxt">Verified</p>
-                            : user.status == 3 ? <p className="redTxt">Block</p>
-                            : ""
-                          )}
-                        </span>
-                      }
-                    </td>
-                    <td>
-                      {user?.email_verified && user.status == 1 && !noAction ? (
-                        <DropdownButton
-                          variant="outline-secondary"
-                          title={
-                            <img
-                              src="https://i.ibb.co/jwq9z0R/moreIcon.png"
-                              alt="moreIcon"
-                              border="0"
-                            />
-                          }
-                          id="input-group-dropdown-2"
-                          align="end"
+                          Verify
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey="req"
+                          onClick={() => {
+                            setShow(true);
+                            setUserEmail(user?.email);
+                            dispatch({
+                              type: Utils.ActionName.USER_LIST,
+                              payload: { rowSelected: [user?.email] },
+                            });
+                          }}
                         >
-                          <Dropdown.Item
-                            eventKey="1"
-                            onClick={() => {
-                              dispatch(postUpdateUserStatus(2, user.email, "user-list", status));
-                              // dispatch(getUserList());
-                            }}
-                          >
-                            Verify
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            eventKey="req"
-                            onClick={() => {
-                              setShow(true);
-                              setUserEmail(user?.email);
-                              dispatch({
-                                type: Utils.ActionName.USER_LIST,
-                                payload: {rowSelected: [user?.email]},
-                              });
-                            }}
-                          >
-                            Request a Change
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            eventKey="3"
-                            onClick={() => {
-                              dispatch(postUpdateUserStatus(3, user.email, 'user-list', status));
-                            }}
-                          >
-                            Block
-                          </Dropdown.Item>
-                        </DropdownButton>
-                      ) : (
+                          Request a Change
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          eventKey="3"
+                          onClick={() => {
+                            dispatch(postUpdateUserStatus(3, user.email, 'user-list', status));
+                          }}
+                        >
+                          Block
+                        </Dropdown.Item>
+                      </DropdownButton>
+                    ) : status === 10 ? (
+                      <DropdownButton
+                        variant="outline-secondary"
+                        title={
+                          <img
+                            src="https://i.ibb.co/jwq9z0R/moreIcon.png"
+                            alt="moreIcon"
+                            border="0"
+                          />
+                        }
+                        id="input-group-dropdown-2"
+                        align="end"
+                      >
+                        <Dropdown.Item
+                          eventKey="1"
+                          onClick={() => {
+                            dispatch(postVerfiyUser(user.email));
+                          }}
+                        >
+                          Verify
+                        </Dropdown.Item>
+                      </DropdownButton>
+                    )
+                      : (
                         ""
                       )}
-                    </td>
-                  </tr>
-                );
-              })
+                  </td>
+                </tr>
+              );
+            })
             : null}
         </tbody>
       </Table>
