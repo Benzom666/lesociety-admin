@@ -6,8 +6,7 @@ const ProfileImages = ({ img = [], imageVerified = true, unVerifiedImages = [] }
   return (
     <div className="userProfileImage">
       {ImageArr.length ?
-        ImageArr.map((image, index) => {
-          console.log(image);
+        ImageArr.map((image) => {
           return <Image src={image} />
         })
         : <Image src={"https://lenstax.com/auth/app-assets/images/profile/user-uploads/user-04.jpg"} />

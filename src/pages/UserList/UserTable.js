@@ -142,7 +142,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                         }}
                       >
                         <img
-                          src={user.images[0] || ProfileImage}
+                          src={user?.un_verified_images[0] || user?.images[0] || ProfileImage}
                           alt="RyanUser"
                           border="0"
                         />{" "}

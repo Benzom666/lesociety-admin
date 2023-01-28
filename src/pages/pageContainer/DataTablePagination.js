@@ -132,9 +132,20 @@ function PostList(props) {
           <div>
             {status !== 6 &&
               (status === 10 ? (
-                <Button className={"verifyBtn"} onClick={() => verifyUpdatedDetails(post?.email)}>
-                  Verify
-                </Button>
+                <>
+                  <Button
+                    className="requestBtn"
+                    onClick={() => {
+                      setEmailSelected([post?.email]);
+                      setShow(true);
+                    }}
+                  >
+                    Request
+                  </Button>
+                  <Button className={"verifyBtn"} onClick={() => verifyUpdatedDetails(post?.email)}>
+                    Verify
+                  </Button>
+                </>
               ) :
                 post?.status === 2 ? (
                   <Button className={"verifyBtn verified-user-card"} disabled>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-// import VerifyPhotoCards from "./VerifyPhotoCards.js";
 import VerifyProfileImages from "./profileImage";
 import { useDispatch, useSelector } from "react-redux";
 import { Nav, Tab, Badge, Form, Card, Button } from "react-bootstrap";
@@ -157,7 +156,6 @@ export default function DataTablePagination(props) {
                     >
                       Info
                     </Card.Link>
-                    {console.log("is active", isActive)}
                   </div>
                   <div>
                     <Button className="requestBtn" onClick={handleShow}>
@@ -186,7 +184,6 @@ export default function DataTablePagination(props) {
               )
             })
             }
-            {/* <VerifyPhotoCards UserPostListD={UserPostList} /> */}
           </Tab.Pane>
           <Tab.Pane eventKey="link-2">
           {  currentItems.map((post) => (
@@ -232,7 +229,6 @@ export default function DataTablePagination(props) {
                   >
                     Info
                   </Card.Link>
-                  {console.log("is active", isActive)}
                 </div>
                 <div>
                   <Button className="requestBtn" onClick={handleShow}>
@@ -240,7 +236,7 @@ export default function DataTablePagination(props) {
                   </Button>
                   {post?.status == 2 ? (
                     <Button className={"verifyBtn verified-user-card"} disabled>
-                      verify
+                      Verify
                     </Button>
                   ) : (
                     <Button
@@ -260,7 +256,6 @@ export default function DataTablePagination(props) {
             </Card>
             ))
             }
-            {/* <VerifyPhotoCards UserPostListD={UserPostList} /> */}
           </Tab.Pane>
           <Tab.Pane eventKey="link-3">
             {currentItems.map((post) => (
@@ -306,7 +301,6 @@ export default function DataTablePagination(props) {
                     >
                       Info
                     </Card.Link>
-                    {console.log("is active", isActive)}
                   </div>
                   <div>
                     <Button className="requestBtn" onClick={handleShow}>
@@ -317,7 +311,7 @@ export default function DataTablePagination(props) {
                         className={"verifyBtn verified-user-card"}
                         disabled
                       >
-                        verify
+                        Verify
                       </Button>
                     ) : (
                       <Button
@@ -326,7 +320,7 @@ export default function DataTablePagination(props) {
                           dispatch(postVerfiyUser(post.email));
                         }}
                       >
-                        verify
+                        Verify
                       </Button>
                     )}
                   </div>
@@ -336,7 +330,6 @@ export default function DataTablePagination(props) {
                 </Card.Footer>
               </Card>
             ))}
-            {/* <VerifyPhotoCards UserPostListD={UserPostList} /> */}
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
