@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import SideBar from "../sideBar/sidebar.js";
 import {
-    getUserList
+    getUserList, getUserStatusCounter
 } from "../pageContainer/action";
 import PageHeader from "../pageContainer/header";
 import UserTable from "./UserTable";
@@ -25,6 +25,7 @@ function DocumentVerificationPage() {
     (state) => state.userListReducer
   );
   useEffect(() => {
+    dispatch(getUserStatusCounter());
     dispatch({
       type: Utils.ActionName.USER_LIST,
       payload: { tab: 1, search: "", per_page: 10, userlist: [] }
@@ -62,6 +63,7 @@ function DocumentVerificationPage() {
             <NavItemSet
               eventKey="link-1"
               status=""
+              badge={usersAdminStatus?.document_uploaded}
               // setStatus={}
               title="Total Users"
               payload={{ tab: 1, search: "", per_page: 10, userlist: [] }}

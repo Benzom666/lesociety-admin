@@ -517,6 +517,7 @@ export const updateDocumentVerification = (email, status, len) => {
           },
         });
         Utils.showAlert(1, respData?.data.message);
+        dispatch(getUserStatusCounter())
         dispatch(getUserList(status, 1));
       },
       (error) => {
