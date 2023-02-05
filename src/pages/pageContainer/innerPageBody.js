@@ -192,7 +192,7 @@ const PageContainer = (props) => {
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>{count} people</Card.Subtitle>
-                <Card.Text>
+                {/* <Card.Text>
                   {percent ? (
                     <>
                       {" "}
@@ -208,7 +208,7 @@ const PageContainer = (props) => {
                   ) : (
                     `0 %`
                   )}
-                </Card.Text>
+                </Card.Text> */}
               </Card.Body>
             </Card>
           </Col>
@@ -338,7 +338,7 @@ const PageContainer = (props) => {
                   {!!dashboardStatsDeactive && dashboardStatsDeactive[0]?.count}{" "}
                   people
                 </Card.Subtitle>
-                <Card.Text>
+                {/* <Card.Text>
                   {dashboardStatsDeactive.length &&
                   dashboardStatsDeactive[0]?.percent ? (
                     <>
@@ -355,7 +355,7 @@ const PageContainer = (props) => {
                   ) : (
                     "0 %"
                   )}
-                </Card.Text>
+                </Card.Text> */}
               </Card.Body>
             </Card>
           </Col>

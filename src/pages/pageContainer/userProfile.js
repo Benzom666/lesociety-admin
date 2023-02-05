@@ -129,11 +129,6 @@ const PageContainer = props => {
                 </ListGroup.Item>
 
                 <ListGroup.Item>
-                  <h6> {userProfileData?.ethnicity} </h6>
-                  <p> Ethnicity </p>
-                </ListGroup.Item>
-
-                <ListGroup.Item>
                   <h6> {userProfileData?.occupation} </h6>
                   <p> Occupation </p>
                 </ListGroup.Item>

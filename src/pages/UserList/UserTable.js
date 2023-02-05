@@ -105,7 +105,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
             </th>
             <th>User Name</th>
             <th>Gender</th>
-            <th>Registered Date</th>
+            <th>{`${status === 6 ? 'Requested' : 'Registered'} Date`}</th>
             <th>Email</th>
             <th>Email Status</th>
             <th>Status</th>
@@ -151,7 +151,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                     </div>
                   </td>
                   <td>{user?.gender}</td>
-                  <td>{moment(user?.created_at).format("DD.MM.YYYY")}</td>
+                  <td>{moment( status === 6 ? user?.requested_date : user?.created_at).format("DD.MM.YYYY")}</td>
                   <td>{user?.email}</td>
                   <td>
                     {user?.email_verified ? (

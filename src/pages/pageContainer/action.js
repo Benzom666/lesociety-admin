@@ -151,7 +151,7 @@ export const getInfluencer = (status = "", offSet = 1, active = "") => {
       search,
     } = getState().userListReducer;
     Utils.api.getApiCall(
-      Utils.endPoints.getCountry,
+      Utils.endPoints.getInfluencer,
       `?name=${search}&location=&status=${status}&assetOnly=&per_page=${per_page}&current_page=${offSet}&active=${active}`,
       (respData) => {
         dispatch({

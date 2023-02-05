@@ -43,7 +43,6 @@ function CountryPage() {
     setFormData({ name: "" });
   };
   const handleModal = () => {
-    console.log(show);
     if (show) clearState();
     setShow(!show);
   };
@@ -120,8 +119,7 @@ function CountryPage() {
                   <option>Click here to select country</option>
                   {Array.isArray(AllCountryList) ? 
                   AllCountryList.map(country => {
-                    console.log(country);
-                    return <option value={country?.toLowerCase()}>{country}</option>
+                    return <option value={country}>{country}</option>
                   })
                   : null}
                 </Form.Select>

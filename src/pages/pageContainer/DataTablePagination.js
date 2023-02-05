@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Nav, Tab, Form, Card, Button, Toast } from "react-bootstrap";
+import moment from "moment";
 import VerifyProfileImages from "./profileImage";
 import { getUserList, postUpdateUserStatus, postSendDefaulMsg, getDefaultMsgList, postVerfiyUser } from "./action.js";
 import VerifyPhotoCards from "./VerifyPhotoCards.js";
@@ -175,8 +176,10 @@ function PostList(props) {
                 ))}
           </div>
         </div>
-        <Card.Footer>
-          Email <span>{post?.email}</span>
+        <Card.Footer className="d-block">
+          <div className="justify-space-between">Email <span>{post?.email}</span></div>
+          {status === 6 && <div className="justify-space-between mt-3">Requested date <span>{moment(post?.requested_date).format("DD/MM/YYYY")}</span></div>}
+
         </Card.Footer>
       </Card>
     );
