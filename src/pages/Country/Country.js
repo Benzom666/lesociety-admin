@@ -35,12 +35,12 @@ function CountryPage() {
 
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    name: "", id: ""
   });
   const [type, setType] = useState("");
 
   const clearState = () => {
-    setFormData({ name: "" });
+    setFormData({ name: "", id: "" });
   };
   const handleModal = () => {
     if (show) clearState();

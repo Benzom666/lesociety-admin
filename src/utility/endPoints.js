@@ -20,6 +20,7 @@ const endPoint = {
   getAllDate: "date",
   updateDateStatus: "date/update-status",
   getRegisterDashboard: "dashboard/registration",
+  registerUserCount: "dashboard/users-counts-with-percentage",
   getCountry: "country",
   postCountry: "country",
   getGeo: "dashboard/geo-stats",

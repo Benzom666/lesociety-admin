@@ -17,10 +17,10 @@ import {
   getRegDashboardMale,
   getUnRegDashboard,
   getUnRegDashboardMale,
+  getRegisterUserCount
 } from "./action";
 import moment from "moment";
 import Utils from "../../utility";
-import { set } from "lodash";
 Chart.register(CategoryScale);
 
 const PageContainer = (props) => {
@@ -36,13 +36,14 @@ const PageContainer = (props) => {
     registerUnCompMaleList,
     geoStats,
     dashboardStats,
-    dashboardStatsNew,
-    dashboardStatsDeactive,
     rEndDate,
     rStartDate,
     unRstartDate,
     unRendDate,
+    registerUserCount,
   } = useSelector((state) => state.userListReducer);
+  console.log(registerUserCount);
+  const {activeUsers, newUsers, pendingUsers} = registerUserCount;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getRegDashboard());
@@ -51,9 +52,7 @@ const PageContainer = (props) => {
     dispatch(getUnRegDashboardMale());
     dispatch(getCountry());
     dispatch(getGeoStats());
-    dispatch(getDashboardStats());
-    dispatch(getDashboardStatsNew(5));
-    dispatch(getDashboardStatsDeactive(3));
+    dispatch(getRegisterUserCount());
   }, []);
   const data = {
     labels:
@@ -149,66 +148,14 @@ const PageContainer = (props) => {
           <Col md="4" sm="12">
             <Card className="gridCard">
               <Card.Header>
-                <Card.Title>Total Users</Card.Title>
-                <Dropdown align="end">
-                  <Dropdown.Toggle
-                    id="dropdown-button-dark-example1"
-                    variant="secondary"
-                  >
-                    <TbDots />
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu variant="dark">
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStats, "", 1, "d")
-                      }
-                    >
-                      Past Day
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStats, "", 7, "d")
-                      }
-                    >
-                      Past Week
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStats, "", 1, "months")
-                      }
-                    >
-                      Past Month
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStats, "", 1, "years")
-                      }
-                    >
-                      Past Year
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <Card.Title>Active Users</Card.Title>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{count} people</Card.Subtitle>
-                {/* <Card.Text>
-                  {percent ? (
-                    <>
-                      {" "}
-                      {sign} {percent}%{" "}
-                      {sign === "+" ? (
-                        <img src="/images/upArrow.svg" />
-                      ) : sign === "-" ? (
-                        <img src="/images/downArrow.svg" />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  ) : (
-                    `0 %`
-                  )}
-                </Card.Text> */}
+                <Card.Subtitle>{activeUsers?.count || 0}{" "} people</Card.Subtitle>
+                <Card.Text>
+                    {pendingUsers?.percent}
+                    %{" "}
+                  </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -216,62 +163,16 @@ const PageContainer = (props) => {
             <Card className="gridCard">
               <Card.Header>
                 <Card.Title>New Users</Card.Title>
-                <Dropdown align="end">
-                  <Dropdown.Toggle
-                    id="dropdown-button-dark-example1"
-                    variant="secondary"
-                  >
-                    <TbDots />
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu variant="dark">
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStatsNew, 5, 1, "d")
-                      }
-                    >
-                      Past Day
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStatsNew, 5, 7, "d")
-                      }
-                    >
-                      Past Week
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStatsNew, 5, 1, "months")
-                      }
-                    >
-                      Past Month
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStatsNew, 5, 1, "years")
-                      }
-                    >
-                      Past Year
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>
-                  {dashboardStatsNew.length && dashboardStatsNew[0]?.count}{" "}
+                  {newUsers?.count || 0}{" "}
                   people
                 </Card.Subtitle>
-                {dashboardStatsNew.length && dashboardStatsNew[0]?.percent ? (
+                {newUsers && newUsers?.percent ? (
                   <Card.Text>
-                    {dashboardStatsNew[0]?.sign} {dashboardStatsNew[0]?.percent}
+                    {newUsers?.percent}
                     %{" "}
-                    {dashboardStatsNew[0]?.sign === "-" ? (
-                      <img src="/images/downArrow.svg" />
-                    ) : dashboardStatsNew[0]?.sign === "+" ? (
-                      <img src="/images/upArrow.svg" />
-                    ) : (
-                      ""
-                    )}
                   </Card.Text>
                 ) : (
                   <Card.Text> 0 %</Card.Text>
@@ -282,80 +183,24 @@ const PageContainer = (props) => {
           <Col md="4" sm="12">
             <Card className="gridCard">
               <Card.Header>
-                <Card.Title>Blocked Users</Card.Title>
-                <Dropdown align="end">
-                  <Dropdown.Toggle
-                    id="dropdown-button-dark-example1"
-                    variant="secondary"
-                  >
-                    <TbDots />
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu variant="dark">
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStatsDeactive, 3, 1, "d")
-                      }
-                    >
-                      Past Day
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(getDashboardStatsDeactive, 3, 7, "d")
-                      }
-                    >
-                      Past Week
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(
-                          getDashboardStatsDeactive,
-                          3,
-                          1,
-                          "months"
-                        )
-                      }
-                    >
-                      Past Month
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() =>
-                        dashboardStatsFunc(
-                          getDashboardStatsDeactive,
-                          3,
-                          1,
-                          "years"
-                        )
-                      }
-                    >
-                      Past Year
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <Card.Title>Pending Users</Card.Title>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>
-                  {!!dashboardStatsDeactive && dashboardStatsDeactive[0]?.count}{" "}
+                  {pendingUsers && pendingUsers?.count}{" "}
                   people
                 </Card.Subtitle>
-                {/* <Card.Text>
-                  {dashboardStatsDeactive.length &&
-                  dashboardStatsDeactive[0]?.percent ? (
-                    <>
-                      {dashboardStatsDeactive[0]?.sign}{" "}
-                      {dashboardStatsDeactive[0]?.percent}%{" "}
-                      {dashboardStatsDeactive[0]?.sign === "-" ? (
-                        <img src="/images/downArrow.svg" />
-                      ) : dashboardStatsDeactive[0]?.sign === "+" ? (
-                        <img src="/images/upArrow.svg" />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  ) : (
-                    "0 %"
-                  )}
-                </Card.Text> */}
+                <Card.Text>
+                    {pendingUsers?.percent}
+                    %{" "}
+                    {/* {dashboardStatsNew[0]?.sign === "-" ? (
+                      <img src="/images/downArrow.svg" />
+                    ) : dashboardStatsNew[0]?.sign === "+" ? (
+                      <img src="/images/upArrow.svg" />
+                    ) : (
+                      ""
+                    )} */}
+                  </Card.Text>
               </Card.Body>
             </Card>
           </Col>

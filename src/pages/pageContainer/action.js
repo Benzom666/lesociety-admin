@@ -926,3 +926,28 @@ export const updateCountryName = (formData) => {
     );
   };
 };
+
+// get register user count
+export const getRegisterUserCount = (formData) => {
+  return (dispatch) => {
+    Utils.api.getApiCall(
+      Utils.endPoints.registerUserCount,
+      "",
+      (respData) => {// registerUserCount
+        console.log(respData);
+        dispatch({
+          type: Utils.ActionName.USER_LIST,
+          payload: {
+            registerUserCount: respData?.data?.data,
+          },
+        });
+        // Utils.showAlert(1, "User");
+        // dispatch(getCountryList());
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.data?.name || data?.message);
+      }
+    );
+  };
+};

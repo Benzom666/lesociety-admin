@@ -44,9 +44,10 @@ const PageContainer = props => {
     && !un_verified_description?.length
   }
   const verifyHandler = () => {
-    if(!isFullyVerified) {
-      dispatch(postVerfiyUser(email))
-    } else dispatch(postUpdateUserStatus(2, email));
+    // if(!isFullyVerified) {
+    //   dispatch(postVerfiyUser(email))
+    // } else 
+    dispatch(postUpdateUserStatus(2, email));
     
   }
   const navigate = useNavigate();
@@ -76,10 +77,15 @@ const PageContainer = props => {
                 <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verified</button> :
                 <>
                   <Button className="requestBtn" onClick={handleShow}>Request</Button>
-                  <Button className="verifyBtn"
+                  <Button className="verifyBtn btn-success"
                     onClick={verifyHandler}
                   >Verify</Button>
-                  <Dropdown>
+                  <Button className="verifyBtn"
+                    onClick={() => {
+                      dispatch(postUpdateUserStatus(3, email))
+                    }}
+                  >Block</Button>
+                  {/* <Dropdown>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                       <TbDots />
                     </Dropdown.Toggle>
@@ -92,7 +98,7 @@ const PageContainer = props => {
                         dispatch(postUpdateUserStatus(3, email))
                       }}>Block</Dropdown.Item>
                     </Dropdown.Menu>
-                  </Dropdown>
+                  </Dropdown> */}
                 </>
             }
           </div> : ''}

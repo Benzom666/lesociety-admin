@@ -27,7 +27,7 @@ const CountryList = ({setFormData, handleModal, setType}) => {
                             <tr
                                 key={country._id}
                             >
-                                <td style={{ textTransform: "capitalize" }}>{country?.name}</td>
+                                <td>{country?.name}</td>
                                 <td>
                                     <DropdownButton
                                         variant="outline-secondary"
