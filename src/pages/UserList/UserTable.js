@@ -175,7 +175,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                     }
                   </td>
                   <td>
-                    {user?.email_verified && user.status == 1 && !noAction ? (
+                    {(user?.email_verified && user.status == 1 && !noAction) || status === 10 ? (
                       <DropdownButton
                         variant="outline-secondary"
                         title={
@@ -219,29 +219,30 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                           Block
                         </Dropdown.Item>
                       </DropdownButton>
-                    ) : status === 10 ? (
-                      <DropdownButton
-                        variant="outline-secondary"
-                        title={
-                          <img
-                            src="https://i.ibb.co/jwq9z0R/moreIcon.png"
-                            alt="moreIcon"
-                            border="0"
-                          />
-                        }
-                        id="input-group-dropdown-2"
-                        align="end"
-                      >
-                        <Dropdown.Item
-                          eventKey="1"
-                          onClick={() => {
-                            dispatch(postVerfiyUser(user.email));
-                          }}
-                        >
-                          Verify
-                        </Dropdown.Item>
-                      </DropdownButton>
-                    )
+                    ) 
+                    // : status === 10 ? (
+                    //   <DropdownButton
+                    //     variant="outline-secondary"
+                    //     title={
+                    //       <img
+                    //         src="https://i.ibb.co/jwq9z0R/moreIcon.png"
+                    //         alt="moreIcon"
+                    //         border="0"
+                    //       />
+                    //     }
+                    //     id="input-group-dropdown-2"
+                    //     align="end"
+                    //   >
+                    //     <Dropdown.Item
+                    //       eventKey="1"
+                    //       onClick={() => {
+                    //         dispatch(postVerfiyUser(user.email));
+                    //       }}
+                    //     >
+                    //       Verify
+                    //     </Dropdown.Item>
+                    //   </DropdownButton>
+                    // )
                       : (
                         ""
                       )}
