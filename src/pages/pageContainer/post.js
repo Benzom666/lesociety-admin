@@ -192,7 +192,7 @@ function PostList() {
               status=""
               badge={datesStats?.total_dates}
               setStatus={setStatus}
-              title="Total User"
+              title="Total Posts"
               setPage={setPage}
               payload={{ tab: 1, search: "", per_page: 10, datesList: [] }}
               getFunc={getAllDates}
@@ -207,7 +207,7 @@ function PostList() {
               payload={{ tab: 5, search: "",  datesList: [] }}
               getFunc={getAllDates}
             />
-            <NavItemSet
+            {/* <NavItemSet
               eventKey="link-4"
               status={6}
               badge={datesStats?.warned_dates}
@@ -226,8 +226,8 @@ function PostList() {
               setPage={setPage}
               payload={{ tab: 7, search: "", datesList: [] }}
               getFunc={getAllDates}
-            />
-            <NavItemSet
+            /> */}
+            {/* <NavItemSet
               eventKey="link-3"
               status={3}
               badge={datesStats?.deactivated_dates}
@@ -236,7 +236,7 @@ function PostList() {
               setPage={setPage}
               payload={{ tab: 3, search: "", datesList: [] }}
               getFunc={getAllDates}
-            />
+            /> */}
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey="link-1">
@@ -266,7 +266,7 @@ function PostList() {
                 <div className="userPostListBox">{UserPostList}</div>
               ) : null}
             </Tab.Pane>
-            <Tab.Pane eventKey="link-4">
+            {/* <Tab.Pane eventKey="link-4">
               <SearchDropdownSet
                 per_page={per_page}
                 searchHandler={searchHandler}
@@ -277,8 +277,8 @@ function PostList() {
               {status === 6 ? (
                 <div className="userPostListBox">{UserPostList}</div>
               ) : null}
-            </Tab.Pane>
-            <Tab.Pane eventKey="link-5">
+            </Tab.Pane> */}
+            {/* <Tab.Pane eventKey="link-5">
               <SearchDropdownSet
                 per_page={per_page}
                 searchHandler={searchHandler}
@@ -289,7 +289,7 @@ function PostList() {
               {status === 7 ? (
                 <div className="userPostListBox">{UserPostList}</div>
               ) : null}
-            </Tab.Pane>
+            </Tab.Pane> */}
             <Tab.Pane eventKey="link-3">
               <SearchDropdownSet
                 per_page={per_page}
@@ -306,11 +306,11 @@ function PostList() {
         </Tab.Container>
         {emailSelected.length ? (
           <Toast show={showA} onClose={toggleShowA} className="requestPopup">
-            <Toast.Body className="d-flex align-items-center w-100">
-              <Form.Check type="checkbox" label="people" />
-              <Button className="requestBtn" onClick={handleShow}>
+            <Toast.Body className="d-flex align-items-center w-100 justify-content-center">
+             <Form.Check type="checkbox" label="people" />
+              {/*  <Button className="requestBtn" onClick={handleShow}>
                 Request
-              </Button>
+              </Button> */}
               <Button
                 className="verifyBtn"
                 onClick={() => {

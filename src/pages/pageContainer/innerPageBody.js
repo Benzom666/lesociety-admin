@@ -9,9 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { CategoryScale } from "chart.js";
 import {
   getCountry,
-  getDashboardStats,
-  getDashboardStatsDeactive,
-  getDashboardStatsNew,
   getGeoStats,
   getRegDashboard,
   getRegDashboardMale,
@@ -43,7 +40,7 @@ const PageContainer = (props) => {
     registerUserCount,
   } = useSelector((state) => state.userListReducer);
   console.log(registerUserCount);
-  const {activeUsers, newUsers, pendingUsers} = registerUserCount;
+  const { activeUsers, newUsers, pendingUsers } = registerUserCount;
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getRegDashboard());
@@ -149,13 +146,14 @@ const PageContainer = (props) => {
             <Card className="gridCard">
               <Card.Header>
                 <Card.Title>Active Users</Card.Title>
+                <Card.Subtitle>{`(since last login: ${activeUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>{activeUsers?.count || 0}{" "} people</Card.Subtitle>
                 <Card.Text>
-                    {pendingUsers?.percent}
-                    %{" "}
-                  </Card.Text>
+                  {pendingUsers?.percent}
+                  %{" "}
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -163,20 +161,17 @@ const PageContainer = (props) => {
             <Card className="gridCard">
               <Card.Header>
                 <Card.Title>New Users</Card.Title>
+                <Card.Subtitle>{`(since last login: ${newUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>
                   {newUsers?.count || 0}{" "}
                   people
                 </Card.Subtitle>
-                {newUsers && newUsers?.percent ? (
-                  <Card.Text>
-                    {newUsers?.percent}
-                    %{" "}
-                  </Card.Text>
-                ) : (
-                  <Card.Text> 0 %</Card.Text>
-                )}
+                <Card.Text>
+                  {newUsers?.percent || 0}
+                  %{" "}
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -184,23 +179,17 @@ const PageContainer = (props) => {
             <Card className="gridCard">
               <Card.Header>
                 <Card.Title>Pending Users</Card.Title>
+                <Card.Subtitle>{`(since last login: ${pendingUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>
-                  {pendingUsers && pendingUsers?.count}{" "}
+                  {pendingUsers?.count || 0}{" "}
                   people
                 </Card.Subtitle>
                 <Card.Text>
-                    {pendingUsers?.percent}
-                    %{" "}
-                    {/* {dashboardStatsNew[0]?.sign === "-" ? (
-                      <img src="/images/downArrow.svg" />
-                    ) : dashboardStatsNew[0]?.sign === "+" ? (
-                      <img src="/images/upArrow.svg" />
-                    ) : (
-                      ""
-                    )} */}
-                  </Card.Text>
+                  {pendingUsers?.percent || 0}
+                  %{" "}
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -374,30 +363,30 @@ const PageContainer = (props) => {
                 <Row className="w-100">
                   {geoStats.length > 0
                     ? geoStats.map((value, index) => {
-                        return (
-                          <Col
-                            md="6"
-                            className="mb-4 progressBarBox"
-                            role={geoData.locationType === "country" ? "button" : ""}
-                            onClick={() => {
-                              if (geoData.locationType === "country") {
-                                getGeoLocationData(
-                                  value?.location,
-                                  geoData.gender,
-                                  "city"
-                                );
-                              }
-                            }}
-                          >
-                            <h6  className= {(geoData.locationType === "country") ? "location-country" : ""}>
-                              {" "}
-                              {value?.location}{" "}
-                              <span>{value?.totalCount}%</span>{" "}
-                            </h6>
-                            <ProgressBar now={value?.totalCount} />
-                          </Col>
-                        );
-                      })
+                      return (
+                        <Col
+                          md="6"
+                          className="mb-4 progressBarBox"
+                          role={geoData.locationType === "country" ? "button" : ""}
+                          onClick={() => {
+                            if (geoData.locationType === "country") {
+                              getGeoLocationData(
+                                value?.location,
+                                geoData.gender,
+                                "city"
+                              );
+                            }
+                          }}
+                        >
+                          <h6 className={(geoData.locationType === "country") ? "location-country" : ""}>
+                            {" "}
+                            {value?.location}{" "}
+                            <span>{value?.totalCount}%</span>{" "}
+                          </h6>
+                          <ProgressBar now={value?.totalCount} />
+                        </Col>
+                      );
+                    })
                     : "Record Not Found."}
                 </Row>
               </Card.Body>

@@ -241,22 +241,26 @@
 		@include CardBg;
 		.card-header{
 			display: flex;
-			align-items: center;
-			justify-content: space-between;
+      flex-direction: column;
 			padding: 0;
 			border: none;
-			margin-bottom: 25px;
+			margin-bottom: 20px;
 			.card-title {
 				font-family: 'Gilroy-Regular';
 				font-style: normal;
 				font-weight: 700;
 				font-size: 20px;
-				line-height: 24px;
-				display: flex;
-				align-items: center;				
+				line-height: 24px;			
 				letter-spacing: 1px;
 				color: $lightGrey;
+        margin-bottom: 5px;
 			}
+      .card-subtitle {
+				color: $lightGrey;
+				font-size: 12px;
+				font-weight: 400;
+
+      }
 			.dropdown-toggle{
         @include dotDropdown;
 			}
