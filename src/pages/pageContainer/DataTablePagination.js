@@ -63,7 +63,6 @@ function PostList(props) {
     dispatch(postVerfiyUser(email, status))
   }
   const UserPostList = userlist.map((post, index) => {
-    console.log(post);
     return (
       <Card
         className={"text-white verifyPhotoCard"}

@@ -175,7 +175,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                     }
                   </td>
                   <td>
-                    {(user?.email_verified && user.status == 1 && !noAction) || status === 10 ? (
+                    {(user?.email_verified && (!user.request_change_fired && user.status === 1 ) && !noAction) || status === 10 ? (
                       <DropdownButton
                         variant="outline-secondary"
                         title={
