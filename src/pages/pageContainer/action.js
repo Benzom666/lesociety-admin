@@ -405,7 +405,7 @@ export const postSendDefaulMsg = (
       messageType,
       message_id,
       user_email_list,
-      post_ids,
+      // post_ids,
     };
     Utils.api.postApiCall(
       Utils.endPoints.sendDefaultMsg,
@@ -487,6 +487,9 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
           });
           dispatch(getUserStatusCounter());
           dispatch(getUserList(currentStatus));
+        }
+        else if (source === "user-profile") {
+          dispatch(getUserProfile(currentStatus));
         }
       },
       (error) => {

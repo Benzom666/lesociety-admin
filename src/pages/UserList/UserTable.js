@@ -97,7 +97,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
         <thead>
           <tr>
             <th>
-              {!noAction && <input
+              {!noAction  && <input
                 type="checkbox"
                 onChange={(e) => allCheckboxHandler(e)}
                 id="all-check"
@@ -122,7 +122,7 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
                   }
                 >
                   <td>
-                    {user?.email_verified && user.status === 1 && !noAction ? (
+                    { !user?.request_change_fired && user?.email_verified && user.status === 1 && !noAction ? (
                       <input
                         id="user-checkbox"
                         type="checkbox"

@@ -19,7 +19,8 @@ const PageContainer = props => {
     (state) => state.userListReducer
   );
   const { email, un_verified_images, un_verified_tagline, un_verified_description,
-    user_name, images, tagline, description, image_verified, status, email_verified} = userProfileData;
+    user_name, images, tagline, description, image_verified, status, email_verified, request_change_fired
+  } = userProfileData;
   const [show, setShow] = useState(false);
   const [msgType, setMsgType] = useState("");
   const [id, setId] = useState();
@@ -33,7 +34,7 @@ const PageContainer = props => {
   }, [])
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg(msgType, id, email)
+      postSendDefaulMsg(msgType, id, [email])
     );
     setShow(false);
   }
@@ -41,13 +42,13 @@ const PageContainer = props => {
   if(!_.isEmpty(userProfileData)) {
     isFullyVerified = !un_verified_images.length
     && !un_verified_tagline?.length
-    && !un_verified_description?.length
+    && !un_verified_description?.length 
   }
   const verifyHandler = () => {
     // if(!isFullyVerified) {
     //   dispatch(postVerfiyUser(email))
     // } else 
-    dispatch(postUpdateUserStatus(2, email));
+    dispatch(postUpdateUserStatus(2, email, 'user-profile', username));
     
   }
   const navigate = useNavigate();
@@ -72,9 +73,12 @@ const PageContainer = props => {
             tagline : un_verified_tagline}</Card.Subtitle>
           </Card>
           {email_verified ? <div className='userProfilebtn'>
-            {
+            {request_change_fired ? "" :
               status === 2 && isFullyVerified ?
-                <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verified</button> :
+                <button type="button" disabled class="verifyBtn verified-user-card btn btn-primary">verified</button> 
+                : status === 3 ? <button type="button" disabled class="verifyBtn btn btn-primary">Blocked</button>
+                :
+
                 <>
                   <Button className="requestBtn" onClick={handleShow}>Request</Button>
                   <Button className="verifyBtn btn-success"
@@ -82,7 +86,7 @@ const PageContainer = props => {
                   >Verify</Button>
                   <Button className="verifyBtn"
                     onClick={() => {
-                      dispatch(postUpdateUserStatus(3, email))
+                      dispatch(postUpdateUserStatus(3, email, 'user-profile', username));
                     }}
                   >Block</Button>
                   {/* <Dropdown>

@@ -151,7 +151,7 @@ const PageContainer = (props) => {
               <Card.Body>
                 <Card.Subtitle>{activeUsers?.count || 0}{" "} people</Card.Subtitle>
                 <Card.Text>
-                  {pendingUsers?.percent}
+                  {activeUsers?.percent}
                   %{" "}
                 </Card.Text>
               </Card.Body>
