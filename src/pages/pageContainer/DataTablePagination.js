@@ -59,7 +59,8 @@ function PostList(props) {
     }
   }
   const verifyUpdatedDetails = (email) => {
-    dispatch(postVerfiyUser(email, status))
+    // dispatch(postVerfiyUser(email, status))
+    dispatch(postUpdateUserStatus(2, email));
   }
   const UserPostList = userlist.map((post, index) => {
     return (

@@ -44,9 +44,6 @@ const PageContainer = props => {
     && !un_verified_description?.length 
   }
   const verifyHandler = () => {
-    // if(!isFullyVerified) {
-    //   dispatch(postVerfiyUser(email))
-    // } else 
     dispatch(postUpdateUserStatus(2, email, 'user-profile', username));
     
   }
