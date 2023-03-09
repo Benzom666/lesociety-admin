@@ -16,7 +16,6 @@ function PostList(props) {
   const [emailSelected, setEmailSelected] = useState([]);
   const [postIdSelected, setPostIdSelected] = useState([]);
   const [showA, setShowA] = useState(true);
-  const [id, setId] = useState();
   const [isActive, setIsActive] = useState(false);
   const [show, setShow] = useState();
   const [msgType, setMsgType] = useState("");
@@ -28,7 +27,7 @@ function PostList(props) {
   const toggleShowA = () => setShowA(!showA);
 
   const msgSubmit = () => {
-    dispatch(postSendDefaulMsg(msgType, id, emailSelected, "6323e3ae8c8a4613fdf79256", status, "user"));
+    dispatch(postSendDefaulMsg(msgType, 0, emailSelected, "6323e3ae8c8a4613fdf79256", status, "user"));
     setShow(false);
     setEmailSelected([]);
     setPostIdSelected([]);
@@ -278,7 +277,6 @@ function PostList(props) {
         </Toast>
       ) : null}
       <DefaultMsg
-        setId={setId}
         defaultMsg={defaultMsg}
         show={show}
         setMsg={setMsgType}

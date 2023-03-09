@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap";
 
 export const DefaultMsg = (props) => {
-  const { defaultMsg = [], setId, setMsg, show, handleClose, msgSubmit } = props
+  const { defaultMsg = [], setMsg, show, handleClose, msgSubmit } = props
   console.log(defaultMsg);
   let messageType = []
   if(defaultMsg[0] ) messageType = Object.keys(defaultMsg[0]);
@@ -31,8 +31,7 @@ export const DefaultMsg = (props) => {
               <ListGroup.Item key={index}>
                 <Form.Check type="radio" id={index} name="requestmsg" value={type}
                   onChange={(e) => {
-                    setMsg(e.target.value)
-                    setId(index)
+                    setMsg(e.target.value);
                   }} label={defaultMsg[0]?.[type]} />
               </ListGroup.Item>
             )

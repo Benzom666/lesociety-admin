@@ -23,7 +23,6 @@ const PageContainer = props => {
   } = userProfileData;
   const [show, setShow] = useState(false);
   const [msgType, setMsgType] = useState("");
-  const [id, setId] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
@@ -34,7 +33,7 @@ const PageContainer = props => {
   }, [])
   const msgSubmit = () => {
     dispatch(
-      postSendDefaulMsg(msgType, id, [email])
+      postSendDefaulMsg(msgType, 0, [email], "", username, "user-profile")
     );
     setShow(false);
   }
@@ -184,7 +183,6 @@ const PageContainer = props => {
         </Row>
       </div>
       <DefaultMsg
-        setId={setId}
         defaultMsg={defaultMsg}
         show={show}
         setMsg={setMsgType}

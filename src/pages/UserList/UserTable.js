@@ -39,7 +39,6 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [msgType, setMsgType] = useState("");
-  const [id, setId] = useState();
 
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
@@ -273,7 +272,6 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
         </Toast>
       ) : null}
       <DefaultMsg
-        setId={setId}
         defaultMsg={defaultMsg}
         show={show}
         setMsg={setMsgType}

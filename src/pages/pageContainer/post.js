@@ -34,7 +34,6 @@ function PostList() {
   const toggleShowA = () => setShowA(!showA);
   const [isActive, setIsActive] = useState(true);
   const [saveId, setSaveId] = useState();
-  const [id, setId] = useState(0);
   const [endUser, setEndUser] = useState();
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
@@ -49,7 +48,7 @@ function PostList() {
     dispatch(getDateStats());
   }, []);
   const  msgSubmit = () => {
-    dispatch(postSendDefaulMsg("postMessage", id, emailSelected, postIdSelected, status, "dates"));
+    dispatch(postSendDefaulMsg("postMessage", 0, emailSelected, postIdSelected, status, "dates"));
     setShow(false);
   };
   const observer = useRef();
@@ -324,7 +323,6 @@ function PostList() {
         ): null}
       </div>
       <DefaultMsg
-        setId={setId}
         defaultMsg={defaultMsg}
         show={show}
         setMsg={setMsgType}

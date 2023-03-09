@@ -405,7 +405,7 @@ export const postSendDefaulMsg = (
       messageType,
       message_id,
       user_email_list,
-      // post_ids,
+      post_ids,
     };
     Utils.api.postApiCall(
       Utils.endPoints.sendDefaultMsg,
@@ -423,13 +423,18 @@ export const postSendDefaulMsg = (
           dispatch(getUserStatusCounter());
           dispatch(getUserList(currentStatus, 1, ""));
         }
-        if(source === "dates"){
+        else if(source === "dates"){
           dispatch({
             type: Utils.ActionName.USER_LIST,
             payload: { tab: 1, search: "", per_page: 10, datesList: [],  isAPISuccess: true },
           });
           dispatch(getDateStats());
           dispatch(getAllDates(currentStatus, 1, ""));
+        }
+        else if(source === "user-profile") {
+          dispatch(
+            getUserProfile(currentStatus)
+          )
         }
         Utils.showAlert(1, "Request mail sent to users");
       },
