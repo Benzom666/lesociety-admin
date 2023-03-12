@@ -143,7 +143,7 @@ const PageContainer = (props) => {
       <div className="dashboardPageUI">
         <Row>
           <Col md="4" sm="12">
-            <Card className="gridCard">
+            <Card className="gridCard last-login-card">
               <Card.Header>
                 <Card.Title>Active Users</Card.Title>
                 <Card.Subtitle>{`(since last login: ${activeUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
@@ -158,7 +158,7 @@ const PageContainer = (props) => {
             </Card>
           </Col>
           <Col md="4" sm="12">
-            <Card className="gridCard">
+            <Card className="gridCard  last-login-card">
               <Card.Header>
                 <Card.Title>New Users</Card.Title>
                 <Card.Subtitle>{`(since last login: ${newUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
@@ -176,7 +176,7 @@ const PageContainer = (props) => {
             </Card>
           </Col>
           <Col md="4" sm="12">
-            <Card className="gridCard">
+            <Card className="gridCard  last-login-card">
               <Card.Header>
                 <Card.Title>Pending Users</Card.Title>
                 <Card.Subtitle>{`(since last login: ${pendingUsers?.beforeLoginCount || 0})`}</Card.Subtitle>

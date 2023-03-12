@@ -237,11 +237,15 @@
   }
 }
 .card{
+  &.last-login-card {
+		.card-header{
+      flex-direction: column;
+    }
+  }
 	&.gridCard{
 		@include CardBg;
 		.card-header{
 			display: flex;
-      flex-direction: column;
 			padding: 0;
 			border: none;
 			margin-bottom: 20px;
@@ -303,6 +307,7 @@
 				margin: 0 20px 0 10px;
 				cursor: pointer;
 				text-decoration: none;
+        text-align: center;
 				&:nth-child(2){
 					margin: 0 0 0 auto;
 				}
