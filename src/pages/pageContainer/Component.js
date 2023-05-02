@@ -66,7 +66,7 @@ export const NavItemSet = ({
   const dispatch = useDispatch();
   return (
     <Nav.Item>
-      <Nav.Link
+      <Nav.Link tabIndex={-1}
         eventKey={eventKey}
         onClick={() => {
           dispatch({

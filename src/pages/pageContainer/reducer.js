@@ -42,7 +42,8 @@ const initialState = {
   countryList: [],
   isAPISucceess: false,
   allCountryList: [],
-  registerUserCount: {}
+  registerUserCount: {},
+  pushToUserPage: false
 };
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {

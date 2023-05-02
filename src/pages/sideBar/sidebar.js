@@ -19,7 +19,7 @@ const SideBar = () => {
         </div>
         <div className="sideBarUI_body">
           <Nav className="justify-content-start flex-grow-1">
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               href="#"
               onClick={(e) => {
                 e.preventDefault();
@@ -31,7 +31,7 @@ const SideBar = () => {
               </svg>
               Dashboard
             </Nav.Link>
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               // href="#action2"
               onClick={(e) => {
                 e.preventDefault();
@@ -43,7 +43,7 @@ const SideBar = () => {
               </svg>
               Users
             </Nav.Link>
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               onClick={(e) => {
                 e.preventDefault();
                 navigateViaSideBar("/verifyPhoto");
@@ -54,7 +54,7 @@ const SideBar = () => {
               </svg>
               User's photos
             </Nav.Link>
-            <Nav.Link 
+            <Nav.Link tabIndex={-1} 
             onClick={(e) => {
               e.preventDefault();
               navigateViaSideBar("/post");
@@ -65,7 +65,7 @@ const SideBar = () => {
               </svg>
               Posts
             </Nav.Link>
-            <Nav.Link 
+            <Nav.Link tabIndex={-1} 
             onClick={(e) => {
               e.preventDefault();
               navigateViaSideBar("/all-influencers");
@@ -92,7 +92,7 @@ const SideBar = () => {
               </svg>
               Promo codes
             </Nav.Link>
-            <Nav.Link onClick={(e) => {
+            <Nav.Link tabIndex={-1} onClick={(e) => {
               e.preventDefault();
               navigateViaSideBar("/country");
             }}>
@@ -102,7 +102,7 @@ const SideBar = () => {
              </svg>
               Country
             </Nav.Link>
-            <Nav.Link onClick={(e) => {
+            <Nav.Link tabIndex={-1} onClick={(e) => {
               e.preventDefault();
               navigateViaSideBar("/document-verification");
             }}>

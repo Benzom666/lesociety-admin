@@ -72,7 +72,7 @@ export const getDefaultMsgList = (msgType) => {
   };
 };
 // user profile
-export const getUserProfile = (username) => {
+export const getUserProfile = (username, pushToUserPage = false) => {
   return (dispatch, getState) => {
     Utils.api.getApiCall(
       Utils.endPoints.userProfile,
@@ -82,6 +82,7 @@ export const getUserProfile = (username) => {
           type: Utils.ActionName.USER_PROFILE,
           payload: {
             userProfileData: respData?.data?.data?.user,
+            pushToUserPage
           },
         });
       },
@@ -494,7 +495,7 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
           dispatch(getUserList(currentStatus));
         }
         else if (source === "user-profile") {
-          dispatch(getUserProfile(currentStatus));
+          dispatch(getUserProfile(currentStatus, true));
         }
       },
       (error) => {

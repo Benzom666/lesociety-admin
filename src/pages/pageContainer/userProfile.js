@@ -15,7 +15,7 @@ import _ from 'lodash';
 const PageContainer = props => {
   const dispatch = useDispatch();
   const { username } = useParams();
-  const { userProfileData, defaultMsg } = useSelector(
+  const { userProfileData, defaultMsg, pushToUserPage } = useSelector(
     (state) => state.userListReducer
   );
   const { email, un_verified_images, un_verified_tagline, un_verified_description,
@@ -52,6 +52,7 @@ const PageContainer = props => {
   if (!token) {
     return navigate("/");
   }
+  if(pushToUserPage) return navigate("/userList");
   return (
     <div className='dashboardUi'>
       <SideBar />

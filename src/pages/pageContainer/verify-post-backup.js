@@ -42,7 +42,7 @@ export default function DataTablePagination(props) {
       <Tab.Container defaultActiveKey="link-1">
         <Nav variant="tabs">
           <Nav.Item>
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               eventKey="link-1"
               onClick={() => {
                 dispatch({
@@ -59,7 +59,7 @@ export default function DataTablePagination(props) {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               eventKey="link-2"
               onClick={() => {
                 dispatch({
@@ -76,7 +76,7 @@ export default function DataTablePagination(props) {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               eventKey="link-2"
               onClick={() => {
                 dispatch({
@@ -93,7 +93,7 @@ export default function DataTablePagination(props) {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link
+            <Nav.Link tabIndex={-1}
               eventKey="link-3"
               onClick={() => {
                 dispatch({
