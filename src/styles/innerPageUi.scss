@@ -6,7 +6,7 @@
   margin-right: 0;
   width: calc(100% - 204px);
   padding: 0 60px 60px;
-  height: 100vh;
+  // height: 100vh;
   overflow: auto;
   @media (max-width:1440px) {
     padding: 0 30px 30px;
@@ -20,7 +20,7 @@
       line-height: 36px;
       display: flex;
       align-items: center;
-      color: #CACACA;
+      color: $lightGrey;
     }
     .profileDropDown{
       display: flex;
@@ -39,9 +39,13 @@
         &::after{
           margin-right: 10px
         }
+        &:hover{
+          // background-color: rgba(255, 255, 255, 0.15);
+        }
         &:focus{
           box-shadow: none;
-        }
+          // background-color: rgba(255, 255, 255, 0.15);
+        }       
         @media (max-width:1280px) {
           font-size: 16px;
         }
@@ -233,26 +237,34 @@
   }
 }
 .card{
+  &.last-login-card {
+		.card-header{
+      flex-direction: column;
+    }
+  }
 	&.gridCard{
 		@include CardBg;
 		.card-header{
 			display: flex;
-			align-items: center;
-			justify-content: space-between;
 			padding: 0;
 			border: none;
-			margin-bottom: 25px;
+			margin-bottom: 20px;
 			.card-title {
 				font-family: 'Gilroy-Regular';
 				font-style: normal;
 				font-weight: 700;
 				font-size: 20px;
-				line-height: 24px;
-				display: flex;
-				align-items: center;				
+				line-height: 24px;			
 				letter-spacing: 1px;
-				color: #CACACA;
+				color: $lightGrey;
+        margin-bottom: 5px;
 			}
+      .card-subtitle {
+				color: $lightGrey;
+				font-size: 12px;
+				font-weight: 400;
+
+      }
 			.dropdown-toggle{
         @include dotDropdown;
 			}
@@ -268,7 +280,7 @@
 						border-right: none;
 						border-bottom: none;
 						border-left: none;
-						border-color: #CACACA;
+						border-color: $lightGrey;
 						border-bottom-style: solid;
 						border-bottom-width: 1px;
 						border-right-style: solid;
@@ -290,11 +302,12 @@
 				line-height: 14px;
 				display: flex;
 				align-items: center;
-				color: #CACACA;
+				color: $lightGrey;
 				margin-bottom: 0;
 				margin: 0 20px 0 10px;
 				cursor: pointer;
 				text-decoration: none;
+        text-align: center;
 				&:nth-child(2){
 					margin: 0 0 0 auto;
 				}
@@ -314,7 +327,7 @@
 				line-height: 24px;
 				display: flex;
 				align-items: center;
-				color: #CACACA;
+				color: $lightGrey;
 			}
 			.card-text{				
 				color: #979797;
@@ -332,8 +345,11 @@
 					display: flex;
 					align-items: center;					
 					justify-content: space-between;
-					color: #CACACA;
+					color: $lightGrey;
 					margin-bottom: 8px;
+          &.location-country:hover{
+            color: #f24462;
+          }
 					span{
 						font-family: "Gilroy-Medium";
 						color: #979797;
@@ -349,24 +365,30 @@
 					}
 				}
 			}
-		}
+		}    
 	}
 }
 .userProfileImage{
-  width: 175px;
+  width: 200px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   img{
-    width: 50px;
+    width: 55px;
     height: 50px;
     object-fit: cover;
     border-radius: 10px;
     &:first-child{ 
       width: 100%;
-      height: 100%;
-      max-height: 175px;
+      // height: 100%;
+      height: 200px;
+      max-height: 200px;
       margin-bottom: 12px;
     }
   }
+}
+
+.justify-space-between {
+  display: flex;
+  justify-content: space-between;
 }

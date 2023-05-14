@@ -1,4 +1,5 @@
 import Utils from "../../utility";
+import axios from 'axios';
 export const onSubmit = (values, navigate) => {
   return (dispatch) => {
     const { email, password } = values;
@@ -10,8 +11,14 @@ export const onSubmit = (values, navigate) => {
       Utils.endPoints.login,
       dataToSend,
       (respData) => {
+        dispatch({
+          type: "GET_TOKEN",
+          payload: { token: respData?.data?.data?.token },
+        });
         localStorage.setItem("accessToken", respData?.data?.data?.token);
-        navigate("/dashboard");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 100)
       },
       (error) => {
         let { data } = error;
@@ -29,6 +36,16 @@ export const forgotPassword = (values, navigate, sendEmailSend) => {
       email,
       password,
     };
+    const axiosFunc =  axios.create({
+      timeout: 100000,
+      baseURL: "https://staging-api.secrettime.com/api/v1/",
+      // baseURL: `https://staging.liviaapp.com/api`,
+      // baseURL: `https://usa.liviaapp.com/api`,
+      // baseURL: "https://usa.liviaapp.com/api",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
+      },
+    })
     Utils.api.postApiCall(
       Utils.endPoints.forgotPassword,
       dataToSend,

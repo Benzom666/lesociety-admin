@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useNavigate, useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { emailValidator, passwordValidator } from "../../utility/utils";
 import { useDispatch } from "react-redux";
 import { onSubmit } from "./action";
@@ -28,7 +28,6 @@ const LoginPage = (props) => {
     }
   };
   const handleSubmit = (e) => {
-    
     e.preventDefault();
     if (!password || !emailId) {
       !emailId && setUsernameValid("Email is requir");
@@ -39,7 +38,11 @@ const LoginPage = (props) => {
   };
   return (
     <div className="LoginUI">
-      <Form className="authUI" onSubmit={(e) => handleSubmit(e)} autoComplete ="off">
+      <Form
+        className="authUI"
+        onSubmit={(e) => handleSubmit(e)}
+        autoComplete="off"
+      >
         <h2>Let's sign you in.</h2>
         <Form.Group className="mb-4" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>

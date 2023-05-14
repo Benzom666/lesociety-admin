@@ -89,12 +89,12 @@
 // font-family: 'Gilroy-Regular', sans-serif;
 
 a:hover {
-    color: $white-color !important;
+    color: #fff !important;
 }
 
 body {
     background-color: #1F2124 !important;
-    color: $white-color !important;
+    color: #fff !important;
     font-family: "Conv_Helvetica" !important;
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
@@ -268,11 +268,11 @@ table {
     border-spacing: 0;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+// input[type="number"]::-webkit-inner-spin-button,
+// input[type="number"]::-webkit-outer-spin-button {
+//     -webkit-appearance: none;
+//     margin: 0;
+// }
 
 .form-control::placeholder {
     color: #4f4e54;
@@ -459,4 +459,14 @@ body {
       width: 92vw;
     }
   }
+}
+
+.form-check-input:focus{
+    box-shadow: 0 0 0 0.25rem rgba(242,68,98,0.38);
+}
+
+.input-group>.form-control, .input-group>.form-select{
+    flex: auto;
+    width: auto;
+    min-width: auto;
 }

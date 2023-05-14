@@ -1,10 +1,6 @@
-@import "~bootstrap/scss/bootstrap";
-
+// @import "~bootstrap/scss/bootstrap";
 @import './styles/style.scss';
 
-.App {
-  text-align: center;
-}
 
 .App-logo {
   height: 40vmin;
@@ -40,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+.btn-primary:focus{
+  border: none !important;
+  box-shadow: none !important;
+}
+.react-datetime-picker__calendar-button, .react-datetime-picker__clear-button{
+  display: none !important;
+}
+.clandr-date{
+  color: #ccc;
+    font-size: 15px;
+}
+.y-scroll{
+  overflow-y: auto;
+}
+.post-cont-spacing{
+  padding: 30px 15px;
+}
+.r-spacing{
+  padding: 0px !important;
+}
+body .form-control:focus{
+  box-shadow: none !important;
+  }
+  a:focus{
+  border: none !important;
+  box-shadow: none !important;
+  }

@@ -7,7 +7,9 @@ import Routes from "./router/index";
 function App() {
   return (
     <div className="App">
+       {/* <input type="text" /> */}
       <Routes />
+      
       <ToastContainer
         position="top-right"
         autoClose={10000}

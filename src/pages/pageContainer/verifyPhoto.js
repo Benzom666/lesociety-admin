@@ -1,124 +1,45 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import SideBar from "../sideBar/sidebar.js";
-import { Nav, Tab, Badge ,Form, InputGroup, DropdownButton, Dropdown, Card, ProfileImages, Button } from 'react-bootstrap';
-import { TbDots } from "react-icons/tb";
-import VerifyProfileImages from './profileImage'
-import PageHeader from '../pageContainer/header'
+import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash";
 
+import PageHeader from "../pageContainer/header";
+import {
+  getDefaultMsgList,
+  getUserList,
+  getUserStatusCounter,
+} from "./action.js";
+import DataTablePagination from "./DataTablePagination.js";
+import { Navigate } from "react-router-dom";
 
-function PostList(props){
-  // const { width } = useWindowSize();
-    // const UserPostList = props.Card;
+const PostList = React.memo(function (props) {
+  const dispatch = useDispatch();
+  const { userlist } = useSelector((state) => state.userListReducer);
+  const [endUser, setEndUser] = useState("");
 
-    const [isActive, setIsActive] = useState("false");
-    const handleToggle = () => {
-      setIsActive(current => !current);  };
-  
-       
-  const posts = [
-    {id: 1,},
-    {id: 2,}
-  ];
-
-      // const UserPostList = props.posts.map((post) =>
-    const UserPostList = posts.map((post) =>      
-      <Card className="bg-dark text-white verifyPhotoCard" key={post.id}>
-          <div className='cardActionBox' >
-            <Form.Check 
-              className='checkboxUI'
-              type="checkbox"
-            />
-          </div>
-        <div className='userProfileDetail'>
-          <VerifyProfileImages/>
-          <Card.Body>
-            <Card.Text>
-              With supporting text below as a natural lead-in to additional content.
-            </Card.Text>
-            <Card.Title>Special title treatment</Card.Title>
-          </Card.Body>
-          <Card.Title> Ryan Johnston  </Card.Title>
-          <div className='userInfoLink'>
-            <Card.Link href="#">picture</Card.Link>
-            <Card.Link href="#">Info</Card.Link>
-          </div>
-          <div>
-            <Button className='requestBtn'>Request</Button>
-            <Button className='verifyBtn'>verify</Button>
-          </div>
-        </div>
-        <Card.Footer>
-          Email <span>Olson94@hotmail.com</span>
-        </Card.Footer>
-      </Card>   
-    );
-
+  useEffect(() => {
+    dispatch({
+      type: "USER_LIST",
+      payload: { tab: 2, search: "", per_page: 10, userlist: [] },
+    });
+    dispatch(getUserList(5, 1));
+    dispatch(getUserStatusCounter());
+    dispatch(getDefaultMsgList("userRequestType"));
+  }, []);
+  const token = localStorage.getItem("accessToken");
+  if(!token) {
+    return <Navigate to="/" replace={true} />;
+  }
   return (
     <div className="dashboardUi">
-      <SideBar/>
+      <SideBar />
       <div className="inner-page userListUI">
-      <PageHeader/>
-        <Tab.Container defaultActiveKey="link-1" >
-          <Nav variant="tabs" >
-            <Nav.Item>
-              <Nav.Link eventKey="link-1">
-                Total Users 
-                <Badge pill bg="secondary">
-                  3,876
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-2">
-              New 
-                <Badge pill bg="secondary">
-                  3,876
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-3">
-              Deactivated 
-                <Badge pill bg="secondary">
-                  3,876
-                </Badge>
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <Tab.Content>
-            <Tab.Pane eventKey="link-1">
-              <InputGroup className="">
-                <Form.Control type="text" placeholder='Search'/>
-
-                <DropdownButton
-                  variant="outline-secondary"
-                  title="Per Page"
-                  id="input-group-dropdown-2"
-                  align="end"
-                >
-                  <Dropdown.Item href="#">Action</Dropdown.Item>
-                  <Dropdown.Item href="#">Another action</Dropdown.Item>
-                  <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Item href="#">Separated link</Dropdown.Item>
-                </DropdownButton>
-              </InputGroup>
-              <div className='userPostListBox'>               
-                {UserPostList}
-              </div>
-
-            </Tab.Pane>
-            <Tab.Pane eventKey="link-2">
-                {/* <UserTableContent/> */}
-            </Tab.Pane>
-            <Tab.Pane eventKey="link-3">
-                {/* <UserTableContent/> */}
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
+        <PageHeader title="Verify Photo" />
+        <DataTablePagination data={userlist} setEndUser={setEndUser} />
+        <p className="text-danger">{endUser}</p>
       </div>
     </div>
-  )
-}
+  );
+});
 
 export default PostList;

@@ -1,65 +1,104 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import Login from "../screens/login";
+import React, { Suspense } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+
 import Dashboard from "../pages/dashboard/index.js";
 import Login from "../pages/auth/login.js";
 import ResetPassword from "../pages/auth/reset-password.js";
 import ForgotPassword from "../pages/auth/forgot-password";
 import RequireAuth from "./RequireAuth";
-import UserList from "../pages/pageContainer/user-list";
-import Allinfluencers from "../pages/pageContainer/influencers";
-import PostList from "../pages/pageContainer/post.js";
-import VerifyPhoto from "../pages/pageContainer/verifyPhoto.js";
-import UserProfile from "../pages/pageContainer/userProfile"
+import PublicAuth from "./publicAuth";
+const PostList = React.lazy(() => import("../pages/pageContainer/post.js"));
+const VerifyPhoto = React.lazy(() => import("../pages/pageContainer/verifyPhoto.js"));
+const UserProfile = React.lazy(() => import("../pages/pageContainer/userProfile"));
+const UserList = React.lazy(() => import("../pages/UserList/UserList"));
+const InfluencerPage = React.lazy(() => import("../pages/Influencer/Influencer.js"));
+const CountryList = React.lazy(() => import("../pages/Country"));
+const DocumentVerificationPage = React.lazy(() => import("../pages/DocumentVerification"));
 
 function Router() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={"/"} element={<Login />} />
-        <Route
-          path={"/dashboard"}
-          element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path={"/profile"}
-          element={
-            <RequireAuth>
-              <UserProfile />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path={"/verifyPhoto"}
-          element={
-            <RequireAuth>
-              <VerifyPhoto />
-            </RequireAuth>
-          }
-        />
-         <Route
-          path={"/userList"}
-          element={
-            <RequireAuth>
-              <UserList />
-            </RequireAuth>
-          }
-        />
-        <Route path={"/reset-Password"} element={<ResetPassword />} />
-        <Route path={"/forgot-password"} element={<ForgotPassword />} />
-        
-        <Route path={"/"} element={<Login/>} />
-        <Route path={"/dashboard"} element={<Dashboard/>} />
-        {/* <Route path={"/userList"} element={<UserList/>} />*/}
-        <Route path={"/all-influencers"} element={<Allinfluencers/>} /> 
-        <Route path={"/post"} element={<PostList/>} />
-        <Route path={"/reset-Password"} element={<ResetPassword/>} />
-        <Route path="*" element={<>Not found</>} />
-      </Routes>
-    </BrowserRouter>
+    <Suspense>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path={"/"}
+            element={
+              // <PublicAuth>
+              <Login />
+              //  </PublicAuth>
+            }
+          />
+          <Route
+            path={"/dashboard"}
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={"/profile/:username"}
+            element={
+              <RequireAuth>
+                <UserProfile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={"/verifyPhoto"}
+            element={
+              <RequireAuth>
+                <VerifyPhoto />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={"/reset-Password"}
+            element={
+              <PublicAuth>
+                <ResetPassword />
+              </PublicAuth>
+            }
+          />
+          <Route
+            path={"/forgot-password"}
+            element={
+              <PublicAuth>
+                <ForgotPassword />
+              </PublicAuth>
+            }
+          />
+
+          <Route
+            path={"/userList"}
+            element={
+              <RequireAuth>
+                <UserList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={"/country"}
+            element={
+              <RequireAuth>
+                <CountryList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={"/document-verification"}
+            element={
+              <RequireAuth>
+                <DocumentVerificationPage />
+              </RequireAuth>
+            }
+          />
+          <Route path={"/post"} element={<PostList />} />
+          <Route path={"/all-influencers"} element={<InfluencerPage />} />
+          <Route path="*" element={<>Not found</>} />
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 
