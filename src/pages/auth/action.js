@@ -38,7 +38,7 @@ export const forgotPassword = (values, navigate, sendEmailSend) => {
     };
     const axiosFunc =  axios.create({
       timeout: 100000,
-      baseURL: "https://api.lesociety.com /api/v1/",
+      baseURL: "https://api.lesociety.com/api/v1/",
       // baseURL: `https://staging.liviaapp.com/api`,
       // baseURL: `https://usa.liviaapp.com/api`,
       // baseURL: "https://usa.liviaapp.com/api",
