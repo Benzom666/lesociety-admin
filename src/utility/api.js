@@ -89,7 +89,7 @@ const getApiCall = async (
 ) => {
   const axiosFunc = axios.create({
     timeout: 100000,
-    baseURL: "https://staging-api.secrettime.com/api/v1/",
+    baseURL: "https://api.lesociety.com/api/v1/",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}`,
       //      Content-Type: 'application/x-www-form-urlencoded'
