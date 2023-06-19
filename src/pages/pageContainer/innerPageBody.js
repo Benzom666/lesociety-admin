@@ -156,7 +156,7 @@ const PageContainer = (props) => {
       const formattedEndDate = moment(newEndDate).format('YYYY-MM-DD HH:mm:ss');
 
       const { data } = await axios.get(
-        `https://staging-api.secrettime.com/api/v1/dashboard/users-counts-by-date?status=1&user_type=new&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
+        `${process.env.REACT_APP_API_BASE_URL}/dashboard/users-counts-by-date?status=1&user_type=new&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
@@ -177,7 +177,7 @@ const PageContainer = (props) => {
       const formattedEndDate = moment(activeEndDate).format('YYYY-MM-DD HH:mm:ss');
 
       const { data } = await axios.get(
-        `https://staging-api.secrettime.com/api/v1/dashboard/users-counts-by-date?status=2&user_type=active&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
+        `${process.env.REACT_APP_API_BASE_URL}/dashboard/users-counts-by-date?status=2&user_type=active&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
@@ -197,7 +197,7 @@ const PageContainer = (props) => {
       const formattedEndDate = moment(pendingEndDate).format('YYYY-MM-DD HH:mm:ss');
 
       const { data } = await axios.get(
-        `https://staging-api.secrettime.com/api/v1/dashboard/users-counts-by-date?status=1&user_type=pending&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
+        `${process.env.REACT_APP_API_BASE_URL}/dashboard/users-counts-by-date?status=1&user_type=pending&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
