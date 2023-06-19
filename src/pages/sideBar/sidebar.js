@@ -35,7 +35,7 @@ const SideBar = () => {
               // href="#action2"
               onClick={(e) => {
                 e.preventDefault();
-                navigateViaSideBar("/userList");
+                navigateViaSideBar("/userList?tab=total-users");
               }}
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

@@ -12,7 +12,7 @@ import {
 import Utils from "../../utility/index.js";
 import PageHeader from "../pageContainer/header";
 import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 
 function UserList() {
   const dispatch = useDispatch();
@@ -22,6 +22,49 @@ function UserList() {
   const [endUser, setEndUser] = useState("");
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const TAB_LINK_MAP = {
+    'total-users': 'link-1',
+    'verified-users': 'link-2',
+    'pending-verification': 'link-3',
+    'details': 'link-4',
+    'updated-details': 'link-5',
+  }
+
+  const LINK_STATUS_MAP = {
+    'link-1': '',
+    'link-2': 2,
+    'link-3': 1,
+    'link-4': 6,
+    'link-5': 10,
+  }
+
+  const getSelectedTabFromURL = () => {
+    const urlParams = new URLSearchParams(location.search);
+    return TAB_LINK_MAP[urlParams.get('tab')]
+  };
+
+  const [selectedTab, setSelectedTab] = useState(
+    getSelectedTabFromURL() || localStorage.getItem('selectedTab') || 'link-1'
+  );
+
+  useEffect(() => {
+    localStorage.setItem('selectedTab', selectedTab);
+    setStatus(LINK_STATUS_MAP[selectedTab])
+    const tabValue = findTabNameByLink(selectedTab);
+    navigate(`?tab=${tabValue}`);
+  }, [selectedTab]);
+
+  const findTabNameByLink = (value) => {
+    return Object.keys(TAB_LINK_MAP).find((key) => TAB_LINK_MAP[key] === value);
+  };
+
+  const handleTabSelect = (tabKey) => {
+    setSelectedTab(tabKey);
+  };
 
   useEffect(() => {
     dispatch({
@@ -57,7 +100,7 @@ function UserList() {
       <SideBar />
       <div className="inner-page userListUI">
         <PageHeader title="Users list" />
-        <Tab.Container defaultActiveKey="link-1">
+        <Tab.Container defaultActiveKey={selectedTab} onSelect={handleTabSelect}>
           <Nav variant="tabs">
             <NavItemSet
               eventKey="link-1"
