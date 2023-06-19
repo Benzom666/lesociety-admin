@@ -6,7 +6,14 @@ import moment from "moment";
 
 import SideBar from "../sideBar/sidebar.js";
 import LocationIcon from "../../assets/images/location.svg";
-import GetReadyIcon from "../../assets/images/getReady.svg";
+import BrunchDateSvg from "../../assets/images/brunchDate.svg"
+import EveningDateSvg from "../../assets/images/eveningDate.svg";
+import GetSportySvg from "../../assets/images/getReady.svg";
+import TakeAClassSvg from "../../assets/images/takeAClass.svg";
+import EntertainmentAndSportsSvg from "../../assets/images/entertainmentAndSports.svg";
+import WineAndDineSvg from "../../assets/images/wineAndDine.svg";
+import BottlesAndDanceSvg from "../../assets/images/bottlesAndDance.svg";
+
 import { MdOutlineRotate90DegreesCcw } from "react-icons/md";
 import PageHeader from "../pageContainer/header";
 import {
@@ -19,6 +26,16 @@ import {
 import { DefaultMsg } from "./DefaultMsg";
 import Utils from "../../utility/index.js";
 import { NavItemSet, SearchDropdownSet } from "./Component";
+
+const DATE_TYPE_ICONS = {
+  "Brunch Date": BrunchDateSvg,
+  "Evening Date": EveningDateSvg,
+  "Get Sporty": GetSportySvg,
+  "Take A Class": TakeAClassSvg,
+  "Entertainment & Sports": EntertainmentAndSportsSvg,
+  "Wine & Dine": WineAndDineSvg,
+  "Bottles & Dance": BottlesAndDanceSvg
+}
 
 function PostList() {
   const dispatch = useDispatch();
@@ -143,12 +160,13 @@ function PostList() {
                       ${value?.price} / <span> {value?.date_length} </span>
                     </Card.Text>
                   </div>
-                  <Card.Link href="#">
-                    {" "}
-                    <img src={GetReadyIcon} />{" "}
-                    {value?.middle_class_dates ||
+                  <Card.Link href="#" className="date-type-badge">
+                    <img src={DATE_TYPE_ICONS[(value?.middle_class_dates ||
                       value?.standard_class_date ||
-                      value?.executive_class_dates}
+                      value?.executive_class_dates || '').trim()] || DATE_TYPE_ICONS['Get Sporty']} alt="" className="date-type-icon"/>{" "}
+                    <span>{value?.middle_class_dates ||
+                      value?.standard_class_date ||
+                      value?.executive_class_dates}</span>
                   </Card.Link>
                 </Card.ImgOverlay>
               </>
