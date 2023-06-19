@@ -173,9 +173,11 @@ function PostList() {
             ) : (
               <Card.Body className={`posterDetails r-spacing posterDetailShow`}>
                 <div className="y-scroll post-cont-spacing">
-                  <h3> {value?.middle_class_dates} </h3>
-                  <p>{value?.date_details}</p>
-                  {value?.warning_sent_date  && status === 6? 
+                  <h3 className="date-card-type-title"> {(value?.middle_class_dates ||
+                      value?.standard_class_date ||
+                      value?.executive_class_dates || '').trim()} </h3>
+                  <p style={{'maxWidth': '200px'}}>{value?.date_details}</p>
+                  {value?.warning_sent_date  && status === 6?
                   <p className="warned-date">Warned date:  {moment(value?.warning_sent_date).format("DD/MM/YYYY")}</p> : ""}
                 </div>
               </Card.Body>
