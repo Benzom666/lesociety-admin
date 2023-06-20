@@ -12,7 +12,7 @@ import {
 import Utils from "../../utility/index.js";
 import PageHeader from "../pageContainer/header";
 import { NavItemSet, SearchDropdownSet } from "../pageContainer/Component";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 
 function UserList() {
   const dispatch = useDispatch();
@@ -22,6 +22,56 @@ function UserList() {
   const [endUser, setEndUser] = useState("");
   const [page, setPage] = useState(2);
   const [status, setStatus] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
+
+  const TAB_LINK_MAP = {
+    'total-users': 'link-1',
+    'verified-users': 'link-2',
+    'pending-verification': 'link-3',
+    'details': 'link-4',
+    'updated-details': 'link-5',
+  }
+
+  const LINK_STATUS_MAP = {
+    'link-1': '',
+    'link-2': 2,
+    'link-3': 1,
+    'link-4': 6,
+    'link-5': 10,
+  }
+
+  const getSelectedTabFromURL = () => {
+    return TAB_LINK_MAP[urlParams.get('tab')]
+  };
+
+  const [selectedTab, setSelectedTab] = useState(
+    getSelectedTabFromURL() || localStorage.getItem('selectedTab') || 'link-1'
+  );
+
+  useEffect(() => {
+    localStorage.setItem('selectedTab', selectedTab);
+    setStatus(LINK_STATUS_MAP[selectedTab])
+    urlParams.set('tab', findTabNameByLink(selectedTab));
+
+    for (const param of urlParams.entries()) {
+      if (param[0] !== 'tab') {
+        urlParams.set(param[0], param[1]);
+      }
+    }
+
+    navigate(`?${urlParams.toString()}`);
+  }, [selectedTab]);
+
+  const findTabNameByLink = (value) => {
+    return Object.keys(TAB_LINK_MAP).find((key) => TAB_LINK_MAP[key] === value);
+  };
+
+  const handleTabSelect = (tabKey) => {
+    setSelectedTab(tabKey);
+  };
 
   useEffect(() => {
     dispatch({
@@ -47,7 +97,7 @@ function UserList() {
     });
     if(node) observer.current.observe(node);
   });
-  
+
   const token = localStorage.getItem("accessToken");
   if(!token) {
     return <Navigate to="/" replace={true} />;
@@ -57,7 +107,7 @@ function UserList() {
       <SideBar />
       <div className="inner-page userListUI">
         <PageHeader title="Users list" />
-        <Tab.Container defaultActiveKey="link-1">
+        <Tab.Container defaultActiveKey={selectedTab} onSelect={handleTabSelect}>
           <Nav variant="tabs">
             <NavItemSet
               eventKey="link-1"
@@ -116,9 +166,9 @@ function UserList() {
             {!status ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">{status === 2 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-4">{status === 6 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} noAction={true}/> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-5">{status === 10 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-4">{status === 6 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} noAction={true} /> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-5">{status === 10 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       <p className="text-danger">{endUser}</p>

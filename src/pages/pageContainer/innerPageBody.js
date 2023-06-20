@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Card, Dropdown, Col, Row, ProgressBar } from "react-bootstrap";
-import DateTimePicker from "react-datetime-picker";
-import PageHeader from "../pageContainer/header";
-import { TbDots } from "react-icons/tb";
-import { Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
-import { useDispatch, useSelector } from "react-redux";
-import { CategoryScale } from "chart.js";
+import React, { useEffect, useState } from 'react';
+import { Card, Dropdown, Col, Row, ProgressBar } from 'react-bootstrap';
+import DateTimePicker from 'react-datetime-picker';
+import PageHeader from '../pageContainer/header';
+import { TbDots } from 'react-icons/tb';
+import { Line } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
+import { useDispatch, useSelector } from 'react-redux';
+import { CategoryScale } from 'chart.js';
 import {
   getCountry,
   getGeoStats,
@@ -14,17 +14,18 @@ import {
   getRegDashboardMale,
   getUnRegDashboard,
   getUnRegDashboardMale,
-  getRegisterUserCount
-} from "./action";
-import moment from "moment";
-import Utils from "../../utility";
+  getRegisterUserCount,
+} from './action';
+import moment from 'moment';
+import axios from 'axios';
+import Utils from '../../utility';
 Chart.register(CategoryScale);
 
 const PageContainer = (props) => {
   const [geoData, setGeoData] = useState({
-    place: "",
-    gender: "",
-    locationType: "country",
+    place: '',
+    gender: '',
+    locationType: 'country',
   });
   const {
     registerCompFemaleList,
@@ -50,36 +51,34 @@ const PageContainer = (props) => {
     dispatch(getCountry());
     dispatch(getGeoStats());
     dispatch(getRegisterUserCount());
+    newUsersHandler();
+    activeUsersHandler();
+    pendingUsersHandler();
   }, []);
+
   const data = {
     labels:
       !!registerCompFemaleList &&
-      registerCompFemaleList.map((value) => [
-        moment.utc(value?.created_at).format("DD/MM"),
-      ]),
+      registerCompFemaleList.map((value) => [moment.utc(value?.created_at).format('DD/MM')]),
     datasets: [
       {
-        label: "Women",
-        data:
-          !!registerCompFemaleList &&
-          registerCompFemaleList.map((value) => value?.count),
+        label: 'Women',
+        data: !!registerCompFemaleList && registerCompFemaleList.map((value) => value?.count),
         fill: false,
-        backgroundColor: "rgb(242 68 98 / 22%)",
-        borderColor: "#f24462",
+        backgroundColor: 'rgb(242 68 98 / 22%)',
+        borderColor: '#f24462',
         tension: 0.5,
         borderWidth: 1.5,
         pointBorderWidth: 0,
         pointRadius: 0,
       },
       {
-        label: "Men",
-        data:
-          !!registerCompMaleList &&
-          registerCompMaleList.map((value) => value?.count),
+        label: 'Men',
+        data: !!registerCompMaleList && registerCompMaleList.map((value) => value?.count),
         fill: true,
-        borderColor: "#618CB4",
+        borderColor: '#618CB4',
         tension: 0.5,
-        backgroundColor: "rgb(93 137 179 / 25%)",
+        backgroundColor: 'rgb(93 137 179 / 25%)',
         borderWidth: 1.5,
         pointBorderWidth: 0,
         pointRadius: 0,
@@ -89,54 +88,129 @@ const PageContainer = (props) => {
   const unCompdata = {
     labels:
       !!registerUnCompFemaleList &&
-      registerUnCompFemaleList.map((value) => [
-        moment.utc(value?.created_at).format("DD/MM"),
-      ]),
+      registerUnCompFemaleList.map((value) => [moment.utc(value?.created_at).format('DD/MM')]),
     datasets: [
       {
-        label: "Women",
-        data:
-          !!registerUnCompFemaleList &&
-          registerUnCompFemaleList.map((value) => value?.count),
+        label: 'Women',
+        data: !!registerUnCompFemaleList && registerUnCompFemaleList.map((value) => value?.count),
         fill: false,
         redraw: true,
-        backgroundColor: "rgb(242 68 98 / 22%)",
-        borderColor: "#f24462",
+        backgroundColor: 'rgb(242 68 98 / 22%)',
+        borderColor: '#f24462',
         tension: 0.5,
         borderWidth: 1.5,
         pointBorderWidth: 0,
         pointRadius: 0,
       },
       {
-        label: "Men",
-        data:
-          !!registerUnCompMaleList &&
-          registerUnCompMaleList.map((value) => value?.count),
+        label: 'Men',
+        data: !!registerUnCompMaleList && registerUnCompMaleList.map((value) => value?.count),
         fill: true,
         redraw: true,
-        borderColor: "#618CB4",
+        borderColor: '#618CB4',
         tension: 0.5,
-        backgroundColor: "rgb(93 137 179 / 25%)",
+        backgroundColor: 'rgb(93 137 179 / 25%)',
         borderWidth: 1.5,
         pointBorderWidth: 0,
         pointRadius: 0,
       },
     ],
   };
-  const { count = 0, percent = 0, sign = "" } = dashboardStats;
+  const { count = 0, percent = 0, sign = '' } = dashboardStats;
   const dashboardStatsFunc = (func, status, timeframe, type) => {
     dispatch(
-      func(
-        status,
-        moment().subtract(timeframe, type).utc().format(),
-        moment().utc().format()
-      )
+      func(status, moment().subtract(timeframe, type).utc().format(), moment().utc().format())
     );
   };
   const getGeoLocationData = (place, gender, locationType) => {
     dispatch(getGeoStats(place, gender, locationType));
     setGeoData({ place, gender, locationType });
   };
+
+  const [newStartDate, setNewStartDate] = useState(moment().subtract(7, 'days').toDate());
+  const [newEndDate, setNewEndDate] = useState(new Date());
+  const [activeStartDate, setActiveStartDate] = useState(moment().subtract(7, 'days').toDate());
+  const [activeEndDate, setActiveEndDate] = useState(new Date());
+  const [pendingStartDate, setPendingStartDate] = useState(moment().subtract(7, 'days').toDate());
+  const [pendingEndDate, setPendingEndDate] = useState(new Date());
+
+  const [newUserCount, setNewUserCount] = useState('');
+  const [activeUserCount, setActiveUserCount] = useState('');
+  const [pendingUserCount, setPendingUserCount] = useState('');
+
+  useEffect(() => {
+    newUsersHandler();
+  }, [newStartDate, newEndDate]);
+
+  useEffect(() => {
+    activeUsersHandler();
+  }, [activeStartDate, activeEndDate]);
+
+  useEffect(() => {
+    pendingUsersHandler();
+  }, [pendingStartDate, pendingEndDate]);
+
+  const newUsersHandler = async () => {
+    try {
+      const formattedStartDate = moment(newStartDate).format('YYYY-MM-DD HH:mm:ss');
+      const formattedEndDate = moment(newEndDate).format('YYYY-MM-DD HH:mm:ss');
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/dashboard/users-counts-by-date?status=1&user_type=new&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
+          },
+        }
+      );
+
+      const { count } = data.data;
+      setNewUserCount(count);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const activeUsersHandler = async () => {
+    try {
+      const formattedStartDate = moment(activeStartDate).format('YYYY-MM-DD HH:mm:ss');
+      const formattedEndDate = moment(activeEndDate).format('YYYY-MM-DD HH:mm:ss');
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/dashboard/users-counts-by-date?status=2&user_type=active&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
+          },
+        }
+      );
+      const { count } = data.data;
+      setActiveUserCount(count);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const pendingUsersHandler = async () => {
+    try {
+      const formattedStartDate = moment(pendingStartDate).format('YYYY-MM-DD HH:mm:ss');
+      const formattedEndDate = moment(pendingEndDate).format('YYYY-MM-DD HH:mm:ss');
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/dashboard/users-counts-by-date?status=1&user_type=pending&start_date=${formattedStartDate}&end_date=${formattedEndDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken') || ''}`,
+          },
+        }
+      );
+      const { count } = data.data;
+      setPendingUserCount(count);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="inner-page">
       <PageHeader title="Dashboard" />
@@ -146,14 +220,31 @@ const PageContainer = (props) => {
             <Card className="gridCard last-login-card">
               <Card.Header>
                 <Card.Title>Active Users</Card.Title>
-                <Card.Subtitle>{`(since last login: ${activeUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
+                <Card.Subtitle>{`(since last login: ${
+                  activeUsers?.beforeLoginCount || 0
+                })`}</Card.Subtitle>
+                <div className="clandr-date">
+                  <DateTimePicker
+                    onChange={setActiveStartDate}
+                    value={activeStartDate}
+                    calendarClassName="graphFilter"
+                    disableClock="false"
+                    format="dd/MM/y"
+                    minDetail="decade"
+                  />
+                  <span className="dategap"> - </span>
+                  <DateTimePicker
+                    onChange={setActiveEndDate}
+                    value={activeEndDate}
+                    calendarClassName="graphFilter"
+                    disableClock="false"
+                    format="dd/MM/y"
+                  />
+                </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{activeUsers?.count || 0}{" "} people</Card.Subtitle>
-                <Card.Text>
-                  {activeUsers?.percent}
-                  %{" "}
-                </Card.Text>
+                <Card.Subtitle>{activeUserCount} people</Card.Subtitle>
+                <Card.Text>{activeUsers?.percent}% </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -161,17 +252,31 @@ const PageContainer = (props) => {
             <Card className="gridCard  last-login-card">
               <Card.Header>
                 <Card.Title>New Users</Card.Title>
-                <Card.Subtitle>{`(since last login: ${newUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
+                <Card.Subtitle>{`(since last login: ${
+                  newUsers?.beforeLoginCount || 0
+                })`}</Card.Subtitle>
+                <div className="clandr-date">
+                  <DateTimePicker
+                    onChange={setNewStartDate}
+                    value={newStartDate}
+                    calendarClassName="graphFilter"
+                    disableClock="false"
+                    format="dd/MM/y"
+                    minDetail="decade"
+                  />
+                  <span className="dategap"> - </span>
+                  <DateTimePicker
+                    onChange={setNewEndDate}
+                    value={newEndDate}
+                    calendarClassName="graphFilter"
+                    disableClock="false"
+                    format="dd/MM/y"
+                  />
+                </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>
-                  {newUsers?.count || 0}{" "}
-                  people
-                </Card.Subtitle>
-                <Card.Text>
-                  {newUsers?.percent || 0}
-                  %{" "}
-                </Card.Text>
+                <Card.Subtitle>{newUserCount} people</Card.Subtitle>
+                <Card.Text>{newUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -179,17 +284,31 @@ const PageContainer = (props) => {
             <Card className="gridCard  last-login-card">
               <Card.Header>
                 <Card.Title>Pending Users</Card.Title>
-                <Card.Subtitle>{`(since last login: ${pendingUsers?.beforeLoginCount || 0})`}</Card.Subtitle>
+                <Card.Subtitle>{`(since last login: ${
+                  pendingUsers?.beforeLoginCount || 0
+                })`}</Card.Subtitle>
+                <div className="clandr-date">
+                  <DateTimePicker
+                    onChange={setPendingStartDate}
+                    value={pendingStartDate}
+                    calendarClassName="graphFilter"
+                    disableClock="false"
+                    format="dd/MM/y"
+                    minDetail="decade"
+                  />
+                  <span className="dategap"> - </span>
+                  <DateTimePicker
+                    onChange={setPendingEndDate}
+                    value={pendingEndDate}
+                    calendarClassName="graphFilter"
+                    disableClock="false"
+                    format="dd/MM/y"
+                  />
+                </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>
-                  {pendingUsers?.count || 0}{" "}
-                  people
-                </Card.Subtitle>
-                <Card.Text>
-                  {pendingUsers?.percent || 0}
-                  %{" "}
-                </Card.Text>
+                <Card.Subtitle>{pendingUserCount} people</Card.Subtitle>
+                <Card.Text>{pendingUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
           </Col>
@@ -208,8 +327,8 @@ const PageContainer = (props) => {
                           type: Utils.ActionName.GET_REGCOMPMALE,
                           payload: { rStartDate: e },
                         });
-                        dispatch(getRegDashboard("", rStartDate, rEndDate));
-                        dispatch(getRegDashboardMale("", rStartDate, rEndDate));
+                        dispatch(getRegDashboard('', rStartDate, rEndDate));
+                        dispatch(getRegDashboardMale('', rStartDate, rEndDate));
                       }}
                       value={rStartDate}
                       calendarClassName="graphFilter"
@@ -225,8 +344,8 @@ const PageContainer = (props) => {
                           type: Utils.ActionName.GET_REGCOMPMALE,
                           payload: { rEndDate: e },
                         });
-                        dispatch(getRegDashboard("", rStartDate, rEndDate));
-                        dispatch(getRegDashboardMale("", rStartDate, rEndDate));
+                        dispatch(getRegDashboard('', rStartDate, rEndDate));
+                        dispatch(getRegDashboardMale('', rStartDate, rEndDate));
                       }}
                       value={rEndDate}
                       calendarClassName="graphFilter"
@@ -255,12 +374,8 @@ const PageContainer = (props) => {
                           type: Utils.ActionName.GET_REGUNCOMPMALE,
                           payload: { unRstartDate: e },
                         });
-                        dispatch(
-                          getUnRegDashboard("", unRstartDate, unRendDate)
-                        );
-                        dispatch(
-                          getUnRegDashboardMale("", unRstartDate, unRendDate)
-                        );
+                        dispatch(getUnRegDashboard('', unRstartDate, unRendDate));
+                        dispatch(getUnRegDashboardMale('', unRstartDate, unRendDate));
                       }}
                       value={unRstartDate}
                       calendarClassName="graphFilter"
@@ -275,12 +390,8 @@ const PageContainer = (props) => {
                           type: Utils.ActionName.GET_REGUNCOMPMALE,
                           payload: { unRendDate: e },
                         });
-                        dispatch(
-                          getUnRegDashboard("", unRstartDate, unRendDate)
-                        );
-                        dispatch(
-                          getUnRegDashboardMale("", unRstartDate, unRendDate)
-                        );
+                        dispatch(getUnRegDashboard('', unRstartDate, unRendDate));
+                        dispatch(getUnRegDashboardMale('', unRstartDate, unRendDate));
                       }}
                       value={unRendDate}
                       calendarClassName="graphFilter"
@@ -303,57 +414,35 @@ const PageContainer = (props) => {
                 <Card.Link
                   role="button"
                   onClick={() => {
-                    getGeoLocationData("", "", "country");
-                  }}
-                >
+                    getGeoLocationData('', '', 'country');
+                  }}>
                   Country
                 </Card.Link>
                 {/* <Card.Link onClick={() => {
                   dispatch(getGeoStats("", "", "city"))}}> City </Card.Link> */}
 
-                <Dropdown
-                  align="end"
-                  style={{ marginLeft: "16px", cursor: "pointer" }}
-                >
-                  <Dropdown.Toggle
-                    id="dropdown-button-dark-example1"
-                    variant="secondary"
-                  >
+                <Dropdown align="end" style={{ marginLeft: '16px', cursor: 'pointer' }}>
+                  <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary">
                     <TbDots />
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu variant="dark">
                     <Dropdown.Item
                       onClick={() => {
-                        getGeoLocationData(
-                          geoData.place,
-                          "female",
-                          geoData.locationType
-                        );
-                      }}
-                    >
+                        getGeoLocationData(geoData.place, 'female', geoData.locationType);
+                      }}>
                       Female
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        getGeoLocationData(
-                          geoData.place,
-                          "male",
-                          geoData.locationType
-                        );
-                      }}
-                    >
+                        getGeoLocationData(geoData.place, 'male', geoData.locationType);
+                      }}>
                       Male
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => {
-                        getGeoLocationData(
-                          geoData.place,
-                          "",
-                          geoData.locationType
-                        );
-                      }}
-                    >
+                        getGeoLocationData(geoData.place, '', geoData.locationType);
+                      }}>
                       Both
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -363,31 +452,28 @@ const PageContainer = (props) => {
                 <Row className="w-100">
                   {geoStats.length > 0
                     ? geoStats.map((value, index) => {
-                      return (
-                        <Col
-                          md="6"
-                          className="mb-4 progressBarBox"
-                          role={geoData.locationType === "country" ? "button" : ""}
-                          onClick={() => {
-                            if (geoData.locationType === "country") {
-                              getGeoLocationData(
-                                value?.location,
-                                geoData.gender,
-                                "city"
-                              );
-                            }
-                          }}
-                        >
-                          <h6 className={(geoData.locationType === "country") ? "location-country" : ""}>
-                            {" "}
-                            {value?.location}{" "}
-                            <span>{value?.totalCount}%</span>{" "}
-                          </h6>
-                          <ProgressBar now={value?.totalCount} />
-                        </Col>
-                      );
-                    })
-                    : "Record Not Found."}
+                        return (
+                          <Col
+                            md="6"
+                            className="mb-4 progressBarBox"
+                            role={geoData.locationType === 'country' ? 'button' : ''}
+                            onClick={() => {
+                              if (geoData.locationType === 'country') {
+                                getGeoLocationData(value?.location, geoData.gender, 'city');
+                              }
+                            }}>
+                            <h6
+                              className={
+                                geoData.locationType === 'country' ? 'location-country' : ''
+                              }>
+                              {' '}
+                              {value?.location} <span>{value?.totalCount}%</span>{' '}
+                            </h6>
+                            <ProgressBar now={value?.totalCount} />
+                          </Col>
+                        );
+                      })
+                    : 'Record Not Found.'}
                 </Row>
               </Card.Body>
             </Card>
