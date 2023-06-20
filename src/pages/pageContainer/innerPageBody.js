@@ -223,7 +223,7 @@ const PageContainer = (props) => {
                 <Card.Subtitle>{`(since last login: ${
                   activeUsers?.beforeLoginCount || 0
                 })`}</Card.Subtitle>
-                <Col md="4" className="clandr-date">
+                <div className="clandr-date">
                   <DateTimePicker
                     onChange={setActiveStartDate}
                     value={activeStartDate}
@@ -240,7 +240,7 @@ const PageContainer = (props) => {
                     disableClock="false"
                     format="dd/MM/y"
                   />
-                </Col>
+                </div>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>{activeUserCount} people</Card.Subtitle>
@@ -255,7 +255,7 @@ const PageContainer = (props) => {
                 <Card.Subtitle>{`(since last login: ${
                   newUsers?.beforeLoginCount || 0
                 })`}</Card.Subtitle>
-                <Col md="4" className="clandr-date">
+                <div className="clandr-date">
                   <DateTimePicker
                     onChange={setNewStartDate}
                     value={newStartDate}
@@ -272,7 +272,7 @@ const PageContainer = (props) => {
                     disableClock="false"
                     format="dd/MM/y"
                   />
-                </Col>
+                </div>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>{newUserCount} people</Card.Subtitle>
@@ -287,7 +287,7 @@ const PageContainer = (props) => {
                 <Card.Subtitle>{`(since last login: ${
                   pendingUsers?.beforeLoginCount || 0
                 })`}</Card.Subtitle>
-                <Col md="4" className="clandr-date">
+                <div className="clandr-date">
                   <DateTimePicker
                     onChange={setPendingStartDate}
                     value={pendingStartDate}
@@ -304,7 +304,7 @@ const PageContainer = (props) => {
                     disableClock="false"
                     format="dd/MM/y"
                   />
-                </Col>
+                </div>
               </Card.Header>
               <Card.Body>
                 <Card.Subtitle>{pendingUserCount} people</Card.Subtitle>
