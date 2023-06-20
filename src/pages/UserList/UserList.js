@@ -62,9 +62,7 @@ function UserList() {
       }
     }
 
-    const lastViewedProfile = localStorage.getItem('lastViewedProfile')
-
-    navigate(`?${urlParams.toString()}${lastViewedProfile ? `#${lastViewedProfile}`: ''}`);
+    navigate(`?${urlParams.toString()}`);
   }, [selectedTab]);
 
   const findTabNameByLink = (value) => {
