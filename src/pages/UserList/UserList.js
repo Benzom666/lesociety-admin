@@ -25,6 +25,7 @@ function UserList() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const urlParams = new URLSearchParams(location.search);
 
   const TAB_LINK_MAP = {
     'total-users': 'link-1',
@@ -43,7 +44,6 @@ function UserList() {
   }
 
   const getSelectedTabFromURL = () => {
-    const urlParams = new URLSearchParams(location.search);
     return TAB_LINK_MAP[urlParams.get('tab')]
   };
 
@@ -54,8 +54,17 @@ function UserList() {
   useEffect(() => {
     localStorage.setItem('selectedTab', selectedTab);
     setStatus(LINK_STATUS_MAP[selectedTab])
-    const tabValue = findTabNameByLink(selectedTab);
-    navigate(`?tab=${tabValue}`);
+    urlParams.set('tab', findTabNameByLink(selectedTab));
+
+    for (const param of urlParams.entries()) {
+      if (param[0] !== 'tab') {
+        urlParams.set(param[0], param[1]);
+      }
+    }
+
+    const lastViewedProfile = localStorage.getItem('lastViewedProfile')
+
+    navigate(`?${urlParams.toString()}${lastViewedProfile ? `#${lastViewedProfile}`: ''}`);
   }, [selectedTab]);
 
   const findTabNameByLink = (value) => {
@@ -90,7 +99,7 @@ function UserList() {
     });
     if(node) observer.current.observe(node);
   });
-  
+
   const token = localStorage.getItem("accessToken");
   if(!token) {
     return <Navigate to="/" replace={true} />;
@@ -159,9 +168,9 @@ function UserList() {
             {!status ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}
             </Tab.Pane>
             <Tab.Pane eventKey="link-2">{status === 2 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-4">{status === 6 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} noAction={true}/> : null}</Tab.Pane>
-            <Tab.Pane eventKey="link-5">{status === 10 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status}/> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-3">{status === 1 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-4">{status === 6 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} noAction={true} /> : null}</Tab.Pane>
+            <Tab.Pane eventKey="link-5">{status === 10 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
       <p className="text-danger">{endUser}</p>
