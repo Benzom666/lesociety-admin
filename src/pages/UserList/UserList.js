@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Nav, Tab } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
+import "./UserList.css"
+
 import SideBar from "../sideBar/sidebar.js";
 import UserTable from "./UserTable.js";
 import {
@@ -63,6 +65,8 @@ function UserList() {
     }
 
     navigate(`?${urlParams.toString()}`);
+    dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
+    setPage(localStorage.getItem(`page${selectedTab}`) || 1);
   }, [selectedTab]);
 
   const findTabNameByLink = (value) => {
@@ -78,25 +82,39 @@ function UserList() {
       type: Utils.ActionName.USER_LIST,
       payload: { tab: 1, search: "", per_page: 10, userlist: [] }
     });
-    dispatch(getUserList("", 1));
+    dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
+    setPage(localStorage.getItem(`page${selectedTab}`) || 1);
     dispatch(getUserStatusCounter());
     dispatch(getDefaultMsgList("userRequestType"));
   }, []);
+
+  useEffect(()=>{
+    localStorage.setItem(`page${selectedTab}`, page);
+  }, [page])
+
   const observer = useRef();
   const lastPostElementRef = useCallback(node => {
-    if(loading) return;
-    if(observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && pagination.total_pages >= page) {
-        dispatch(getUserList(status, page));
-        setPage(page+1);
-      }
-      else {
-        setEndUser("End of page");
-      }
-    });
-    if(node) observer.current.observe(node);
+    // if(loading) return;
+    // if(observer.current) observer.current.disconnect();
+    // observer.current = new IntersectionObserver(entries => {
+    //   if(entries[0].isIntersecting && pagination.total_pages >= page) {
+    //     dispatch(getUserList(status, page));
+    //     setPage(page+1);
+    //   }
+    //   else {
+    //     setEndUser("End of page");
+    //   }
+    // });
+    // if(node) observer.current.observe(node);
   });
+
+  const navigatePage = (pageNo) => {
+    if(pageNo >0 && pageNo <=pagination.total_pages)
+    {
+      dispatch(getUserList(status, pageNo));
+      setPage(pageNo);
+    }
+  }
 
   const token = localStorage.getItem("accessToken");
   if(!token) {
@@ -171,7 +189,18 @@ function UserList() {
             <Tab.Pane eventKey="link-5">{status === 10 ? <UserTable endUser={endUser} lastPostElementRef={lastPostElementRef} status={status} /> : null}</Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-      <p className="text-danger">{endUser}</p>
+        <div className="pagination-container">
+          {1}
+          <span className="pagination-button" onClick={()=>{navigatePage(1)}}>First</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(page - 5)}}>{`<<`}</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(page - 1)}}>Pre</span>
+          <span className="pagination-button">{page}</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(page + 1)}}>Next</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(page + 5)}}>{`>>`}</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(pagination.total_pages)}}>Last</span>
+          {pagination.total_pages}
+        </div>
+       <p className="text-danger">{endUser}</p>
       </div>
     </div>
   );

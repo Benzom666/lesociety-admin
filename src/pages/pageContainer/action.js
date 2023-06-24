@@ -3,7 +3,7 @@ import moment from "moment";
 import Utils from "../../utility";
 
 export const getUserList = (status = "", offSet = 1, updatedDetails) => {
-  
+
   return (dispatch, getState) => {
     dispatch({
       type: "SET_LOADING",
@@ -31,7 +31,7 @@ export const getUserList = (status = "", offSet = 1, updatedDetails) => {
           payload: {
             userlist: search.length
               ? respData?.data?.data?.users
-              : [...userlist, ...respData?.data?.data?.users],
+              : [...respData?.data?.data?.users],
             pagination: respData?.data?.data?.pagination,
             loading: false,
           },
@@ -189,7 +189,7 @@ export const getCountryList = () => {
         dispatch({
           type: Utils.ActionName.GET_COUNTRY,
           payload: {
-            countryList: respData?.data?.data, 
+            countryList: respData?.data?.data,
             loading: false,
           },
         });
@@ -510,7 +510,7 @@ export const postUpdateUserStatus = (status, emails, source, currentStatus) => {
 // update selfie and documents
 export const updateDocumentVerification = (email, status, len) => {
   return (dispatch) => {
-    
+
     const dataToSend = {
       email
     };
