@@ -18,5 +18,11 @@ pipelines:
                   git pull origin production
                   npm install --force
                   npm run build
-                  if test -f "build/index.html"; then echo "exist";mv build build_live; else echo "not working"; fi
-                  echo "Admin Productin Deployed"
+                  if test -f "build/index.html"; then
+                    echo "exist"
+                    rm -rf build_live
+                    mv build build_live
+                  else
+                    echo "not working"
+                  fi
+                  echo "Admin Production Deployed"
