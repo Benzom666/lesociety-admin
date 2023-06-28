@@ -21,6 +21,7 @@ pipelines:
                   if test -f "build/index.html"; then
                     echo "exist"
                     rm -rf build_live
+                    mv htaccess build/.htaccess
                     mv build build_live
                   else
                     echo "not working"
