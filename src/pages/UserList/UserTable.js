@@ -114,7 +114,6 @@ function UserTable({ lastPostElementRef, endUser, status, noAction = false }) {
           {Array.isArray(userlist) && userlist.length
             ? userlist.map((user, index) => {
               return (
-              (user?.un_verified_tagline || user?.un_verified_images?.length !== 0 || user?.un_verified_description) && 
                 <tr
                   key={user.id}
                   ref={
