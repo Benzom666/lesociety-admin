@@ -65,7 +65,7 @@ function UserList() {
     }
 
     navigate(`?${urlParams.toString()}`);
-    dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
+    // dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
     setPage(localStorage.getItem(`page${selectedTab}`) || 1);
   }, [selectedTab]);
 
@@ -82,7 +82,7 @@ function UserList() {
       type: Utils.ActionName.USER_LIST,
       payload: { tab: 1, search: "", per_page: 10, userlist: [] }
     });
-    dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
+    // dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
     setPage(localStorage.getItem(`page${selectedTab}`) || 1);
     dispatch(getUserStatusCounter());
     dispatch(getDefaultMsgList("userRequestType"));
