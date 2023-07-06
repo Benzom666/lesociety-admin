@@ -65,7 +65,7 @@ function UserList() {
     }
 
     navigate(`?${urlParams.toString()}`);
-    dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
+    // dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
     setPage(localStorage.getItem(`page${selectedTab}`) || 1);
   }, [selectedTab]);
 
