@@ -17,7 +17,8 @@ export const onSubmit = (values, navigate) => {
         });
         localStorage.setItem("accessToken", respData?.data?.data?.token);
         setTimeout(() => {
-          navigate("/dashboard");
+          // navigate("/dashboard");
+          window.location = "/dashboard";
         }, 100)
       },
       (error) => {
