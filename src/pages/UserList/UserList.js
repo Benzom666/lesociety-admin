@@ -22,7 +22,7 @@ function UserList() {
     (state) => state.userListReducer
   );
   const [endUser, setEndUser] = useState("");
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
 
   const navigate = useNavigate();
