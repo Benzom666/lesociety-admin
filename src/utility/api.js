@@ -87,7 +87,6 @@ const getApiCall = async (
   errorCallback,
   data = {}
 ) => {
-  console.log(">>>>>>log", localStorage.getItem("accessToken"));
   const axiosFunc = axios.create({
     timeout: 100000,
     baseURL: "https://api.lesociety.com/api/v1/",
