@@ -28,7 +28,7 @@ function UserList() {
   const navigate = useNavigate();
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
-
+  const _PAGE = useSelector((e) => e?.userListReducer?.page);
   const TAB_LINK_MAP = {
     'total-users': 'link-1',
     'verified-users': 'link-2',
@@ -66,7 +66,7 @@ function UserList() {
 
     navigate(`?${urlParams.toString()}`);
     // dispatch(getUserList("", localStorage.getItem(`page${selectedTab}`) || 1));
-    setPage(localStorage.getItem(`page${selectedTab}`) || 1);
+    // setPage(localStorage.getItem(`page${selectedTab}`) || 1);
   }, [selectedTab]);
 
   const findTabNameByLink = (value) => {
@@ -84,15 +84,15 @@ function UserList() {
     });
     dispatch(getUserList(
       selectedTab === "link-2" ? 2 : selectedTab === "link-3" ? 1 : selectedTab === "link-4" ? 6 : ""
-      , localStorage.getItem(`page${selectedTab}`) || 1));
-    setPage(localStorage.getItem(`page${selectedTab}`) || 1);
+      , _PAGE));
+    // setPage(localStorage.getItem(`page${selectedTab}`) || 1);
     dispatch(getUserStatusCounter());
     dispatch(getDefaultMsgList("userRequestType"));
   }, []);
 
-  useEffect(()=>{
-    localStorage.setItem(`page${selectedTab}`, page);
-  }, [page])
+  // useEffect(()=>{
+  //   localStorage.setItem(`page${selectedTab}`, page);
+  // }, [page])
 
   const observer = useRef();
   const lastPostElementRef = useCallback(node => {
@@ -114,7 +114,13 @@ function UserList() {
     if(pageNo >0 && pageNo <=pagination.total_pages)
     {
       dispatch(getUserList(status, pageNo));
-      setPage(pageNo);
+      dispatch({
+        type: "SET_PAGE",
+        payload: {
+          page: pageNo,
+        },
+      });
+      // setPage(pageNo);
     }
   }
 
@@ -136,7 +142,7 @@ function UserList() {
               badge={usersAdminStatus?.total_users}
               setStatus={setStatus}
               title="Total Users"
-              setPage={setPage}
+              // setPage={setPage}
               payload={{ tab: 1, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
             />
@@ -146,7 +152,7 @@ function UserList() {
               badge={usersAdminStatus?.verified_users}
               setStatus={setStatus}
               title="Verified Users"
-              setPage={setPage}
+              // setPage={setPage}
               payload={{ tab: 1, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
             />
@@ -156,7 +162,7 @@ function UserList() {
               badge={usersAdminStatus?.pending_users}
               setStatus={setStatus}
               title="Pending Verification"
-              setPage={setPage}
+              // setPage={setPage}
               payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
             />
@@ -166,7 +172,7 @@ function UserList() {
               badge={usersAdminStatus?.requested_by_admin}
               setStatus={setStatus}
               title="Details(Requested by admin)"
-              setPage={setPage}
+              // setPage={setPage}
               payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
             />
@@ -176,7 +182,7 @@ function UserList() {
               badge={usersAdminStatus?.updated_details}
               setStatus={setStatus}
               title="Updated Details"
-              setPage={setPage}
+              // setPage={setPage}
               payload={{ tab: 3, search: "", per_page: 10, userlist: [] }}
               getFunc={getUserList}
             />
@@ -194,11 +200,11 @@ function UserList() {
         <div className="pagination-container">
           {1}
           <span className="pagination-button" onClick={()=>{navigatePage(1)}}>First</span>
-          <span className="pagination-button" onClick={()=>{navigatePage(page - 5)}}>{`<<`}</span>
-          <span className="pagination-button" onClick={()=>{navigatePage(page - 1)}}>Pre</span>
-          <span className="pagination-button">{page}</span>
-          <span className="pagination-button" onClick={()=>{navigatePage(page + 1)}}>Next</span>
-          <span className="pagination-button" onClick={()=>{navigatePage(page + 5)}}>{`>>`}</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(_PAGE - 5)}}>{`<<`}</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(_PAGE - 1)}}>Pre</span>
+          <span className="pagination-button">{_PAGE}</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(_PAGE + 1)}}>Next</span>
+          <span className="pagination-button" onClick={()=>{navigatePage(_PAGE + 5)}}>{`>>`}</span>
           <span className="pagination-button" onClick={()=>{navigatePage(pagination.total_pages)}}>Last</span>
           {pagination.total_pages}
         </div>

@@ -43,7 +43,8 @@ const initialState = {
   isAPISucceess: false,
   allCountryList: [],
   registerUserCount: {},
-  pushToUserPage: false
+  pushToUserPage: false,
+  page: 1
 };
 export const userListReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -116,6 +117,11 @@ export const userListReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case 'SET_PAGE':
+      return {
+        ...state,
+        ...action.payload
       };
     case `${Utils.ActionName.GET_EXIST_MAIL}`:
       return {

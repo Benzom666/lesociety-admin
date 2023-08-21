@@ -75,7 +75,13 @@ export const NavItemSet = ({
           });
           dispatch(getFunc(status, 1, active));
           setStatus(status);
-          setPage(1);
+          dispatch({
+            type: "SET_PAGE",
+            payload: {
+              page: 1,
+            },
+          });
+          // setPage(1);
         }}
       >
         {title}
