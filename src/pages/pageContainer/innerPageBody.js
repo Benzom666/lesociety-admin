@@ -243,7 +243,7 @@ const PageContainer = (props) => {
                 </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{activeUsers?.count || 0} people</Card.Subtitle>
+                <Card.Subtitle>{activeUserCount || 0} people</Card.Subtitle>
                 <Card.Text>{activeUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
@@ -275,7 +275,7 @@ const PageContainer = (props) => {
                 </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{newUsers?.count || 0} people</Card.Subtitle>
+                <Card.Subtitle>{newUserCount || 0} people</Card.Subtitle>
                 <Card.Text>{newUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
@@ -307,7 +307,7 @@ const PageContainer = (props) => {
                 </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{pendingUsers?.count || 0} people</Card.Subtitle>
+                <Card.Subtitle>{pendingUserCount || 0} people</Card.Subtitle>
                 <Card.Text>{pendingUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
