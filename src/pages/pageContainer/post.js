@@ -22,6 +22,7 @@ import {
   getAllDates,
   getDateStats,
   postUpdateDateStatus,
+  postRemove,
 } from "./action.js";
 import { DefaultMsg } from "./DefaultMsg";
 import Utils from "../../utility/index.js";
@@ -323,7 +324,20 @@ function PostList() {
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-        {emailSelected.length ? (
+        {emailSelected.length ? (<>
+          <Toast show={showA} onClose={toggleShowA} className="requestPopup" style={{bottom: '100px'}}>
+            <Toast.Body className="d-flex align-items-center w-100 justify-content-center">
+             <Form.Check type="checkbox" label="people" />
+              <Button
+                className="verifyBtn"
+                onClick={() => {
+                  dispatch(postRemove(3, postIdSelected, status));
+                }}
+              >
+                Remove
+              </Button>
+            </Toast.Body>
+          </Toast>
           <Toast show={showA} onClose={toggleShowA} className="requestPopup">
             <Toast.Body className="d-flex align-items-center w-100 justify-content-center">
              <Form.Check type="checkbox" label="people" />
@@ -339,7 +353,7 @@ function PostList() {
                 Block
               </Button>
             </Toast.Body>
-          </Toast>
+          </Toast></>
         ): null}
       </div>
       <DefaultMsg

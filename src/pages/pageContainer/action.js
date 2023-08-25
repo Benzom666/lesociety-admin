@@ -563,6 +563,35 @@ export const postUpdateDateStatus = (status, ids, currentStatus) => {
     );
   };
 };
+
+
+// post remove from new section
+export const postRemove = (status, ids, currentStatus) => {
+  return (dispatch) => {
+    const dataToSend = {
+      status,
+      ids,
+    };
+    Utils.api.postApiCall(
+      Utils.endPoints.postRemove,
+      dataToSend,
+      (respData) => {
+        dispatch({
+          type: Utils.ActionName.GET_ALL_DATES,
+          payload: { datesList: [], isAPISuccess: true },
+        });
+        dispatch(getDateStats());
+        dispatch(getAllDates(currentStatus));
+        Utils.showAlert(1, "Post Remove successfully!");
+      },
+      (error) => {
+        let { data } = error;
+        Utils.showAlert(2, data?.message);
+      }
+    );
+  };
+};
+
 export const getDeactivateUser = () => {
   return (dispatch, getState) => {
     const { per_page, current_page, search } = getState().userListReducer;

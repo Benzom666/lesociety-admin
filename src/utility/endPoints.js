@@ -19,6 +19,7 @@ const endPoint = {
   influencerExistCode:"influencer/code-exists",
   getAllDate: "date",
   updateDateStatus: "date/update-status",
+  postRemove: "date/seen-by-ids",
   getRegisterDashboard: "dashboard/registration",
   registerUserCount: "dashboard/users-counts-with-percentage",
   getCountry: "country",
