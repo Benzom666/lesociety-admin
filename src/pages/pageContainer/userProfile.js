@@ -104,7 +104,7 @@ const PageContainer = props => {
             }
           </div> : ''}
         </div>
-        <Row>
+        <Row className='user-more-about'>
           <Col md="9" sm="8" className='pl-0' >
             <Card body className="profileCardBox">
               <Card.Title> More about {user_name}</Card.Title>
