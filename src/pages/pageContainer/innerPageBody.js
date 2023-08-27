@@ -127,30 +127,31 @@ const PageContainer = (props) => {
     setGeoData({ place, gender, locationType });
   };
 
-  const [newStartDate, setNewStartDate] = useState(moment().subtract(7, 'days').toDate());
-  const [newEndDate, setNewEndDate] = useState(new Date());
-  const [activeStartDate, setActiveStartDate] = useState(moment().subtract(7, 'days').toDate());
-  const [activeEndDate, setActiveEndDate] = useState(new Date());
-  const [pendingStartDate, setPendingStartDate] = useState(moment().subtract(7, 'days').toDate());
-  const [pendingEndDate, setPendingEndDate] = useState(new Date());
+  const [newStartDate, setNewStartDate] = useState(null);
+  const [newEndDate, setNewEndDate] = useState(null);
+  const [activeStartDate, setActiveStartDate] = useState(null);
+  const [activeEndDate, setActiveEndDate] = useState(null);
+  const [pendingStartDate, setPendingStartDate] = useState(null);
+  const [pendingEndDate, setPendingEndDate] = useState(null);
 
   const [newUserCount, setNewUserCount] = useState('');
   const [activeUserCount, setActiveUserCount] = useState('');
   const [pendingUserCount, setPendingUserCount] = useState('');
 
   useEffect(() => {
-    newUsersHandler();
+    if(newStartDate !== null && newEndDate !== null) newUsersHandler();
   }, [newStartDate, newEndDate]);
 
   useEffect(() => {
-    activeUsersHandler();
+    if(activeStartDate !== null && activeEndDate !== null) activeUsersHandler();
   }, [activeStartDate, activeEndDate]);
 
   useEffect(() => {
-    pendingUsersHandler();
+    if(pendingStartDate !== null && pendingEndDate !== null) pendingUsersHandler();
   }, [pendingStartDate, pendingEndDate]);
 
   const newUsersHandler = async () => {
+    if(newStartDate !== null && newEndDate !== null) {
     try {
       const formattedStartDate = moment(newStartDate).format('YYYY-MM-DD HH:mm:ss');
       const formattedEndDate = moment(newEndDate).format('YYYY-MM-DD HH:mm:ss');
@@ -169,9 +170,11 @@ const PageContainer = (props) => {
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   const activeUsersHandler = async () => {
+    if(activeStartDate !== null && activeEndDate !== null) {
     try {
       const formattedStartDate = moment(activeStartDate).format('YYYY-MM-DD HH:mm:ss');
       const formattedEndDate = moment(activeEndDate).format('YYYY-MM-DD HH:mm:ss');
@@ -189,9 +192,11 @@ const PageContainer = (props) => {
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   const pendingUsersHandler = async () => {
+    if(pendingStartDate !== null && pendingEndDate !== null) {
     try {
       const formattedStartDate = moment(pendingStartDate).format('YYYY-MM-DD HH:mm:ss');
       const formattedEndDate = moment(pendingEndDate).format('YYYY-MM-DD HH:mm:ss');
@@ -209,6 +214,7 @@ const PageContainer = (props) => {
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   return (
@@ -224,6 +230,11 @@ const PageContainer = (props) => {
                   activeUsers?.beforeLoginCount || 0
                 })`}</Card.Subtitle>
                 <div className="clandr-date">
+                {activeStartDate === null && activeEndDate === null && <h6 style={{fontSize: "16px", cursor: "pointer"}} onClick={() => {
+                  setActiveStartDate(moment().subtract(7, 'days').toDate())
+                  setActiveEndDate(new Date())
+                }}>Select Date</h6>}
+                {activeStartDate !== null && activeEndDate !== null && <>
                   <DateTimePicker
                     onChange={setActiveStartDate}
                     value={activeStartDate}
@@ -239,11 +250,11 @@ const PageContainer = (props) => {
                     calendarClassName="graphFilter"
                     disableClock="false"
                     format="dd/MM/y"
-                  />
+                  /></>}
                 </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{activeUserCount || 0} people</Card.Subtitle>
+                <Card.Subtitle>{activeStartDate !== null && activeEndDate !== null ? activeUserCount : activeUsers?.count || 0} people</Card.Subtitle>
                 <Card.Text>{activeUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
@@ -256,6 +267,11 @@ const PageContainer = (props) => {
                   newUsers?.beforeLoginCount || 0
                 })`}</Card.Subtitle>
                 <div className="clandr-date">
+                {newStartDate === null && newEndDate === null && <h6 style={{fontSize: "16px", cursor: "pointer"}} onClick={() => {
+                  setNewStartDate(moment().subtract(7, 'days').toDate())
+                  setNewEndDate(new Date())
+                }}>Select Date</h6>}
+                {newStartDate !== null && newEndDate !== null && <>
                   <DateTimePicker
                     onChange={setNewStartDate}
                     value={newStartDate}
@@ -271,11 +287,11 @@ const PageContainer = (props) => {
                     calendarClassName="graphFilter"
                     disableClock="false"
                     format="dd/MM/y"
-                  />
-                </div>
+                  /></>}
+                  </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{newUserCount || 0} people</Card.Subtitle>
+                <Card.Subtitle>{newStartDate !== null && newEndDate !== null ? newUserCount : newUsers?.count || 0} people</Card.Subtitle>
                 <Card.Text>{newUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
@@ -288,6 +304,11 @@ const PageContainer = (props) => {
                   pendingUsers?.beforeLoginCount || 0
                 })`}</Card.Subtitle>
                 <div className="clandr-date">
+                {pendingStartDate === null && pendingEndDate === null && <h6 style={{fontSize: "16px", cursor: "pointer"}} onClick={() => {
+                  setPendingStartDate(moment().subtract(7, 'days').toDate())
+                  setPendingEndDate(new Date())
+                }}>Select Date</h6>}
+                {pendingStartDate !== null && pendingEndDate !== null && <>
                   <DateTimePicker
                     onChange={setPendingStartDate}
                     value={pendingStartDate}
@@ -303,11 +324,11 @@ const PageContainer = (props) => {
                     calendarClassName="graphFilter"
                     disableClock="false"
                     format="dd/MM/y"
-                  />
-                </div>
+                    /></>}
+                    </div>
               </Card.Header>
               <Card.Body>
-                <Card.Subtitle>{pendingUserCount || 0} people</Card.Subtitle>
+                <Card.Subtitle>{pendingStartDate !== null && pendingEndDate !== null ? pendingUserCount : pendingUsers?.count || 0} people</Card.Subtitle>
                 <Card.Text>{pendingUsers?.percent || 0}% </Card.Text>
               </Card.Body>
             </Card>
