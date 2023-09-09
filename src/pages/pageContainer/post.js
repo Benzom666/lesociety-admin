@@ -325,7 +325,7 @@ function PostList() {
           </Tab.Content>
         </Tab.Container>
         {emailSelected.length ? (<>
-          <Toast show={showA} onClose={toggleShowA} className="requestPopup" style={{bottom: '100px'}}>
+          {status && <Toast show={showA} onClose={toggleShowA} className="requestPopup" style={{bottom: '100px'}}>
             <Toast.Body className="d-flex align-items-center w-100 justify-content-center">
              <Form.Check type="checkbox" label="people" />
               <Button
@@ -337,7 +337,7 @@ function PostList() {
                 Remove
               </Button>
             </Toast.Body>
-          </Toast>
+          </Toast>}
           <Toast show={showA} onClose={toggleShowA} className="requestPopup">
             <Toast.Body className="d-flex align-items-center w-100 justify-content-center">
              <Form.Check type="checkbox" label="people" />
